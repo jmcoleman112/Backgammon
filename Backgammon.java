@@ -4,7 +4,12 @@ import utilities.Colour;
 
 public class Backgammon {
 
-
+    public void Welcome() {
+        System.out.println("=====================================");
+        System.out.println("Welcome to Backgammon! This is a implementation of Backgammon created by Jack Coleman and Naoise Golden.");
+        System.out.println("For instructions on how to play, please read the README file.");
+        System.out.println("=====================================\n\n");
+    }
 
     public void Display(Board board) {
 
@@ -21,6 +26,7 @@ public class Backgammon {
         char horizontalUpT = '\u2569'; // ┻
         char cross = '\u256C'; // ╋
         char dashedVerticalLine = '\u250A';
+
 
         //top of the board
         System.out.print(topLeftCorner);
@@ -79,7 +85,7 @@ public class Backgammon {
         System.out.println(verticalLeftT);
         for (int i = 0; i < board.maxPoint(); i++) {
             System.out.print(verticalLine);
-            for (int j = 0; j < 6; j++) {
+            for (int j = 5; j >= 0; j--) {
                 for (int k = 0; k < 3; k++) {
                     System.out.print(" ");
                 }
@@ -93,7 +99,7 @@ public class Backgammon {
                 System.out.print(" ");
             }
             System.out.print(verticalLine);
-            for (int j = 0; j < 6; j++) {
+            for (int j = 5; j >= 0; j--) {
                 for (int k = 0; k < 3; k++) {
                     System.out.print(" ");
                 }
@@ -124,11 +130,13 @@ public class Backgammon {
         Backgammon game = new Backgammon();
         Input input = new Input();
         Board board = new Board();
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.print("Please Enter a Command: ");
-//        String userInput = scanner.nextLine();
-//        input.parseInput(userInput);
-//        scanner.close();
+
+        game.Welcome();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please Enter a Command: ");
+        String userInput = scanner.nextLine();
+        input.parseInput(userInput);
+        scanner.close();
 
         game.Display(board);
     }
