@@ -1,20 +1,17 @@
-public class Input {
+public class Dice {
+    private int dice1;
+    private int dice2;
 
-    public static void printDiceFace(int number) {
-        printDiceFace(number, -1);
+    public Dice(){
+        this.dice1 = -1;
+        this.dice2 = -1;
     }
 
-    public static void printDiceFace(int number1, int number2) {
-        String[] dice1 = getDiceFace(number1);
-        String[] dice2 = number2 == -1 ? new String[5] : getDiceFace(number2);
+    public void rollDice() {
+        dice1 = (int) (Math.random() * 6) + 1;
+        dice2 = (int) (Math.random() * 6) + 1;
 
-        for (int i = 0; i < 5; i++) {
-            if (number2 == -1) {
-                System.out.println(dice1[i]);
-            } else {
-                System.out.println(dice1[i] + "   " + dice2[i]);
-            }
-        }
+        printDiceFace(dice1, dice2);
     }
 
     private static String[] getDiceFace(int number) {
@@ -67,21 +64,16 @@ public class Input {
         };
     }
 
-    public void rollDice() {
-        int dice1 = (int) (Math.random() * 6) + 1;
-        int dice2 = (int) (Math.random() * 6) + 1;
+    public static void printDiceFace(int number1, int number2) {
+        String[] dice1 = getDiceFace(number1);
+        String[] dice2 = number2 == -1 ? new String[5] : getDiceFace(number2);
 
-        printDiceFace(dice1, dice2);
-    }
-
-    public void parseInput(String input) {
-        if (input.equals("roll")) {
-            rollDice();
-        }
-
-        if (input.equals("q")) {
-            System.out.println("Thank You for playing!");
-            System.exit(0);
+        for (int i = 0; i < 5; i++) {
+            if (number2 == -1) {
+                System.out.println(dice1[i]);
+            } else {
+                System.out.println(dice1[i] + "   " + dice2[i]);
+            }
         }
     }
 }
