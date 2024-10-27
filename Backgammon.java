@@ -1,7 +1,7 @@
 public class Backgammon {
     private final String[] players = new String[2];
-    private Board board;
-    private Dice dice;
+    private final Board board;
+    private final Dice dice;
 
     public Backgammon() {
         this.board = new Board();
@@ -54,21 +54,8 @@ public class Backgammon {
             System.out.println("Please enter the name for PLayer " + (i+1) + ": ");
             players[i] = inputHandler.getInput();
             System.out.println("\nPlayer" + (i+1) + " name is " + players[i]);
-            System.out.println("To confirm this name please press Enter");
-            System.out.println("To change name please enter new name");
-            while(true){
-                String input = inputHandler.getInput();
-                if(inputHandler.isEnterCommand(input)){
-                    break;
-                }
-                else{
-                    players[i] = input;
-                    System.out.println("\nPlayer" + (i+1) + " name changed to " + players[i]);
-                    System.out.println("To confirm this name please press Enter");
-                    System.out.println("To change name please enter new name");
-                }
             }
-        }
+
         System.out.println(players[0] + " will play with the red pieces");
         System.out.println(players[1] + " will play with the black pieces\n\n");
     }
