@@ -7,6 +7,13 @@ public class Dice {
         this.dice2 = -1;
     }
 
+    public int[] getDiceValues(){
+        int[] values = new int[2];
+        values[0] = dice1;
+        values[1] = dice2;
+        return values;
+    }
+
     public void rollDice() {
         dice1 = (int) (Math.random() * 6) + 1;
         dice2 = (int) (Math.random() * 6) + 1;
@@ -63,6 +70,11 @@ public class Dice {
             };
         };
     }
+
+
+//    public static void printDiceFace(int number) { // For first dice roll
+//        printDiceFace(number, -1);
+//    }
 
     public static void printDiceFace(int number1, int number2) {
         String[] dice1 = getDiceFace(number1);
