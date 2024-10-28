@@ -3,7 +3,7 @@ import utilities.Colour;
 
 public class Board {
 
-    private Point[] points;
+    private final Point[] points;
 
     public Board(){
         points = new Point[24];
@@ -30,9 +30,9 @@ public class Board {
 
     public int maxPoint(){
         int maxlength = 0;
-        for (int i = 0; i < points.length; i++) {
-            if(points[i].getCount() > maxlength){
-                maxlength=points[i].getCount();
+        for (Point point : points) {
+            if (point.getCount() > maxlength) {
+                maxlength = point.getCount();
             }
         }
         return maxlength;
