@@ -73,7 +73,9 @@ public class Display {
             System.out.print(horizontalLine);
         }
         System.out.println(verticalLeftT);
-        for (int i = 0; i < board.maxPoint(); i++) {
+
+        //middle bottom of the board
+        for (int i = board.maxPoint()-1; i >=0; i--) {
             System.out.print(verticalLine);
             for (int j = 5; j >= 0; j--) {
                 for (int k = 0; k < 3; k++) {
@@ -104,6 +106,8 @@ public class Display {
             }
             System.out.println(verticalLine);
         }
+
+        //bottom of board
         System.out.print(bottomLeftCorner);
         for (int i = 0; i < 27; i++) {
             System.out.print(horizontalLine);
