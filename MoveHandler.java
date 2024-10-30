@@ -7,6 +7,18 @@ public class MoveHandler {//Class to check and execute moves
         this.board = board;
     }
 
+    public boolean checkMove(int from, int to) {
+        Point source = board.getPoint(from);
+        Colour sColour = source.getColor();
+
+        Point destination = board.getPoint(to);
+        Colour dColour = destination.getColor();
+
+        if (source.getCount() == 0) return false; //Empty point
+
+        else return destination.getCount() <= 1 || sColour == dColour; //Legal move
+    }
+
     public void executeMove(int from, int to){
         Point source = board.getPoint(from);
         Colour sColour = source.getColor();
