@@ -25,7 +25,7 @@ public class Backgammon {
                 Display.printDiceFace(rollValues[0], rollValues[1]);
 
                 System.out.println(game.getPlayer(player) + " rolled a " + rollValues[0] + " and a " + rollValues[1]);
-                player = (player == 0) ? 1 : 0;  // Toggle between 0 and 1
+                player = (player == 0) ? 1 : 0;
             }
         }
         inputHandler.closeScanner();
