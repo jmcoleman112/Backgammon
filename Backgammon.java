@@ -1,4 +1,4 @@
-public class Backgammon {
+public class Backgammon { //Class to run game logic
     private final String[] players = new String[2];
     private final Board board;
     private final Dice dice;
@@ -11,6 +11,7 @@ public class Backgammon {
     public static void main(String[] args){
         Backgammon game = new Backgammon();
         InputHandler inputHandler = new InputHandler();
+        MoveHandler moveHandler = new MoveHandler(game.getBoard());
 
         if(game.Welcome(inputHandler)){
             game.setPlayers(inputHandler);
@@ -22,6 +23,7 @@ public class Backgammon {
             while(true){ //Eventually check for win
                 Display.displayBoard(game.getBoard());
                 rollValues = game.processRoll(inputHandler, player);
+                Display.printDiceFace(rollValues[0], rollValues[1]);
                 Display.printDiceFace(rollValues[0], rollValues[1]);
 
                 System.out.println(game.getPlayer(player) + " rolled a " + rollValues[0] + " and a " + rollValues[1]);
