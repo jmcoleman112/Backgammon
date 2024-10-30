@@ -117,11 +117,6 @@ public class Display {
             System.out.print(horizontalLine);
         }
         System.out.println(bottomRightCorner);
-
-        //Bar Counts
-        System.out.println("\n\nRed bar has " + board.getBar(0).getCount() + " pips");
-        System.out.println("\n\nBlack bar has " + board.getBar(1).getCount() + " pips");
-
     }
 
     public static void printDiceFace(int number1, int number2) {
