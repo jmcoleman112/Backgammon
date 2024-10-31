@@ -132,6 +132,11 @@ public class Display {
         }
     }
 
+    public static void displayPipCount(Board board, String[] players){
+        System.out.println("Pip count for " + players[0] + " is: " + board.getTotalPipCount(0));
+        System.out.println("Pip count for " + players[1] + " is: " + board.getTotalPipCount(1));
+    }
+
     private static String[] getDiceFace(int number) {
         return switch (number) {
             case 1 -> new String[]{

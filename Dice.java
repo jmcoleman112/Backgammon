@@ -18,9 +18,13 @@ public class Dice {
         dice1 = (int) (Math.random() * 6) + 1;
     }
 
-    public void rollDice() {
+    public int[] rollDice() {
         dice1 = (int) (Math.random() * 6) + 1;
         dice2 = (int) (Math.random() * 6) + 1;
+        int[] values = new int[2];
+        values[0] = dice1;
+        values[1] = dice2;
+        return values;
     }
 
 }

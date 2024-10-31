@@ -23,6 +23,8 @@ public class InputHandler {
         return input.equalsIgnoreCase("roll");
     }
 
+    public boolean isPipCommand(String input) { return input.equalsIgnoreCase("pip");}
+
     public boolean startMessage(){
         while(true){
             try {

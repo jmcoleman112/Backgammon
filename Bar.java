@@ -3,6 +3,6 @@ import utilities.Colour;
 public class Bar extends Point{
 
     public Bar(){
-        super(Colour.NONE, 0);
+        super(Colour.NONE, 0, 0);
     }
 }
