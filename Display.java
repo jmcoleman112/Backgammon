@@ -133,8 +133,8 @@ public class Display {
     }
 
     public static void displayPipCount(Board board, String[] players){
-        System.out.println("Pip count for " + players[0] + " is: " + board.getTotalPipCount(0));
-        System.out.println("Pip count for " + players[1] + " is: " + board.getTotalPipCount(1));
+        System.out.println("Pip count for " + getPlayerName(players, 0) + resetColour() + " is: " + board.getTotalPipCount(0));
+        System.out.println("Pip count for " + getPlayerName(players, 1) + resetColour() + " is: " + board.getTotalPipCount(1) + "\n");
     }
 
     private static String[] getDiceFace(int number) {
@@ -185,5 +185,12 @@ public class Display {
                     "Error: Invalid dice number."
             };
         };
+    }
+
+    public static String getPlayerName(String[] players, int player){
+        return (player == 0) ? (Colour.RED.shader() + players[0]) : (Colour.BLUE.shader() + players[1]);
+    }
+    public static String resetColour(){
+        return Colour.NONE.shader();
     }
 }

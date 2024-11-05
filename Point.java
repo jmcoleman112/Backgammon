@@ -38,7 +38,7 @@ public class Point {
 
     public int getPipCount(int player) {
         if (player == 0 && color == Colour.RED) return getPipNumber(player) * getCount();
-        else if (player == 1 && color == Colour.BLACK) return getPipNumber(player) * getCount();
+        else if (player == 1 && color == Colour.BLUE) return getPipNumber(player) * getCount();
         else return 0; //Player has no pips on point
     }
 

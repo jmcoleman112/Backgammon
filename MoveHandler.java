@@ -43,7 +43,7 @@ public class MoveHandler {//Class to check and execute moves
             destination.setColor(sColour);
             destination.setCount(1); //Set to one
             if(dColour != Colour.NONE){ //Pipped
-                int bColour = (dColour == Colour.BLACK) ? 1 : 0;
+                int bColour = (dColour == Colour.BLUE) ? 1 : 0;
                 Bar bar = board.getBar(bColour);
                 bar.setCount(bar.getCount() + 1);
             }

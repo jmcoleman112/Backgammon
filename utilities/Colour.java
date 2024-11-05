@@ -2,7 +2,7 @@ package utilities;
 
 public enum Colour {
     RED("\033[0;31m"),    // red text color
-    BLACK("\033[0;30m"), // Black text colo
+    BLUE("\033[0;34m"), // Black text colo
     NONE ("\033[0m");    // No color
 
     private final String ansiCode;

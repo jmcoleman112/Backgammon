@@ -10,14 +10,14 @@ public class Board {
         points = new Point[24];
         bars = new Bar[2];
 
-        points[0] = new Point(Colour.BLACK, 2, 1);
+        points[0] = new Point(Colour.BLUE, 2, 1);
 
         points[5] = new Point(Colour.RED, 5, 6);
         points[7] = new Point(Colour.RED, 3, 8);
-        points[11] = new Point(Colour.BLACK, 5, 12);
+        points[11] = new Point(Colour.BLUE, 5, 12);
         points[12] = new Point(Colour.RED, 5, 13);
-        points[16] = new Point(Colour.BLACK, 3, 17);
-        points[18] = new Point(Colour.BLACK, 5, 19);
+        points[16] = new Point(Colour.BLUE, 3, 17);
+        points[18] = new Point(Colour.BLUE, 5, 19);
         points[23] = new Point(Colour.RED, 2, 24);
 
         bars[0] = new Bar();
@@ -50,9 +50,9 @@ public class Board {
 
     public int getTotalPipCount(int player){
         int pipCount = 0;
-        for (Point point : points) {
-            pipCount += point.getPipCount(player);
-        }
+            for (Point point : points) {
+                pipCount += point.getPipCount(player);
+            }
         return pipCount;
     }
 

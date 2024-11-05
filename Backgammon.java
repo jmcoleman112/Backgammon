@@ -31,7 +31,7 @@ public class Backgammon { //Class to run game logic
         inputHandler.closeScanner();
     }
 
-    public String getPlayer(int player){ //Returns player names
+    public String getPlayer(int player){ //Returns player names ///////Maybe useless
         return players[player];
     }
 
@@ -41,6 +41,9 @@ public class Backgammon { //Class to run game logic
 
     public InputHandler getInputHandler(){
         return inputHandler;
+    }
+    public MoveHandler getMoveHandler(){
+        return moveHandler;
     }
 
     public boolean Welcome() { //Loop until game started
@@ -55,18 +58,14 @@ public class Backgammon { //Class to run game logic
 
     public void setPlayers() { // Sets player names at start of game
         for(int i = 0; i <= 1; i++){
-            System.out.println("Please enter the name for PLayer " + (i+1) + ": ");
+            System.out.print("Please enter the name for PLayer " + (i+1) + ": ");
             players[i] = inputHandler.getInput();
-            System.out.println("Player" + (i+1) + " name is " + players[i] + "\n");
+            System.out.println("Player" + (i+1) + " name is " + Display.getPlayerName(players, i) + Display.resetColour() + "\n");
             }
-
-        System.out.println(players[0] + " will play with the red pieces");
-        System.out.println(players[1] + " will play with the black pieces\n\n");
     }
 
     public void processTurn(int player) { //One roll per turn
-        System.out.println(getPlayer(player) + "'s turn");
-        System.out.print("Please Enter a Command: ");
+        promptPlayer(player);
         String userInput = inputHandler.getInput();
 
         while(true){
@@ -105,7 +104,7 @@ public class Backgammon { //Class to run game logic
 
                     if (inputHandler.isRollCommand(userInput)) {
                         rolls[i] = oneRoll();
-                        System.out.println(getPlayer(i) + " rolled a " + rolls[i]);
+                        System.out.println(Display.getPlayerName(players, i) + Display.resetColour() + " rolled a " + rolls[i] + "\n\n");
                         break;
                     }
                     if (inputHandler.isQuitCommand(userInput)) {
@@ -136,7 +135,7 @@ public class Backgammon { //Class to run game logic
         int[] rollValues;
         rollValues = dice.rollDice();
         Display.printDiceFace(rollValues[0], rollValues[1]);
-        System.out.println(getPlayer(player) + " rolled a " + rollValues[0] + " and a " + rollValues[1]);
+        System.out.println(Display.getPlayerName(players, player) + Display.resetColour() + " rolled a " + rollValues[0] + " and a " + rollValues[1]);
     }
 
     public int oneRoll(){
@@ -147,7 +146,7 @@ public class Backgammon { //Class to run game logic
     }
 
     public void promptPlayer(int player){
-        System.out.println(getPlayer(player) + "'s turn");
+        System.out.println(Display.getPlayerName(players, player) + "'s" + Display.resetColour() + " turn");
         System.out.print("Please Enter a Command: ");
     }
 }
