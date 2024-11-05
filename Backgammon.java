@@ -14,7 +14,6 @@ public class Backgammon { //Class to run game logic
 
     public static void main(String[] args){
         Backgammon game = new Backgammon();
-        MoveHandler moveHandler = new MoveHandler(game.getBoard());
         InputHandler inputHandler = game.getInputHandler();
 
         if(game.Welcome()){
