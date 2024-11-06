@@ -24,6 +24,8 @@ public class Display {
         System.out.print(horizontalLine);
         System.out.print(horizontalDownT);
         printBars();
+        System.out.print(horizontalDownT);
+        System.out.print(horizontalLine);
         System.out.println(topRightCorner);
 
 
@@ -105,6 +107,7 @@ public class Display {
                 System.out.print(" ");
             }
             System.out.println(verticalLine);
+
         }
     }
 
@@ -135,6 +138,7 @@ public class Display {
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
+            System.out.print(" END");
         }
         else {
             for (int i = 11; i >= 6; i--){
@@ -148,6 +152,7 @@ public class Display {
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
+            System.out.print(" END");
             System.out.println("\n");
         }
 
