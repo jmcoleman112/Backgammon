@@ -1,8 +1,8 @@
 import utilities.Colour;
 
 public class Display {
-    public static void displayBoard(Board board) {
-
+    public static void displayBoard(Board board, int player) {
+        printPipNumbers(board, 1, player);
 
         char horizontalLine = '\u2550'; // ━
         char verticalLine = '\u2551'; // ┃
@@ -117,6 +117,8 @@ public class Display {
             System.out.print(horizontalLine);
         }
         System.out.println(bottomRightCorner);
+
+        printPipNumbers(board, 0, player);
     }
 
     public static void printDiceFace(int number1, int number2) {
@@ -132,6 +134,37 @@ public class Display {
         }
     }
 
+    public static void printPipNumbers(Board board, int top, int player) {
+        System.out.print("   ");
+        if (top == 1){
+            for (int i = 12; i <= 17; i++){
+                Point point = board.getPoint(i);
+                int pipNumber = point.getPipNumber(player);
+                System.out.printf("%2d  ", pipNumber);
+            }
+            System.out.print("      ");
+            for (int i = 18; i <= 23; i++){
+                Point point = board.getPoint(i);
+                int pipNumber = point.getPipNumber(player);
+                System.out.printf("%2d  ", pipNumber);
+            }
+        }
+        else {
+            for (int i = 11; i >= 6; i--){
+                Point point = board.getPoint(i);
+                int pipNumber = point.getPipNumber(player);
+                System.out.printf("%2d  ", pipNumber);
+            }
+            System.out.print("     ");
+            for (int i = 5; i >= 0; i--){
+                Point point = board.getPoint(i);
+                int pipNumber = point.getPipNumber(player);
+                System.out.printf("%2d  ", pipNumber);
+            }
+        }
+
+        System.out.println();
+    }
     public static void displayPipCount(Board board, Players players){
         System.out.println("Pip count for " + players.getPlayerName(0) + resetColour() + " is: " + board.getTotalPipCount(0));
         System.out.println("Pip count for " + players.getPlayerName(1) + resetColour() + " is: " + board.getTotalPipCount(1) + "\n");

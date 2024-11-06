@@ -22,7 +22,7 @@ public class Backgammon { //Class to run game logic
             int player = game.decideFirstPlayer(); //Player one goes first
 
             while(true){ //Eventually check for win
-                Display.displayBoard(game.getBoard());
+                Display.displayBoard(game.getBoard(), player);
                 game.processTurn(player);
 
                 player = (player == 0) ? 1 : 0;
