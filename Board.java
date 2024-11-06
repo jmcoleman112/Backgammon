@@ -20,8 +20,8 @@ public class Board {
         points[18] = new Point(Colour.BLUE, 5, 19);
         points[23] = new Point(Colour.RED, 2, 24);
 
-        bars[0] = new Bar();
-        bars[1] = new Bar();
+        bars[0] = new Bar(Colour.RED);
+        bars[1] = new Bar(Colour.BLUE);
 
         for (int i = 0; i < points.length; i++) {
             if (points[i] == null) {

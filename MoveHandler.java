@@ -20,10 +20,11 @@ public class MoveHandler {//Class to check and execute moves
     }
 
     public void executeMove(int from, int to){
-        Point source = board.getPoint(from);
+
+        Point source = board.getPoint(from - 1);
         Colour sColour = source.getColor();
 
-        Point destination = board.getPoint(to);
+        Point destination = board.getPoint(to - 1);
         Colour dColour = destination.getColor();
 
         if(source.getCount() == 0){

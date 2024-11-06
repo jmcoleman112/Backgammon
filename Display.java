@@ -1,88 +1,82 @@
 import utilities.Colour;
 
 public class Display {
+    private static char horizontalLine = '\u2550'; // ━
+    private static final char verticalLine = '\u2551'; // ┃
+    private static char topLeftCorner = '\u2554'; // ┏
+    private static char topRightCorner = '\u2557'; // ┓
+    private static char bottomLeftCorner = '\u255A'; // ┗
+    private static char bottomRightCorner = '\u255D'; // ┛
+    private static char verticalRightT = '\u2560'; // ┣
+    private static char verticalLeftT = '\u2563'; // ┫
+    private static char horizontalDownT = '\u2566'; // ┳
+    private static char horizontalUpT = '\u2569'; // ┻
+    private static char cross = '\u256C'; // ╋
+    private static char dashedVerticalLine = '\u250A';
+
     public static void displayBoard(Board board, int player) {
-        printPipNumbers(board, 1, player);
-
-        char horizontalLine = '\u2550'; // ━
-        char verticalLine = '\u2551'; // ┃
-        char topLeftCorner = '\u2554'; // ┏
-        char topRightCorner = '\u2557'; // ┓
-        char bottomLeftCorner = '\u255A'; // ┗
-        char bottomRightCorner = '\u255D'; // ┛
-        char verticalRightT = '\u2560'; // ┣
-        char verticalLeftT = '\u2563'; // ┫
-        char horizontalDownT = '\u2566'; // ┳
-        char horizontalUpT = '\u2569'; // ┻
-        char cross = '\u256C'; // ╋
-        char dashedVerticalLine = '\u250A';
-
+        printPipNumbers(board, true, player);
 
         //top of the board
         System.out.print(topLeftCorner);
-        for (int i = 0; i < 27; i++) {
-            System.out.print(horizontalLine);
-        }
+        printBars();
         System.out.print(horizontalDownT);
-        for (int i = 0; i < 27; i++) {
-            System.out.print(horizontalLine);
-        }
+        System.out.print(horizontalLine);
+        System.out.print(horizontalDownT);
+        printBars();
         System.out.println(topRightCorner);
 
 
-        //middle of the board
-        for (int i = 0; i < board.maxPoint(); i++) {
-            System.out.print(verticalLine);
-            for (int j = 0; j < 6; j++) {
-                for (int k = 0; k < 3; k++) {
-                    System.out.print(" ");
-                }
-                if(board.getPoint(12+j).getCount() > i){
-                    System.out.print(board.getPoint(12+j).getColor().shader() + "O" + Colour.NONE.shader());
-                } else {
-                    System.out.print(dashedVerticalLine);
-                }
-            }
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(verticalLine);
-            for (int j = 0; j < 6; j++) {
-                for (int k = 0; k < 3; k++) {
-                    System.out.print(" ");
-                }
-                if(board.getPoint(18+j).getCount() > i){
-                    System.out.print(board.getPoint(18+j).getColor().shader() + "O" + Colour.NONE.shader());
-                } else {
-                    System.out.print(dashedVerticalLine);
-                }
-            }
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.println(verticalLine);
-        }
+        //middle top of the board
+        printMiddle(board, 0);
 
         //middle bar of the board
         System.out.print(verticalRightT);
-        for (int i = 0; i < 27; i++) {
-            System.out.print(horizontalLine);
-        }
+        printBars();
         System.out.print(cross);
-        for (int i = 0; i < 27; i++) {
-            System.out.print(horizontalLine);
-        }
+        System.out.print(horizontalLine);
+        System.out.print(cross);
+        printBars();
         System.out.println(verticalLeftT);
 
-        //middle bottom of the board
-        for (int i = board.maxPoint()-1; i >=0; i--) {
+        //Middle bottom of board
+        printMiddle(board, 1);
+
+        //bottom of board
+        System.out.print(bottomLeftCorner);
+        printBars();
+        System.out.print(horizontalUpT);
+        System.out.print(horizontalLine);
+        System.out.print(horizontalUpT);
+        printBars();
+        System.out.println(bottomRightCorner);
+
+        printPipNumbers(board, false, player);
+    }
+
+    private static void printBars(){
+        for (int i = 0; i < 27; i++) {
+            System.out.print(horizontalLine);
+        }
+    }
+
+    private static void printMiddle(Board board, int bottom){
+        int i_start = bottom == 1 ? board.maxPoint() - 1 : 0;
+        int i_end = bottom == 1 ? -1 : board.maxPoint();
+        int i_step = bottom == 1 ? -1 : 1;
+
+        int j_start = bottom == 1 ? 5 : 0;
+        int j_end = bottom == 1 ? -1 : 6;
+        int j_step = bottom == 1 ? -1 : 1;
+
+        for (int i = i_start; i != i_end; i += i_step) {
             System.out.print(verticalLine);
-            for (int j = 5; j >= 0; j--) {
+            for (int j = j_start; j != j_end; j += j_step) {
                 for (int k = 0; k < 3; k++) {
                     System.out.print(" ");
                 }
-                if(board.getPoint(6+j).getCount() > i){
-                    System.out.print(board.getPoint(6+j).getColor().shader() + "O" + Colour.NONE.shader());
+                if(board.getPoint(12 + j - 6 * bottom).getCount() > i){
+                    System.out.print(board.getPoint(12 + j - 6 * bottom).getColor().shader() + "O" + Colour.NONE.shader());
                 } else {
                     System.out.print(dashedVerticalLine);
                 }
@@ -91,12 +85,18 @@ public class Display {
                 System.out.print(" ");
             }
             System.out.print(verticalLine);
-            for (int j = 5; j >= 0; j--) {
+            if(board.getBar(1 - bottom).getCount() > i){ //Counter on bar
+                System.out.print(board.getBar(1 - bottom).getColor().shader() + "O" + Colour.NONE.shader());
+            }
+            else System.out.print(" ");
+            System.out.print(verticalLine);
+
+            for (int j = j_start; j != j_end; j += j_step) {
                 for (int k = 0; k < 3; k++) {
                     System.out.print(" ");
                 }
-                if(board.getPoint(j).getCount() > i){
-                    System.out.print(board.getPoint(j).getColor().shader() + "O" + Colour.NONE.shader());
+                if(board.getPoint(18 - 18 * bottom + j).getCount() > i){
+                    System.out.print(board.getPoint(18 - 18 * bottom + j).getColor().shader() + "O" + Colour.NONE.shader());
                 } else {
                     System.out.print(dashedVerticalLine);
                 }
@@ -106,19 +106,6 @@ public class Display {
             }
             System.out.println(verticalLine);
         }
-
-        //bottom of board
-        System.out.print(bottomLeftCorner);
-        for (int i = 0; i < 27; i++) {
-            System.out.print(horizontalLine);
-        }
-        System.out.print(horizontalUpT);
-        for (int i = 0; i < 27; i++) {
-            System.out.print(horizontalLine);
-        }
-        System.out.println(bottomRightCorner);
-
-        printPipNumbers(board, 0, player);
     }
 
     public static void printDiceFace(int number1, int number2) {
@@ -134,15 +121,15 @@ public class Display {
         }
     }
 
-    public static void printPipNumbers(Board board, int top, int player) {
+    public static void printPipNumbers(Board board, boolean top, int player) {
         System.out.print("   ");
-        if (top == 1){
+        if (top){
             for (int i = 12; i <= 17; i++){
                 Point point = board.getPoint(i);
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
-            System.out.print("      ");
+            System.out.print(" BAR  ");
             for (int i = 18; i <= 23; i++){
                 Point point = board.getPoint(i);
                 int pipNumber = point.getPipNumber(player);
@@ -155,12 +142,13 @@ public class Display {
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
-            System.out.print("     ");
+            System.out.print(" BAR  ");
             for (int i = 5; i >= 0; i--){
                 Point point = board.getPoint(i);
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
+            System.out.println("\n");
         }
 
         System.out.println();
