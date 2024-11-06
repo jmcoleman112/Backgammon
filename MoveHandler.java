@@ -19,12 +19,12 @@ public class MoveHandler {//Class to check and execute moves
         else return destination.getCount() <= 1 || sColour == dColour; //Legal move
     }
 
-    public void executeMove(int from, int to){
+    public void executeMove(int from, int to){ //Use array index not pip number
 
-        Point source = board.getPoint(from - 1);
+        Point source = board.getPoint(from);
         Colour sColour = source.getColor();
 
-        Point destination = board.getPoint(to - 1);
+        Point destination = board.getPoint(to);
         Colour dColour = destination.getColor();
 
         if(source.getCount() == 0){
@@ -32,13 +32,13 @@ public class MoveHandler {//Class to check and execute moves
             return;
         }
 
-        source.setCount(source.getCount() - 1); //Decrement pip count
-        if(source.getCount() == 0){ //No more pips on point
+        source.setCount(source.getCount() - 1); //Decrement checker count
+        if(source.getCount() == 0){ //No more checkers on point
             source.setColor(Colour.NONE);
         }
 
         if (sColour == dColour){ //Same colour
-            destination.setCount(destination.getCount() + 1); //Increment pip count
+            destination.setCount(destination.getCount() + 1); //Increment checker count
         }
         else {
             destination.setColor(sColour);
@@ -49,5 +49,30 @@ public class MoveHandler {//Class to check and execute moves
                 bar.setCount(bar.getCount() + 1);
             }
         }
+    }
+
+    public void moveToEnd(int index){
+        Point point = board.getPoint(index);
+
+        if(point.getCount() == 0){
+            System.out.println("Error point is empty\n\n");
+            return;
+        }
+
+        End end; //Add checker to end
+        if(point.getColor() == Colour.RED){
+            end = board.getEnd(0);
+        }
+        else {
+            end = board.getEnd(1);
+        }
+        end.setCount(end.getCount() + 1);
+
+
+        point.setCount(point.getCount() - 1); //Decrement checker count
+        if(point.getCount() == 0){ //No more checkers on point
+            point.setColor(Colour.NONE);
+        }
+
     }
 }

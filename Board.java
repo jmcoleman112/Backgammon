@@ -5,10 +5,13 @@ public class Board {
 
     private final Point[] points;
     private final Bar[] bars; //Player1, Player2
+    private final End[] ends;
 
     public Board(){
         points = new Point[24];
         bars = new Bar[2];
+        ends = new End[2];
+
 
         points[0] = new Point(Colour.BLUE, 2, 1);
 
@@ -23,6 +26,9 @@ public class Board {
         bars[0] = new Bar(Colour.RED);
         bars[1] = new Bar(Colour.BLUE);
 
+        ends[0] = new End(Colour.RED);
+        ends[1] = new End(Colour.BLUE);
+
         for (int i = 0; i < points.length; i++) {
             if (points[i] == null) {
                 points[i] = new Point(Colour.NONE, 0, i + 1);
@@ -36,6 +42,10 @@ public class Board {
 
     public Bar getBar(int index){
         return bars[index];
+    }
+
+    public End getEnd(int index){
+        return ends[index];
     }
 
     public int maxPoint(){
