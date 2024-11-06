@@ -132,9 +132,9 @@ public class Display {
         }
     }
 
-    public static void displayPipCount(Board board, String[] players){
-        System.out.println("Pip count for " + getPlayerName(players, 0) + resetColour() + " is: " + board.getTotalPipCount(0));
-        System.out.println("Pip count for " + getPlayerName(players, 1) + resetColour() + " is: " + board.getTotalPipCount(1) + "\n");
+    public static void displayPipCount(Board board, Players players){
+        System.out.println("Pip count for " + players.getPlayerName(0) + resetColour() + " is: " + board.getTotalPipCount(0));
+        System.out.println("Pip count for " + players.getPlayerName(1) + resetColour() + " is: " + board.getTotalPipCount(1) + "\n");
     }
 
     private static String[] getDiceFace(int number) {
@@ -187,9 +187,6 @@ public class Display {
         };
     }
 
-    public static String getPlayerName(String[] players, int player){
-        return (player == 0) ? (Colour.RED.shader() + players[0]) : (Colour.BLUE.shader() + players[1]);
-    }
     public static String resetColour(){
         return Colour.NONE.shader();
     }
