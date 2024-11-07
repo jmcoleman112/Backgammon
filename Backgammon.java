@@ -22,13 +22,16 @@ public class Backgammon { //Class to run game logic
 
             int player = game.decideFirstPlayer(); //Player one goes first
 
-            while(true){ //Eventually check for win
+            while(!game.getBoard().checkWin(0) && !game.getBoard().checkWin(1)){ //Neither player has won
                 Display.displayBoard(game.getBoard(), player);
                 game.processTurn(player);
 
                 player = (player == 0) ? 1 : 0;
             }
         }
+        if(game.getBoard().checkWin(0)) Display.printWinMessage(game.getPlayers(), 0);
+        else if(game.getBoard().checkWin(1)) Display.printWinMessage(game.getPlayers(), 1);
+
         inputHandler.closeScanner();
     }
 
@@ -38,6 +41,10 @@ public class Backgammon { //Class to run game logic
 
     public Board getBoard(){
         return board;
+    }
+
+    public Players getPlayers(){
+        return players;
     }
 
     public InputHandler getInputHandler(){

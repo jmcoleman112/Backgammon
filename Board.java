@@ -75,6 +75,10 @@ public class Board {
         return pipCount;
     }
 
+    public boolean checkWin(int player){
+        return getTotalPipCount(player) == 0;
+    }
+
 
 
 

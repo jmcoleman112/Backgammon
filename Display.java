@@ -179,6 +179,11 @@ public class Display {
         System.out.println("Pip count for " + players.getPlayerName(1) + resetColour() + " is: " + board.getTotalPipCount(1) + "\n");
     }
 
+    public static void printWinMessage(Players players, int player){
+        System.out.println("Game Over");
+        System.out.println("Congratulations " + players.getPlayerName(player) + resetColour() + "! You win!");
+    }
+
     private static String[] getDiceFace(int number) {
         return switch (number) {
             case 1 -> new String[]{
