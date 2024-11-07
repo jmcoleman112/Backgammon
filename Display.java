@@ -184,6 +184,14 @@ public class Display {
         System.out.println("Congratulations " + players.getPlayerName(player) + resetColour() + "! You win!");
     }
 
+    public static void displayHint(){
+        System.out.println("Hint of all allowed command:");
+        System.out.println("Enter 'pip' to display pip count for both players");
+        System.out.println("Enter 'q' to quit game");
+        System.out.println("Enter 'roll' to roll dice"); //Can only do if haven't rolled already. Add this/////////////////
+        //////////Add moves
+    }
+
     private static String[] getDiceFace(int number) {
         return switch (number) {
             case 1 -> new String[]{

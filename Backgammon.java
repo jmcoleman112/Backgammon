@@ -81,6 +81,9 @@ public class Backgammon { //Class to run game logic
             if(inputHandler.isPipCommand(userInput)){//////////////
                 Display.displayPipCount(getBoard(), players);
             }
+            if(inputHandler.isHintCommand(userInput)){
+
+            }
             else{
                 System.out.println("Please enter a valid Command: ");
             }

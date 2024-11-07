@@ -15,6 +15,8 @@ public class InputHandler {
         return input.isEmpty();
     }
 
+    public boolean isHintCommand(String input){ return input.equalsIgnoreCase("hint"); }
+
     public boolean isQuitCommand(String input) {
         return input.equalsIgnoreCase("Q");
     }
