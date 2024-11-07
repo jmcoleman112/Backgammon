@@ -68,27 +68,51 @@ public class Backgammon { //Class to run game logic
     public void processTurn(int player) { //One roll per turn
         promptPlayer(player);
         String userInput = inputHandler.getInput();
+        int[] rollValues = new int[2];
 
-        while(true){
-            if(inputHandler.isRollCommand(userInput)){
-                rollTurn(player);
-                break;
-            }
-            if(inputHandler.isQuitCommand(userInput)){
+       boolean turnInProgress = true;
+        while (turnInProgress) {
+            if (inputHandler.isRollCommand(userInput)) {
+                rollValues = rollTurn(player);
+                moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
+                turnInProgress = false;
+            } else if (inputHandler.isQuitCommand(userInput)) {
                 quitGame();
-                break;
-            }
-            if(inputHandler.isPipCommand(userInput)){//////////////
+                turnInProgress = false;
+            } else if (inputHandler.isPipCommand(userInput)) {
                 Display.displayPipCount(getBoard(), players);
-            }
-            if(inputHandler.isHintCommand(userInput)){
+            } else if (inputHandler.isHintCommand(userInput)) {
 
-            }
-            else{
+            } else {
                 System.out.println("Please enter a valid Command: ");
             }
-            promptPlayer(player);
-            userInput = inputHandler.getInput();
+            if (turnInProgress) {
+                promptPlayer(player);
+                userInput = inputHandler.getInput();
+            }
+        }
+
+        // Process choosing a move from the list of legal ones
+        turnInProgress = true;
+        while (turnInProgress) {
+            System.out.println("Please choose a move from the list above (e.g., 'a', 'b', etc.): ");
+            String moveInput = inputHandler.getInput();
+
+            if (moveHandler.isValidMoveCommand(moveInput)) {
+                int[] chosenMove = moveHandler.getMoveFromCommand(moveInput);
+                moveHandler.executeMove(chosenMove[0], chosenMove[0]+rollValues[1]);
+                moveHandler.executeMove(chosenMove[1], chosenMove[1]+rollValues[0]);
+                turnInProgress = false;
+                } else if (inputHandler.isQuitCommand(userInput)) {
+                    quitGame();
+                    turnInProgress = false;
+                } else if (inputHandler.isPipCommand(userInput)) {
+                    Display.displayPipCount(getBoard(), players);
+                } else if (inputHandler.isHintCommand(userInput)) {
+
+                } else {
+                System.out.println("Please enter a valid Command: ");
+            }
         }
     }
 
@@ -135,11 +159,13 @@ public class Backgammon { //Class to run game logic
         System.exit(0);
     }
 
-    public void rollTurn(int player) {
+    public int[] rollTurn(int player) {
         int[] rollValues;
         rollValues = dice.rollDice();
         Display.printDiceFace(rollValues[0], rollValues[1]);
         System.out.println(players.getPlayerName(player) + Display.resetColour() + " rolled a " + rollValues[0] + " and a " + rollValues[1]);
+
+        return rollValues;
     }
 
     public int oneRoll(){

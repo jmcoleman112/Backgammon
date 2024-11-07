@@ -1,4 +1,6 @@
 import utilities.Colour;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Board {
@@ -40,6 +42,14 @@ public class Board {
         return points[index];
     }
 
+    public int getPointcount(int index){
+        return points[index].getCount();
+    }
+
+    public Colour getPointColor(int index){
+        return points[index].getColor();
+    }
+
     public Bar getBar(int index){
         return bars[index];
     }
@@ -73,6 +83,20 @@ public class Board {
             pipCount += bar.getPipCount(player);
 
         return pipCount;
+    }
+
+    public List<Integer> getColoredPoints(Colour color) {
+        List<Integer> coloredPointsList = new ArrayList<>();
+
+        // Single pass to find and collect points with the specified color
+        for (int i = 0; i < points.length; i++) {
+            if (points[i].getColor() == color) {
+                coloredPointsList.add(i);
+            }
+        }
+
+        // Convert the list to an array
+        return coloredPointsList;
     }
 
     public boolean checkWin(int player){

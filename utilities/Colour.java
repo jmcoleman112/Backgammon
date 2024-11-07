@@ -19,5 +19,14 @@ public enum Colour {
         return ansiCode;
     }
 
+    public Colour returnopp(){
+        if (this == Colour.RED){
+            return Colour.BLUE;
+        }
+        else{
+            return Colour.RED;
+        }
+    }
+
 
 }
