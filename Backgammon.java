@@ -92,7 +92,7 @@ public class Backgammon { //Class to run game logic
         }
     }
 
-    public int decideFirstPlayer() {
+    public int decideFirstPlayer() { //Change to use rolls as roll for first turn ///////
         int[] rolls = new int[2];
 
         int first = 0;
