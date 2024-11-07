@@ -26,6 +26,7 @@ public class Display {
         printBars();
         System.out.print(horizontalDownT);
         System.out.print(horizontalLine);
+        System.out.print(horizontalLine);
         System.out.println(topRightCorner);
 
 
@@ -39,6 +40,9 @@ public class Display {
         System.out.print(horizontalLine);
         System.out.print(cross);
         printBars();
+        System.out.print(cross);
+        System.out.print(horizontalLine);
+        System.out.print(horizontalLine);
         System.out.println(verticalLeftT);
 
         //Middle bottom of board
@@ -51,6 +55,9 @@ public class Display {
         System.out.print(horizontalLine);
         System.out.print(horizontalUpT);
         printBars();
+        System.out.print(horizontalUpT);
+        System.out.print(horizontalLine);
+        System.out.print(horizontalLine);
         System.out.println(bottomRightCorner);
 
         printPipNumbers(board, false, player);
@@ -86,7 +93,7 @@ public class Display {
             for (int j = 0; j < 3; j++) {
                 System.out.print(" ");
             }
-            System.out.print(verticalLine);
+            System.out.print(verticalLine); //Print BAR
             if(board.getBar(1 - bottom).getCount() > i){ //Counter on bar
                 System.out.print(board.getBar(1 - bottom).getColor().shader() + "O" + Colour.NONE.shader());
             }
@@ -106,6 +113,15 @@ public class Display {
             for (int j = 0; j < 3; j++) {
                 System.out.print(" ");
             }
+            System.out.print(verticalLine);
+            if(board.getEnd(1 - bottom).getCount() > i){
+                System.out.print(board.getEnd(1 - bottom).getColor().shader() + "O" + Colour.NONE.shader());
+            }
+            else System.out.print(dashedVerticalLine);
+            if(board.getEnd(1 - bottom).getCount() > i + board.maxPoint()){
+                System.out.print(board.getEnd(1 - bottom).getColor().shader() + "O" + Colour.NONE.shader());
+            }
+            else System.out.print(dashedVerticalLine);
             System.out.println(verticalLine);
 
         }
@@ -138,7 +154,7 @@ public class Display {
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
-            System.out.print(" END");
+            System.out.print("  END");
         }
         else {
             for (int i = 11; i >= 6; i--){
@@ -152,7 +168,7 @@ public class Display {
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
-            System.out.print(" END");
+            System.out.print("  END");
             System.out.println("\n");
         }
 

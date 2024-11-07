@@ -55,6 +55,12 @@ public class Board {
                 maxlength = point.getCount();
             }
         }
+        for (End end : ends) {
+            int size_needed = (int) Math.ceil((double) end.getCount() / 2);
+            if (size_needed > maxlength) {
+                maxlength = size_needed;
+            }
+        }
         return maxlength;
     }
 
@@ -63,6 +69,9 @@ public class Board {
             for (Point point : points) {
                 pipCount += point.getPipCount(player);
             }
+            Bar bar  = bars[player];
+            pipCount += bar.getPipCount(player);
+
         return pipCount;
     }
 
