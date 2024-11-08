@@ -100,8 +100,9 @@ public class Backgammon { //Class to run game logic
 
             if (moveHandler.isValidMoveCommand(moveInput)) {
                 int[] chosenMove = moveHandler.getMoveFromCommand(moveInput);
-                moveHandler.executeMove(chosenMove[0], chosenMove[0]+rollValues[1]);
-                moveHandler.executeMove(chosenMove[1], chosenMove[1]+rollValues[0]);
+                moveHandler.executeMove(chosenMove[0], chosenMove[1]);
+                moveHandler.executeMove(chosenMove[2], chosenMove[3]);
+
                 turnInProgress = false;
                 } else if (inputHandler.isQuitCommand(userInput)) {
                     quitGame();

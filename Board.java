@@ -42,11 +42,14 @@ public class Board {
         return points[index];
     }
 
-    public int getPointcount(int index){
+    public int getPointCount(int index){
         return points[index].getCount();
     }
 
     public Colour getPointColor(int index){
+        if (index < 0 || index > 23) {
+            return Colour.NONE;
+        }
         return points[index].getColor();
     }
 
