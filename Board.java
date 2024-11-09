@@ -61,6 +61,29 @@ public class Board {
         return ends[index];
     }
 
+    public Colour getPlayerColor(int player){
+        return (player == 0) ? Colour.RED : Colour.BLUE;
+    }
+
+    public boolean bearoffcheck(int player){
+        int count = 0;
+        if(player == 0){
+            for (int i = 0; i < 6; i++){
+                if (points[i].getColor() == getPlayerColor(player)){
+                    count += points[i].getCount();
+                }
+            }
+        }
+        else {
+            for (int i = 18; i < 24; i++){
+                if (points[i].getColor() == getPlayerColor(player)){
+                    count += points[i].getCount();
+                }
+            }
+        }
+        return count == 0;
+    }
+
     public int maxPoint(){
         int maxlength = 0;
         for (Point point : points) {
