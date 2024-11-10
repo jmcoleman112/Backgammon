@@ -68,7 +68,7 @@ public class Backgammon { //Class to run game logic
     public void processTurn(int player) { //One roll per turn
         promptPlayer(player);
         String userInput = inputHandler.getInput();
-        int[] rollValues = new int[2];
+        int[] rollValues;
 
        boolean turnInProgress = true;
         while (turnInProgress) {
@@ -96,6 +96,7 @@ public class Backgammon { //Class to run game logic
         turnInProgress = true;
         while (turnInProgress) {
             System.out.println("Please choose a move from the list above (e.g., 'a', 'b', etc.): ");
+            System.out.flush(); //Flush output buffer
             String moveInput = inputHandler.getInput();
 
             if (moveHandler.isValidMoveCommand(moveInput)) {
