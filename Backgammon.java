@@ -99,7 +99,7 @@ public class Backgammon { //Class to run game logic
     public void chooseMove(int player, int[] rollValues) {
         boolean turnInProgress = true;
         while (turnInProgress) {
-            System.out.println("Please choose a move from the list above (e.g., 'a', 'b', etc.): ");
+            System.out.println(players.getPlayerName(player) + Display.resetColour() + " please choose a move from the list above (e.g., 'a', 'b', etc.): ");
             System.out.flush(); //Flush output buffer
             String moveInput = inputHandler.getInput();
 
