@@ -68,7 +68,7 @@ public class Backgammon { //Class to run game logic
     public void processTurn(int player) { //One roll per turn
         promptPlayer(player);
         String userInput = inputHandler.getInput();
-        int[] rollValues;
+        int[] rollValues = new int[2];
 
        boolean turnInProgress = true;
         while (turnInProgress) {
@@ -81,7 +81,7 @@ public class Backgammon { //Class to run game logic
                 turnInProgress = false;
             } else if (inputHandler.isPipCommand(userInput)) {
                 Display.displayPipCount(getBoard(), players);
-            } else if (inputHandler.isHintCommand(userInput)) {
+            } else if (inputHandler.isHintCommand(userInput)) { //Display hints
 
             } else {
                 System.out.println("Please enter a valid Command: ");
@@ -93,7 +93,11 @@ public class Backgammon { //Class to run game logic
         }
 
         // Process choosing a move from the list of legal ones
-        turnInProgress = true;
+        chooseMove(player, rollValues);
+    }
+
+    public void chooseMove(int player, int[] rollValues) {
+        boolean turnInProgress = true;
         while (turnInProgress) {
             System.out.println("Please choose a move from the list above (e.g., 'a', 'b', etc.): ");
             System.out.flush(); //Flush output buffer
@@ -105,14 +109,16 @@ public class Backgammon { //Class to run game logic
                 moveHandler.executeMove(chosenMove[2], chosenMove[3]);
 
                 turnInProgress = false;
-                } else if (inputHandler.isQuitCommand(userInput)) {
-                    quitGame();
-                    turnInProgress = false;
-                } else if (inputHandler.isPipCommand(userInput)) {
-                    Display.displayPipCount(getBoard(), players);
-                } else if (inputHandler.isHintCommand(userInput)) {
+            } else if (inputHandler.isQuitCommand(moveInput)) {
+                quitGame();
+                turnInProgress = false;
+            } else if (inputHandler.isPipCommand(moveInput)) {
+                Display.displayPipCount(getBoard(), players);
+                moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
+            } else if (inputHandler.isHintCommand(moveInput)) { //Display hints
+                moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
 
-                } else {
+            } else {
                 System.out.println("Please enter a valid Command: ");
             }
         }
@@ -152,6 +158,12 @@ public class Backgammon { //Class to run game logic
             }
             System.out.println("Rolls were equal!");
         }
+
+        //Use dice
+        Display.displayBoard(getBoard(), first);
+        moveHandler.legalmoves(first, rolls[0], rolls[1]);
+        chooseMove(first, rolls);
+        first = (first == 0) ? 1 : 0;
         return first;
     }
 
