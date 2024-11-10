@@ -18,6 +18,7 @@ public class Players {
         return (player == 0) ? (Colour.RED.shader() + players[0]) : (Colour.BLUE.shader() + players[1]);
     }
 
+
     public void printPlayerName(int player){
         System.out.println("Player" + (player+1) + " name is " + getPlayerName(player) + Display.resetColour() + "\n");
     }
