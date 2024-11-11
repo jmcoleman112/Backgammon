@@ -74,7 +74,6 @@ public class MoveHandler {//Class to check and execute moves
             moveMap.put(moveLabel, m.clone());
             moveLabel++;
         }
-        System.out.flush();
     }
 
     public Boolean isValidMoveCommand(String moveInput) {
@@ -102,7 +101,7 @@ public class MoveHandler {//Class to check and execute moves
         if (isLegalMove(player, -1, reentryTarget2)) {
             move[0] = 25; // Set re-entry point as -1 for off-board
             move[1] = reentryTarget2;
-            dfs(locs, dice1, dice2, validMoves, player, move, 1, 1);
+            dfs(locs, dice1, dice2, validMoves, player, move, 1, 1); //After moving check another counter on bar////////////////////////////
         }
     }
 
@@ -124,7 +123,9 @@ public class MoveHandler {//Class to check and execute moves
 
                 // Create a new list of locations for the next depth
                 List<Integer> newLocs = new ArrayList<>(locs);
-                newLocs.remove(Integer.valueOf(loc)); // Remove the original position
+                if(board.getPoint(loc).getCount() == 1){
+                    newLocs.remove(Integer.valueOf(loc)); // Remove the original position if only counter on point
+                }
                 newLocs.add(target); // Add the new position
 
                 // Recursive DFS with incremented depth

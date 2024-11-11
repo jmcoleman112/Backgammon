@@ -102,6 +102,7 @@ public class Backgammon { //Class to run game logic
         boolean turnInProgress = true;
         while (turnInProgress) {
             System.out.println(players.getPlayerName(player) + Display.resetColour() + " please choose a move from the list above (e.g., 'a', 'b', etc.): ");
+            System.out.flush();
             String moveInput = inputHandler.getInput();
 
             if (moveHandler.isValidMoveCommand(moveInput)) {
@@ -199,5 +200,6 @@ public class Backgammon { //Class to run game logic
     public void promptPlayer(int player){
         System.out.println(players.getPlayerName(player) + "'s" + Display.resetColour() + " turn");
         System.out.print("Please Enter a Command: ");
+        System.out.flush();
     }
 }
