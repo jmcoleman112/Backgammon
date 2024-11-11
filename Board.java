@@ -85,7 +85,7 @@ public class Board {
     }
 
     public int maxPoint(){
-        int maxlength = 0;
+        int maxlength = 4; //Print a min height of 4
         for (Point point : points) {
             if (point.getCount() > maxlength) {
                 maxlength = point.getCount();
