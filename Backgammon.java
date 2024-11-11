@@ -74,7 +74,9 @@ public class Backgammon { //Class to run game logic
         while (turnInProgress) {
             if (inputHandler.isRollCommand(userInput)) {
                 rollValues = rollTurn(player);
-                moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
+                if (!moveHandler.legalmoves(player, rollValues[0], rollValues[1])){ //No valid moves
+                    return;
+                }
                 turnInProgress = false;
             } else if (inputHandler.isQuitCommand(userInput)) {
                 quitGame();

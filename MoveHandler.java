@@ -18,7 +18,7 @@ public class MoveHandler {//Class to check and execute moves
 
 
 
-    public void legalmoves(int player, int dice1, int dice2) {
+    public boolean legalmoves(int player, int dice1, int dice2) {
         List<Integer> locs;
         if (player == 1) {
             locs = board.getColoredPoints(Colour.BLUE);
@@ -37,6 +37,10 @@ public class MoveHandler {//Class to check and execute moves
             dfs(locs, dice1, dice2, validMoves, player, move, 0, 0);
         }
 
+        if(validMoves.isEmpty()) {
+            System.out.println("No moves available");
+            return false;
+        }
         // Display valid moves
         System.out.println("Valid Moves:");
         char moveLabel = 'a';
@@ -74,6 +78,7 @@ public class MoveHandler {//Class to check and execute moves
             moveMap.put(moveLabel, m.clone());
             moveLabel++;
         }
+        return true;
     }
 
     public Boolean isValidMoveCommand(String moveInput) {
@@ -87,8 +92,8 @@ public class MoveHandler {//Class to check and execute moves
         int direction = (player == 1) ? 1 : -1;
 
         // Re-entry moves from -1 (off-board) for player 0 and player 1
-        int reentryTarget1 = (player == 1 ? 0 : 23) + direction * dice1;
-        int reentryTarget2 = (player == 1 ? 0 : 23) + direction * dice2;
+        int reentryTarget1 = (player == 1 ? -1 : 24) + direction * dice1;
+        int reentryTarget2 = (player == 1 ? -1 : 24) + direction * dice2;
 
         // Use dice1 for re-entry and explore the second move with dice2
         if (isLegalMove(player, -1, reentryTarget1)) {
