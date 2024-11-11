@@ -58,7 +58,7 @@ public class MoveHandler {//Class to check and execute moves
             } else {
                 // Check if the first move is a re-entry or a regular/bearing-off move
                 String firstMove = (m[0] == -1)
-                        ? String.format("Re-enter from off-board to %d", 24-m[1] )
+                        ? String.format("Re-enter from off-board to %d", 24 - m[1])
                         : (m[1] < 0 || m[1] > 23) // Allow bearing off on the first move
                         ? String.format("bear off from Pt. %d", 24 - m[0])
                         : String.format("Move %d -> %d", 24 - m[0], 24 - m[1]);
@@ -74,12 +74,15 @@ public class MoveHandler {//Class to check and execute moves
             moveMap.put(moveLabel, m.clone());
             moveLabel++;
         }
-
+        System.out.flush();
     }
 
     public Boolean isValidMoveCommand(String moveInput) {
-        char label = moveInput.charAt(0);
-        return availablemoves.contains(label);
+        if(moveInput.length() == 1) {
+            char label = moveInput.charAt(0);
+            return availablemoves.contains(label);
+        }
+        else return false;
 }
     private void dfsWithReentry(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth, int usedDice) {
         int direction = (player == 1) ? 1 : -1;

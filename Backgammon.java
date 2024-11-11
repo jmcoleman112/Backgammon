@@ -82,8 +82,10 @@ public class Backgammon { //Class to run game logic
             } else if (inputHandler.isPipCommand(userInput)) {
                 Display.displayPipCount(getBoard(), players);
             } else if (inputHandler.isHintCommand(userInput)) { //Display hints
-
-            } else {
+                Display.displayHint(false, true);
+            } else if (inputHandler.isBoardCommand(userInput)){
+                Display.displayBoard(board, player);
+            }else {
                 System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
             }
             if (turnInProgress) {
@@ -100,7 +102,6 @@ public class Backgammon { //Class to run game logic
         boolean turnInProgress = true;
         while (turnInProgress) {
             System.out.println(players.getPlayerName(player) + Display.resetColour() + " please choose a move from the list above (e.g., 'a', 'b', etc.): ");
-            System.out.flush(); //Flush output buffer
             String moveInput = inputHandler.getInput();
 
             if (moveHandler.isValidMoveCommand(moveInput)) {
@@ -116,9 +117,11 @@ public class Backgammon { //Class to run game logic
                 Display.displayPipCount(getBoard(), players);
                 moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
             } else if (inputHandler.isHintCommand(moveInput)) { //Display hints
+                Display.displayHint(true, true);
                 moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
-
-            } else {
+            } else if (inputHandler.isBoardCommand(moveInput)){
+                Display.displayBoard(board, player);
+            }else {
                 System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
             }
         }
@@ -146,7 +149,9 @@ public class Backgammon { //Class to run game logic
                     if (inputHandler.isQuitCommand(userInput)) {
                         quitGame();
                         break;
-                    } else {
+                    } else if (inputHandler.isHintCommand(userInput)){
+                        Display.displayHint(false, false);
+                    }else {
                         System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
                     }
                 }
@@ -160,6 +165,7 @@ public class Backgammon { //Class to run game logic
         }
 
         //Use dice
+        Display.printDiceFace(rolls[0], rolls[1]);
         Display.displayBoard(getBoard(), first);
         moveHandler.legalmoves(first, rolls[0], rolls[1]);
         chooseMove(first, rolls);

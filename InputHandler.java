@@ -20,6 +20,9 @@ public class InputHandler {
     public boolean isQuitCommand(String input) {
         return input.equalsIgnoreCase("Q");
     }
+    public boolean isBoardCommand(String input) {
+        return input.equalsIgnoreCase("board");
+    }
 
     public boolean isRollCommand(String input) {
         return input.equalsIgnoreCase("roll");
