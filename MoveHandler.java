@@ -17,7 +17,6 @@ public class MoveHandler {//Class to check and execute moves
     }
 
 
-
     public boolean legalmoves(int player, int dice1, int dice2) {
         List<Integer> locs;
         if (player == 1) {
@@ -129,7 +128,7 @@ public class MoveHandler {//Class to check and execute moves
                 // Create a new list of locations for the next depth
                 List<Integer> newLocs = new ArrayList<>(locs);
                 if(board.getPoint(loc).getCount() == 1){
-                    newLocs.remove(Integer.valueOf(loc)); // Remove the original position if only counter on point
+                    newLocs.remove(Integer.valueOf(loc)); // Remove the original position if only one counter on point
                 }
                 newLocs.add(target); // Add the new position
 
