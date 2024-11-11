@@ -127,15 +127,26 @@ public class Display {
         }
     }
 
-    public static void printDiceFace(int number1, int number2) {
+    public static void printDiceFace(int number1, int number2, boolean doubleRoll) {
         String[] dice1 = getDiceFace(number1);
         String[] dice2 = number2 == -1 ? new String[5] : getDiceFace(number2);
 
-        for (int i = 0; i < 5; i++) {
-            if (number2 == -1) {
-                System.out.println(dice1[i]);
-            } else {
-                System.out.println(dice1[i] + "   " + dice2[i]);
+        if(doubleRoll){
+
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.print(dice1[i] + "   ");
+                }
+                System.out.println();
+            }
+        }
+        else{
+            for (int i = 0; i < 5; i++) {
+                if (number2 == -1) {
+                    System.out.println(dice1[i]);
+                } else {
+                    System.out.println(dice1[i] + "   " + dice2[i]);
+                }
             }
         }
     }

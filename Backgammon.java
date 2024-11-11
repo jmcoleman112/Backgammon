@@ -68,7 +68,7 @@ public class Backgammon { //Class to run game logic
     public void processTurn(int player) { //One roll per turn
         promptPlayer(player);
         String userInput = inputHandler.getInput();
-        int[] rollValues = new int[2];
+        int[] rollValues = new int[4];
 
        boolean turnInProgress = true;
         while (turnInProgress) {
@@ -165,7 +165,7 @@ public class Backgammon { //Class to run game logic
         }
 
         //Use dice
-        Display.printDiceFace(rolls[0], rolls[1]);
+        Display.printDiceFace(rolls[0], rolls[1], false);
         Display.displayBoard(getBoard(), first);
         moveHandler.legalmoves(first, rolls[0], rolls[1]);
         chooseMove(first, rolls);
@@ -182,7 +182,8 @@ public class Backgammon { //Class to run game logic
     public int[] rollTurn(int player) {
         int[] rollValues;
         rollValues = dice.rollDice();
-        Display.printDiceFace(rollValues[0], rollValues[1]);
+        boolean doubleRoll = rollValues[0] == rollValues[1];
+        Display.printDiceFace(rollValues[0], rollValues[1], doubleRoll);
         System.out.println(players.getPlayerName(player) + Display.resetColour() + " rolled a " + rollValues[0] + " and a " + rollValues[1]);
 
         return rollValues;
@@ -191,7 +192,7 @@ public class Backgammon { //Class to run game logic
     public int oneRoll(){
         int[] rollValues;
         rollValues = dice.rollDice();
-        Display.printDiceFace(rollValues[0], -1);
+        Display.printDiceFace(rollValues[0], -1, false);
         return rollValues[0];
     }
 
