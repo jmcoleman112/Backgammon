@@ -24,6 +24,9 @@ public class Dice {
         int[] values = new int[2];
         values[0] = dice1;
         values[1] = dice2;
+        if(values[0]==values[1]){
+            values = new int[]{values[0], values[0], values[0], values[0]};
+        }
         return values;
     }
 

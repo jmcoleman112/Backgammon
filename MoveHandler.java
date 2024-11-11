@@ -12,6 +12,7 @@ public class MoveHandler {//Class to check and execute moves
     private Map<Character, int[]> moveMap = new HashMap<>();
 
 
+
     public MoveHandler(Board board) {
         this.board = board;
     }
@@ -26,12 +27,12 @@ public class MoveHandler {//Class to check and execute moves
         }
 
         List<int[]> validMoves = new ArrayList<>();
-        int[] move = new int[4]; // [x1, y1, x2, y2]
+        int[] move = new int[4];
 
         // Start DFS to explore moves, including re-entry if necessary
         if (board.getBar(player).getCount() > 0) {
             System.out.print("Player " + (player + 1) + " has checkers on the bar. ");
-            dfsWithReentry(locs, dice1, dice2, validMoves, player, move, 0, 0);
+            dfsWithReentry(locs, dice1, dice2, validMoves, player, move, 0, 0, board.getBar(player).getCount());
         } else {
             dfs(locs, dice1, dice2, validMoves, player, move, 0, 0);
         }
@@ -43,21 +44,38 @@ public class MoveHandler {//Class to check and execute moves
         // Display valid moves
         System.out.println("Valid Moves:");
         char moveLabel = 'a';
+        boolean twopart = false;
+        int maxdist = 0;
+        for(int[] m: validMoves){
+            if(m[0] != m[1] && m[2] != m[3]) {
+                twopart=true;
+            }
+            maxdist = Math.max(maxdist, Math.max(Math.abs(m[0]-m[1]), Math.abs(m[2]-m[3])));
+        }
         for (int[] m : validMoves) {
             if (player == 0) {
                 // Check if the first move is a re-entry or a regular/bearing-off move
-                String firstMove = (m[0] == -1)
+                String firstMove = (m[0] == 24)
                         ? String.format("Re-enter from off-board to %d", m[1] + 1)
                         : (m[1] < 0 || m[1] > 23) // Allow bearing off on the first move
                         ? String.format("bear off from Pt. %d", m[0] + 1)
                         : String.format("Move %d -> %d", m[0] + 1, m[1] + 1);
 
                 // Check if the second move is a regular move or bearing-off
-                String secondMove = (m[2] < 0 || m[2] > 23)
+                String secondMove = (m[2] == 24)
+                        ? String.format("Re-enter from off-board to %d", m[3] + 1)
+                        : (m[3] < 0 || m[3] > 23) // Allow bearing off on the first move
                         ? String.format("bear off from Pt. %d", m[2] + 1)
                         : String.format("Move %d -> %d", m[2] + 1, m[3] + 1);
-
-                System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
+                if(!twopart && m[2]==m[3]){
+                    System.out.printf("%c) %s%n", moveLabel, firstMove);
+                }
+                else if(!twopart && m[0] == m[1]){
+                    System.out.printf("%c) %s%n", moveLabel, secondMove);
+                }
+                else if(m[0] != m[1]&& m[2] != m[3]){
+                    System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
+                }
             } else {
                 // Check if the first move is a re-entry or a regular/bearing-off move
                 String firstMove = (m[0] == -1)
@@ -67,11 +85,20 @@ public class MoveHandler {//Class to check and execute moves
                         : String.format("Move %d -> %d", 24 - m[0], 24 - m[1]);
 
                 // Check if the second move is a regular move or bearing-off
-                String secondMove = (m[2] < 0 || m[2] > 23)
+                String secondMove = (m[2] == -1)
+                        ? String.format("Re-enter from off-board to %d", 24 - m[3])
+                        : (m[3] < 0 || m[3] > 23) // Allow bearing off on the first move
                         ? String.format("bear off from Pt. %d", 24 - m[2])
                         : String.format("Move %d -> %d", 24 - m[2], 24 - m[3]);
-
-                System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
+                if(!twopart && m[2]==m[3]){
+                    System.out.printf("%c) %s%n", moveLabel, firstMove);
+                }
+                else if(!twopart && m[0] == m[1]){
+                    System.out.printf("%c) %s%n", moveLabel, secondMove);
+                }
+                else if(m[0] != m[1]&& m[2] != m[3]){
+                    System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
+                }
             }
             availablemoves.add(moveLabel);
             moveMap.put(moveLabel, m.clone());
@@ -87,25 +114,41 @@ public class MoveHandler {//Class to check and execute moves
         }
         else return false;
 }
-    private void dfsWithReentry(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth, int usedDice) {
+
+    private void dfsWithReentry(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth, int usedDice, int barcount) {
         int direction = (player == 1) ? 1 : -1;
 
+        if (depth == 2) {
+            validMoves.add(move.clone());
+            return;
+        }
+        barcount--;
         // Re-entry moves from -1 (off-board) for player 0 and player 1
         int reentryTarget1 = (player == 1 ? -1 : 24) + direction * dice1;
         int reentryTarget2 = (player == 1 ? -1 : 24) + direction * dice2;
 
         // Use dice1 for re-entry and explore the second move with dice2
         if (isLegalMove(player, -1, reentryTarget1)) {
-            move[0] = -1; // Set re-entry point as -1 for off-board
+            move[0] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
             move[1] = reentryTarget1;
-            dfs(locs, dice1, dice2, validMoves, player, move, 1, 1);
+            if(barcount ==0 ){
+                dfs(locs, 0, dice2, validMoves, player, move, depth+1, usedDice+1);
+            }
+            else{
+                dfsWithReentry(locs, 0, dice2, validMoves, player, move, depth+1, usedDice+1, barcount);
+            }
         }
 
         // Use dice2 for re-entry and explore the second move with dice1
         if (isLegalMove(player, -1, reentryTarget2)) {
-            move[0] = 25; // Set re-entry point as -1 for off-board
+            move[0] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
             move[1] = reentryTarget2;
-            dfs(locs, dice1, dice2, validMoves, player, move, 1, 1); //After moving check another counter on bar////////////////////////////
+            if(barcount ==0){
+                dfs(locs, dice1, 0, validMoves, player, move, 1, 0);
+            }
+            else{
+                dfsWithReentry(locs, dice1, 0, validMoves, player, move, 1, 0, barcount);
+            }
         }
     }
 
@@ -184,7 +227,7 @@ public class MoveHandler {//Class to check and execute moves
         Colour sColour;
 
         // Check if re-entry is needed from the bar (from -1)
-        if (from == -1) {
+        if (from == -1 || from == 24) {
             int barIndex = (to < 12) ? 1 : 0; // Assume player 1 re-enters on the lower half (barIndex 1), player 0 on upper (barIndex 0)
             Bar bar = board.getBar(barIndex);
 
@@ -196,7 +239,9 @@ public class MoveHandler {//Class to check and execute moves
             // Set source color for re-entry
             sColour = (barIndex == 1) ? Colour.BLUE : Colour.RED;
             bar.setCount(bar.getCount() - 1); // Remove one checker from the bar
-        } else {
+        }
+
+        else {
             // Normal move on the board
             Point source = board.getPoint(from);
             sColour = source.getColor();

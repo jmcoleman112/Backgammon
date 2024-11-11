@@ -98,6 +98,14 @@ public class Backgammon { //Class to run game logic
 
         // Process choosing a move from the list of legal ones
         chooseMove(player, rollValues);
+        if(rollValues[0] == rollValues[1]){
+            System.out.println("=======DOUBLES! Bonus Second Roll=====\n");
+            Display.displayBoard(getBoard(), player);
+            if (!moveHandler.legalmoves(player, rollValues[0], rollValues[1])){ //No valid moves
+                return;
+            }
+            chooseMove(player, rollValues);
+        }
     }
 
     public void chooseMove(int player, int[] rollValues) {
