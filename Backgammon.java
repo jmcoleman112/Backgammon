@@ -84,7 +84,7 @@ public class Backgammon { //Class to run game logic
             } else if (inputHandler.isHintCommand(userInput)) { //Display hints
 
             } else {
-                System.out.println("Please enter a valid Command: ");
+                System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
             }
             if (turnInProgress) {
                 promptPlayer(player);
@@ -119,7 +119,7 @@ public class Backgammon { //Class to run game logic
                 moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
 
             } else {
-                System.out.println("Please enter a valid Command: ");
+                System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
             }
         }
     }
@@ -147,7 +147,7 @@ public class Backgammon { //Class to run game logic
                         quitGame();
                         break;
                     } else {
-                        System.out.println("Please enter a valid Command: ");
+                        System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
                     }
                 }
             }
