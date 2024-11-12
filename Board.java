@@ -81,7 +81,7 @@ public class Board {
                 }
             }
         }
-        return count == 0;
+        return count == 15;
     }
 
     public int maxPoint(){

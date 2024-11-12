@@ -1,6 +1,7 @@
 import utilities.Colour;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class MoveHandler {//Class to check and execute moves
             System.out.print("Player " + (player + 1) + " has checkers on the bar. ");
             dfsWithReentry(locs, dice1, dice2, validMoves, player, move, 0, 0, board.getBar(player).getCount());
         } else {
-            dfs(locs, dice1, dice2, validMoves, player, move, 0, 0);
+            dfs(locs, dice1, dice2, validMoves, player, move, 0);
         }
 
         if(validMoves.isEmpty()) {
@@ -43,7 +44,7 @@ public class MoveHandler {//Class to check and execute moves
         }
         // Display valid moves
         System.out.println("Valid Moves:");
-        char moveLabel = 'a';
+        char moveLabel = 'A';
         boolean twopart = false;
         int maxdist = 0;
         for(int[] m: validMoves){
@@ -52,6 +53,21 @@ public class MoveHandler {//Class to check and execute moves
             }
             maxdist = Math.max(maxdist, Math.max(Math.abs(m[0]-m[1]), Math.abs(m[2]-m[3])));
         }
+        List<int[]> toRemove = new ArrayList<>();
+        for (int i = 0; i < validMoves.size(); i++) {
+            int[] currentArray = validMoves.get(i);
+            for (int j = i + 1; j < validMoves.size(); j++) {
+                if (isSpecificRotation(currentArray, validMoves.get(j))) {
+                    // Mark currentArray for removal if a specific rotation is found
+                    toRemove.add(currentArray);
+                    break;
+                }
+            }
+        }
+        // Remove marked arrays from the main list
+
+
+        validMoves.removeAll(toRemove);
         for (int[] m : validMoves) {
             if (player == 0) {
                 // Check if the first move is a re-entry or a regular/bearing-off move
@@ -69,12 +85,18 @@ public class MoveHandler {//Class to check and execute moves
                         : String.format("Move %d -> %d", m[2] + 1, m[3] + 1);
                 if(!twopart && m[2]==m[3]){
                     System.out.printf("%c) %s%n", moveLabel, firstMove);
+                    addMoveToCollections(moveLabel, m);
+                    moveLabel++;
                 }
                 else if(!twopart && m[0] == m[1]){
                     System.out.printf("%c) %s%n", moveLabel, secondMove);
+                    addMoveToCollections(moveLabel, m);
+                    moveLabel++;
                 }
                 else if(m[0] != m[1]&& m[2] != m[3]){
                     System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
+                    addMoveToCollections(moveLabel, m);
+                    moveLabel++;
                 }
             } else {
                 // Check if the first move is a re-entry or a regular/bearing-off move
@@ -92,19 +114,28 @@ public class MoveHandler {//Class to check and execute moves
                         : String.format("Move %d -> %d", 24 - m[2], 24 - m[3]);
                 if(!twopart && m[2]==m[3]){
                     System.out.printf("%c) %s%n", moveLabel, firstMove);
+                    addMoveToCollections(moveLabel, m);
+                    moveLabel++;
                 }
                 else if(!twopart && m[0] == m[1]){
                     System.out.printf("%c) %s%n", moveLabel, secondMove);
+                    addMoveToCollections(moveLabel, m);
+                    moveLabel++;
                 }
                 else if(m[0] != m[1]&& m[2] != m[3]){
                     System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
+                    addMoveToCollections(moveLabel, m);
+                    moveLabel++;
                 }
             }
-            availablemoves.add(moveLabel);
-            moveMap.put(moveLabel, m.clone());
-            moveLabel++;
         }
         return true;
+    }
+
+    private void addMoveToCollections(char moveLabel, int[] move) {
+        availablemoves.add(moveLabel);
+        moveMap.put(moveLabel, move.clone());
+
     }
 
     public Boolean isValidMoveCommand(String moveInput) {
@@ -129,10 +160,10 @@ public class MoveHandler {//Class to check and execute moves
 
         // Use dice1 for re-entry and explore the second move with dice2
         if (isLegalMove(player, -1, reentryTarget1)) {
-            move[0] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
-            move[1] = reentryTarget1;
+            move[depth*2] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
+            move[depth*2+1] = reentryTarget1;
             if(barcount ==0 ){
-                dfs(locs, 0, dice2, validMoves, player, move, depth+1, usedDice+1);
+                dfs(locs, 0, dice2, validMoves, player, move, depth+1);
             }
             else{
                 dfsWithReentry(locs, 0, dice2, validMoves, player, move, depth+1, usedDice+1, barcount);
@@ -144,7 +175,7 @@ public class MoveHandler {//Class to check and execute moves
             move[0] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
             move[1] = reentryTarget2;
             if(barcount ==0){
-                dfs(locs, dice1, 0, validMoves, player, move, 1, 0);
+                dfs(locs, dice1, 0, validMoves, player, move, 1);
             }
             else{
                 dfsWithReentry(locs, dice1, 0, validMoves, player, move, 1, 0, barcount);
@@ -152,7 +183,7 @@ public class MoveHandler {//Class to check and execute moves
         }
     }
 
-    private void dfs(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth, int usedDice) {
+    private void dfs(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth) {
         // If both moves are used, add the move to valid moves and return
         if (depth == 2) {
             validMoves.add(move.clone());
@@ -163,27 +194,45 @@ public class MoveHandler {//Class to check and execute moves
 
         // Explore normal moves using remaining dice for all board positions in `locs`
         for (int loc : locs) {
-            int target = loc + direction * (usedDice == 0 ? dice1 : dice2);
-            if (isLegalMove(player, loc, target)) {
+            int target1 = loc + direction * dice1;
+            int target2 = loc + direction * dice2;
+            if (isLegalMove(player, loc, target1)) {
                 move[depth * 2] = loc;
-                move[depth * 2 + 1] = target;
+                move[depth * 2 + 1] = target1;
 
                 // Create a new list of locations for the next depth
                 List<Integer> newLocs = new ArrayList<>(locs);
                 if(board.getPoint(loc).getCount() == 1){
                     newLocs.remove(Integer.valueOf(loc)); // Remove the original position if only one counter on point
                 }
-                newLocs.add(target); // Add the new position
+                newLocs.add(target1); // Add the new position
 
                 // Recursive DFS with incremented depth
-                dfs(newLocs, dice1, dice2, validMoves, player, move, depth + 1, usedDice + 1);
+                dfs(newLocs, 0, dice2, validMoves, player, move, depth + 1);
+            }
+            if (isLegalMove(player, loc, target2)) {
+                move[depth * 2] = loc;
+                move[depth * 2 + 1] = target2;
+
+                // Create a new list of locations for the next depth
+                List<Integer> newLocs = new ArrayList<>(locs);
+                if(board.getPoint(loc).getCount() == 1){
+                    newLocs.remove(Integer.valueOf(loc)); // Remove the original position if only one counter on point
+                }
+                newLocs.add(target2); // Add the new position
+
+                // Recursive DFS with incremented depth
+                dfs(newLocs, dice1, 0, validMoves, player, move, depth + 1);
             }
         }
     }
 
         private boolean isLegalMove(int player, int start, int target) {
 
-        if((target < 0 || target > 23) && !board.bearoffcheck(player)) { // Check if target is off-board
+        if(board.bearoffcheck(player) && (target == -1 || target == 24)) { // Check if bearing off is allowed
+            return true;
+        }
+        else if((target < 0 || target > 23) && !board.bearoffcheck(player)) { // Check if target is off-board
             return false;
         }
 
@@ -308,4 +357,12 @@ public class MoveHandler {//Class to check and execute moves
         }
 
     }
+
+        // Method to check if two arrays are rotated versions of each other
+        private static boolean isSpecificRotation(int[] arr1, int[] arr2) {
+            if (arr1.length != 4 || arr2.length != 4) return false;
+            // Check if arr2 is [x3, x4, x1, x2] of arr1
+            return arr1[0] == arr2[2] && arr1[1] == arr2[3] &&
+                    arr1[2] == arr2[0] && arr1[3] == arr2[1];
+        }
 }
