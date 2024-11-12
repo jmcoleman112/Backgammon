@@ -165,7 +165,7 @@ public class Display {
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
-            System.out.print("  END");
+            System.out.print("  OFF");
         }
         else {
             for (int i = 11; i >= 6; i--){
@@ -179,7 +179,7 @@ public class Display {
                 int pipNumber = point.getPipNumber(player);
                 System.out.printf("%2d  ", pipNumber);
             }
-            System.out.print("  END");
+            System.out.print("  OFF");
             System.out.println("\n");
         }
 
