@@ -1,29 +1,30 @@
 import utilities.Colour;
 
 public class Display {
-    private static char horizontalLine = '\u2550'; // ━
+    private static final char horizontalLine = '\u2550'; // ━
     private static final char verticalLine = '\u2551'; // ┃
-    private static char topLeftCorner = '\u2554'; // ┏
-    private static char topRightCorner = '\u2557'; // ┓
-    private static char bottomLeftCorner = '\u255A'; // ┗
-    private static char bottomRightCorner = '\u255D'; // ┛
-    private static char verticalRightT = '\u2560'; // ┣
-    private static char verticalLeftT = '\u2563'; // ┫
-    private static char horizontalDownT = '\u2566'; // ┳
-    private static char horizontalUpT = '\u2569'; // ┻
-    private static char cross = '\u256C'; // ╋
-    private static char dashedVerticalLine = '\u250A';
+    private static final char topLeftCorner = '\u2554'; // ┏
+    private static final char topRightCorner = '\u2557'; // ┓
+    private static final char bottomLeftCorner = '\u255A'; // ┗
+    private static final char bottomRightCorner = '\u255D'; // ┛
+    private static final char verticalRightT = '\u2560'; // ┣
+    private static final char verticalLeftT = '\u2563'; // ┫
+    private static final char horizontalDownT = '\u2566'; // ┳
+    private static final char horizontalUpT = '\u2569'; // ┻
+    private static final char cross = '\u256C'; // ╋
+    private static final char dashedVerticalLine = '\u250A';
+    private static final char box = '\u2588'; // █
 
-    public static void displayBoard(Board board, int player) {
+    public static void displayBoard(Board board, int player, Match match) {
         printPipNumbers(board, true, player);
 
         //top of the board
         System.out.print(topLeftCorner);
-        printBars();
+        printBars(27);
         System.out.print(horizontalDownT);
         System.out.print(horizontalLine);
         System.out.print(horizontalDownT);
-        printBars();
+        printBars(27);
         System.out.print(horizontalDownT);
         System.out.print(horizontalLine);
         System.out.print(horizontalLine);
@@ -35,11 +36,11 @@ public class Display {
 
         //middle bar of the board
         System.out.print(verticalRightT);
-        printBars();
+        printBars(27);
         System.out.print(cross);
         System.out.print(horizontalLine);
         System.out.print(cross);
-        printBars();
+        printBars(27);
         System.out.print(cross);
         System.out.print(horizontalLine);
         System.out.print(horizontalLine);
@@ -50,21 +51,23 @@ public class Display {
 
         //bottom of board
         System.out.print(bottomLeftCorner);
-        printBars();
+        printBars(27);
         System.out.print(horizontalUpT);
         System.out.print(horizontalLine);
         System.out.print(horizontalUpT);
-        printBars();
+        printBars(27);
         System.out.print(horizontalUpT);
         System.out.print(horizontalLine);
         System.out.print(horizontalLine);
         System.out.println(bottomRightCorner);
 
         printPipNumbers(board, false, player);
+
+        printOverlay(match, player);
     }
 
-    private static void printBars(){
-        for (int i = 0; i < 27; i++) {
+    private static void printBars(int count){
+        for (int i = 0; i < count; i++) {
             System.out.print(horizontalLine);
         }
     }
@@ -180,7 +183,6 @@ public class Display {
                 System.out.printf("%2d  ", pipNumber);
             }
             System.out.print("  END");
-            System.out.println("\n");
         }
 
         System.out.println();
@@ -189,6 +191,49 @@ public class Display {
         System.out.println("Pip count for " + players.getPlayerName(0) + resetColour() + " is: " + board.getTotalPipCount(0));
         System.out.println("Pip count for " + players.getPlayerName(1) + resetColour() + " is: " + board.getTotalPipCount(1) + "\n");
     }
+
+    public static void printOverlay(Match match, int player){
+        System.out.print(topLeftCorner);
+        printBars(60);
+        System.out.println(topRightCorner);
+        System.out.print(verticalLine);
+        if(match.getRedScore()>9){
+            System.out.print(" "+Colour.RED.shader()+match.getRedScore()+Colour.NONE.shader()+" - ");
+        }
+        else{
+            System.out.print("  "+Colour.RED.shader()+match.getRedScore()+Colour.NONE.shader()+" - ");
+        }
+        if(match.getBlueScore()>9){
+            System.out.print(Colour.BLUE.shader()+match.getBlueScore()+Colour.NONE.shader()+" ");
+        }
+        else{
+            System.out.print(Colour.BLUE.shader()+match.getBlueScore()+Colour.NONE.shader()+"  ");
+        }
+        System.out.print(dashedVerticalLine);
+        if(match.getMatchLength()>9){
+            System.out.print(" Match Length: " + match.getMatchLength()+" ");
+        }
+        else{
+            System.out.print(" Match Length: " + match.getMatchLength()+"  ");
+        }
+        System.out.print(dashedVerticalLine);
+        if(match.getDoubleCount()>9){
+            System.out.print(Colour.getplayercolour(match.getDoubleOwner())+" Current Stake: " +match.getDoubleCount()+" ");
+        }
+        else{
+            System.out.print(Colour.getplayercolour(match.getDoubleOwner())+" Current Stake: " +match.getDoubleCount()+"  ");
+        }
+        System.out.print(dashedVerticalLine);
+        System.out.print(" " + Colour.getplayercolour(player) + box+" to Play " + resetColour());
+        System.out.println(verticalLine);
+        System.out.print(bottomLeftCorner);
+        printBars(60);
+        System.out.println(bottomRightCorner);
+
+
+
+    }
+
 
     public static void printWinMessage(Players players, int player){
         System.out.println("Game Over");

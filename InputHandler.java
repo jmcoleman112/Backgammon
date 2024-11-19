@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class InputHandler {
     private final Scanner scanner;
 
@@ -11,44 +12,53 @@ public class InputHandler {
         return scanner.nextLine();
     }
 
-    public boolean isEnterCommand(String input){
-        return input.isEmpty();
-    }
-
     public boolean isHintCommand(String input){ return input.equalsIgnoreCase("hint"); }
 
     public boolean isQuitCommand(String input) {
         return input.equalsIgnoreCase("Q");
     }
+
     public boolean isBoardCommand(String input) {
         return input.equalsIgnoreCase("board");
     }
 
+    public boolean isDoubleCommand(String input) {return input.equalsIgnoreCase("double");}
+
+    public boolean isfileCommand(String input) {return input.length() >= 5 && input.substring(0, 5).equalsIgnoreCase("test ");}
+
+
     public boolean isRollCommand(String input) {
-        return input.equalsIgnoreCase("roll");
+        return input.length() >= 4 && input.substring(0, 4).equalsIgnoreCase("roll");
+    }
+
+    public boolean isrolltestcommand(String input) {
+        if (input.length() != 8) {
+            return false;
+        }
+        try {
+            int x = Integer.parseInt(input.substring(5, 6));
+            int y = Integer.parseInt(input.substring(7, 8));
+            return x >= 1 && x <= 6 && y >= 1 && y <= 6;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public boolean isrollOnetestcommand(String input) {
+        if (input.length() != 6) {
+            return false;
+        }
+        try {
+            int x = Integer.parseInt(input.substring(5, 6));
+            return x >= 1 && x <= 6;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public boolean isPipCommand(String input) { return input.equalsIgnoreCase("pip");}
 
-    public boolean startMessage(){
-        while(true){
-            try {
-                String input = getInput();
-                if (isEnterCommand(input)) {
-                    System.out.println("Starting game\n\n");
-                    return true;
-                } else if (isQuitCommand(input)) {
-                    System.out.println("Quitting game\n\n");
-                    return false;
-                }
-            }
-            catch (Exception error){
-                System.out.println("An error occurred: " + error.getMessage());
-                return false;
-            }
-            System.out.println("Error: Please press Enter to start or Q to quit\n");
-        }
-    }
+
 
     public void closeScanner(){
         scanner.close();

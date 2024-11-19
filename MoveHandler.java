@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class MoveHandler {//Class to check and execute moves
     private final Board board;
-    List<Character> availablemoves = new ArrayList<>();
-    private Map<Character, int[]> moveMap = new HashMap<>();
+    List<String> availablemoves = new ArrayList<>();
+    private Map<String, int[]> moveMap = new HashMap<>();
 
 
 
@@ -44,7 +44,7 @@ public class MoveHandler {//Class to check and execute moves
         }
         // Display valid moves
         System.out.println("Valid Moves:");
-        char moveLabel = 'A';
+        int index = 0;
         boolean twopart = false;
         int maxdist = 0;
         for(int[] m: validMoves){
@@ -66,7 +66,6 @@ public class MoveHandler {//Class to check and execute moves
         }
         // Remove marked arrays from the main list
 
-
         validMoves.removeAll(toRemove);
         for (int[] m : validMoves) {
             if (player == 0) {
@@ -84,19 +83,19 @@ public class MoveHandler {//Class to check and execute moves
                         ? String.format("bear off from Pt. %d", m[2] + 1)
                         : String.format("Move %d -> %d", m[2] + 1, m[3] + 1);
                 if(!twopart && m[2]==m[3]){
-                    System.out.printf("%c) %s%n", moveLabel, firstMove);
-                    addMoveToCollections(moveLabel, m);
-                    moveLabel++;
+                    System.out.printf("%s) %s%n", getNextLabel(index), firstMove);
+                    addMoveToCollections(index, m);
+                    index++;
                 }
                 else if(!twopart && m[0] == m[1]){
-                    System.out.printf("%c) %s%n", moveLabel, secondMove);
-                    addMoveToCollections(moveLabel, m);
-                    moveLabel++;
+                    System.out.printf("%s) %s%n", getNextLabel(index), secondMove);
+                    addMoveToCollections(index, m);
+                    index++;
                 }
                 else if(m[0] != m[1]&& m[2] != m[3]){
-                    System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
-                    addMoveToCollections(moveLabel, m);
-                    moveLabel++;
+                    System.out.printf("%s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
+                    addMoveToCollections(index, m);
+                    index++;
                 }
             } else {
                 // Check if the first move is a re-entry or a regular/bearing-off move
@@ -113,37 +112,43 @@ public class MoveHandler {//Class to check and execute moves
                         ? String.format("bear off from Pt. %d", 24 - m[2])
                         : String.format("Move %d -> %d", 24 - m[2], 24 - m[3]);
                 if(!twopart && m[2]==m[3]){
-                    System.out.printf("%c) %s%n", moveLabel, firstMove);
-                    addMoveToCollections(moveLabel, m);
-                    moveLabel++;
+                    System.out.printf("%s) %s%n", getNextLabel(index), firstMove);
+                    addMoveToCollections(index, m);
+                    index++;
                 }
                 else if(!twopart && m[0] == m[1]){
-                    System.out.printf("%c) %s%n", moveLabel, secondMove);
-                    addMoveToCollections(moveLabel, m);
-                    moveLabel++;
+                    System.out.printf("%s) %s%n", getNextLabel(index), secondMove);
+                    addMoveToCollections(index, m);
+                    index++;
                 }
                 else if(m[0] != m[1]&& m[2] != m[3]){
-                    System.out.printf("%c) %s, and then %s%n", moveLabel, firstMove, secondMove);
-                    addMoveToCollections(moveLabel, m);
-                    moveLabel++;
+                    System.out.printf("%s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
+                    addMoveToCollections(index, m);
+                    index++;
                 }
             }
         }
         return true;
     }
 
-    private void addMoveToCollections(char moveLabel, int[] move) {
+    private String getNextLabel(int index) {
+        StringBuilder label = new StringBuilder();
+        while (index >= 0) {
+            label.insert(0, (char) ('a' + index % 26));
+            index = index / 26 - 1;
+        }
+        return label.toString();
+    }
+
+    private void addMoveToCollections(int index, int[] move) {
+        String moveLabel = getNextLabel(index);
         availablemoves.add(moveLabel);
         moveMap.put(moveLabel, move.clone());
-
     }
 
     public Boolean isValidMoveCommand(String moveInput) {
-        if(moveInput.length() == 1) {
-            char label = moveInput.charAt(0);
-            return availablemoves.contains(label);
-        }
-        else return false;
+            return availablemoves.contains(moveInput);
+
 }
 
     private void dfsWithReentry(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth, int usedDice, int barcount) {
@@ -227,7 +232,7 @@ public class MoveHandler {//Class to check and execute moves
         }
     }
 
-        private boolean isLegalMove(int player, int start, int target) {
+    private boolean isLegalMove(int player, int start, int target) {
 
         if(board.bearoffcheck(player) && (target == -1 || target == 24)) { // Check if bearing off is allowed
             return true;
@@ -252,25 +257,9 @@ public class MoveHandler {//Class to check and execute moves
 
 
     public int[] getMoveFromCommand(String command) {
-        if (command.length() != 1) {
-            throw new IllegalArgumentException("Command must be a single character.");
-        }
-        char label = command.charAt(0);
-        return moveMap.getOrDefault(label, null); // Return the associated move or null if not found
+        return moveMap.getOrDefault(command, null); // Return the associated move or null if not found
     }
 
-
-    public boolean checkMove(int from, int to) {
-        Point source = board.getPoint(from);
-        Colour sColour = source.getColor();
-
-        Point destination = board.getPoint(to);
-        Colour dColour = destination.getColor();
-
-        if (source.getCount() == 0) return false; //Empty point
-
-        else return destination.getCount() <= 1 || sColour == dColour; //Legal move
-    }
 
     public void executeMove(int from, int to) { // Use array index, -1 for off-board
         Colour sColour;
@@ -358,11 +347,11 @@ public class MoveHandler {//Class to check and execute moves
 
     }
 
-        // Method to check if two arrays are rotated versions of each other
-        private static boolean isSpecificRotation(int[] arr1, int[] arr2) {
-            if (arr1.length != 4 || arr2.length != 4) return false;
-            // Check if arr2 is [x3, x4, x1, x2] of arr1
-            return arr1[0] == arr2[2] && arr1[1] == arr2[3] &&
-                    arr1[2] == arr2[0] && arr1[3] == arr2[1];
-        }
+    // Method to check if two arrays are rotated versions of each other
+    private static boolean isSpecificRotation(int[] arr1, int[] arr2) {
+        if (arr1.length != 4 || arr2.length != 4) return false;
+        // Check if arr2 is [x3, x4, x1, x2] of arr1
+        return arr1[0] == arr2[2] && arr1[1] == arr2[3] &&
+                arr1[2] == arr2[0] && arr1[3] == arr2[1];
+    }
 }

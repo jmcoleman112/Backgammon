@@ -9,6 +9,3 @@
 
 # Ignore all .class files
 *.class
-
-# Ignore all files in the out directory
-out/
