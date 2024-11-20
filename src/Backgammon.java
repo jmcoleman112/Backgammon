@@ -1,12 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class Backgammon { //Class to run game logic
-    private final Board board;
+    private Board board;
     private final Dice dice;
     private final InputHandler inputHandler;
     private final MoveHandler moveHandler;
@@ -24,6 +21,20 @@ public class Backgammon { //Class to run game logic
     public static void main(String[] args){
 
         Backgammon game = new Backgammon();
+
+
+//        {//Test
+//            int[] red = new int[24];
+//            int[] blue = new int[24];
+//            Match match = new Match();
+//            red[3] = 2;
+//            blue[2] = 4;
+//            Board board = new Board(red, blue);
+//            game.setTestBoard(board);
+////            Display.displayBoard(board, 0, match);
+//        }
+
+
 
         InputHandler inputHandler = game.getInputHandler();
         String filename;
@@ -51,8 +62,8 @@ public class Backgammon { //Class to run game logic
             }
         }
         else {
-            game.setMatchLength();
-            game.setPlayers();
+            game.setMatchLength("");
+            game.setPlayers("", "");
             player = game.decideFirstPlayer();
         }
 
@@ -99,16 +110,19 @@ public class Backgammon { //Class to run game logic
         inputHandler.closeScanner();
     }
 
-    public void setPlayers(){
-        this.players = new Players();
-    }
-
     public void setPlayers(String player1Name, String player2Name){
-        this.players = new Players(player1Name, player2Name);
+        if(player1Name.isEmpty() || player2Name.isEmpty()) this.players = new Players();
+        else {
+            this.players = new Players(player1Name, player2Name);
+        }
     }
 
     public Board getBoard(){
         return board;
+    }
+
+    public void setTestBoard(Board board){
+        this.board = board;
     }
 
     public Players getPlayers(){
@@ -171,6 +185,7 @@ public class Backgammon { //Class to run game logic
                     }
                     chooseMove(player, rollValues);
                 }
+                return false; //Turn over
             }
             else if(inputHandler.isDoubleCommand(userInput)){
                 if (match.doublelegality(player)) {
@@ -197,7 +212,7 @@ public class Backgammon { //Class to run game logic
                 System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
                 return true;
             }
-        return true;
+        return false; //Should be unreachable
     }
 
     public void chooseMove(int player, int[] rollValues) {
@@ -352,31 +367,15 @@ public class Backgammon { //Class to run game logic
         System.exit(0);
     }
 
-    public void setMatchLength(){
+    public void setMatchLength(String input){
         System.out.print("Please enter the length of the match: ");
         System.out.flush();
-        String input = inputHandler.getInput();
-        int matchLength;
-        while (true) {
-            try {
-                matchLength = Integer.parseInt(input);
-                if (matchLength > 0) {
-                    break;
-                } else {
-                    System.out.print("Match Length must be greater than 0. Please enter the length of the match: ");
-                }
-            } catch (NumberFormatException e) {
-                System.out.print("Invalid input. Match Length Must be an integer greater than 0. Please enter the length of the match: ");
-            }
+        if(input.isEmpty()){ //User input
             input = inputHandler.getInput();
         }
-        match.setMatchLength(matchLength);
-        System.out.println();
-    }
-
-    public void setMatchLength(String input){
-        System.out.println("Please enter the length of the match: "+input);
-        System.out.flush();
+        else{
+            System.out.println(input);
+        }
         int matchLength;
         while (true) {
             try {
@@ -425,6 +424,7 @@ public class Backgammon { //Class to run game logic
         if (userInput.equalsIgnoreCase("y")) {
             match.updateDoubleCount();
             System.out.println(players.getPlayerName(player) + " has doubled the stakes!");
+            player = (player == 0) ? 1 : 0;
             match.setDoubleOwner(player);
             Display.displayBoard(board, player, match);
         } else {

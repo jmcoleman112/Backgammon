@@ -38,6 +38,30 @@ public class Board {
         }
     }
 
+    public Board(int[] red, int[] blue){ //Test board
+        points = new Point[24];
+        bars = new Bar[2];
+        ends = new End[2];
+
+        bars[0] = new Bar(Colour.RED);
+        bars[1] = new Bar(Colour.BLUE);
+
+        ends[0] = new End(Colour.RED);
+        ends[1] = new End(Colour.BLUE);
+
+        for (int i = 0; i < 24; i++){
+            if (red[i] > 0){
+                points[i] = new Point(Colour.RED, red[i], i + 1);
+            }
+            else if (blue[i] > 0){
+                points[i] = new Point(Colour.BLUE, blue[i], i + 1);
+            }
+            else{
+                points[i] = new Point(Colour.NONE, 0, i + 1);
+            }
+        }
+    }
+
     public Point getPoint(int index){
         return points[index];
     }
