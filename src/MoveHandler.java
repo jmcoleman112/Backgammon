@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 public class MoveHandler {//Class to check and execute moves
-    private final Board board;
+    private Board board;
     List<String> availablemoves = new ArrayList<>();
     private Map<String, int[]> moveMap = new HashMap<>();
 
@@ -352,5 +352,9 @@ public class MoveHandler {//Class to check and execute moves
         // Check if arr2 is [x3, x4, x1, x2] of arr1
         return arr1[0] == arr2[2] && arr1[1] == arr2[3] &&
                 arr1[2] == arr2[0] && arr1[3] == arr2[1];
+    }
+
+    public void setBoard(Board board){
+        this.board = board;
     }
 }

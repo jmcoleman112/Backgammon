@@ -2,6 +2,7 @@ import utilities.Colour;
 
 public class Players {
     private final String[] players;
+    private int currentPlayer;
 
 
     public Players() { // Sets player names at start of game
@@ -24,7 +25,17 @@ public class Players {
         players[1] = player2Name;
     }
 
+    public void switchPlayer(){
+        currentPlayer = (currentPlayer + 1) % 2;
+    }
 
+    public int getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(int player){
+        currentPlayer = player;
+    }
 
     public String getPlayerName(int player){
         return (player == 0) ? (Colour.RED.shader() + players[0]+Colour.NONE.shader()) : (Colour.BLUE.shader() + players[1]+Colour.NONE.shader());

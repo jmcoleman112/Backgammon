@@ -1,9 +1,7 @@
-5
-N
-J
-roll
-roll
-a
-b
+roll 5 4
+d
+pip
 hint
+roll 3 6
+b
 q

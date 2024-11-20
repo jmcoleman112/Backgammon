@@ -32,6 +32,7 @@ public class Backgammon { //Class to run game logic
 //            blue[2] = 4;
 //            Board board = new Board(red, blue);
 //            game.setTestBoard(board);
+//            game.getMoveHandler().setBoard(board);
 ////            Display.displayBoard(board, 0, match);
 //        }
 
@@ -40,54 +41,29 @@ public class Backgammon { //Class to run game logic
         InputHandler inputHandler = game.getInputHandler();
         String filename;
         filename = game.Welcome();
-        int player=0;
         if(filename != null){
-            try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                String line;
-                game.setMatchLength(reader.readLine().trim());
-                game.setPlayers( reader.readLine().trim(), reader.readLine().trim());
-                player = game.decideFirstPlayer(reader);
-                line = reader.readLine();
-                    while (!game.getBoard().checkWin(0) && !game.getBoard().checkWin(1) && line !=null) { //Neither player has won
-                        Display.displayBoard(game.getBoard(), player, game.getMatch());
-                        boolean turnInProgress = true;
-                        while (turnInProgress && line != null) {
-                            turnInProgress = game.processTurn(player, line, reader);
-                            line = reader.readLine();
-                        }
-                        player = (player == 0) ? 1 : 0;
-                    }
-            } catch (IOException e) {
-                System.err.println("Error reading the file: " + e.getMessage());
-            }
+            game.fileStart(filename);
         }
         else {
             game.setMatchLength("");
             game.setPlayers("", "");
-            player = game.decideFirstPlayer();
+            game.decideFirstPlayer();
         }
         while(!game.getBoard().checkWin(0) && !game.getBoard().checkWin(1)){ //Neither player has won
+            int player = game.getPlayers().getCurrentPlayer();
             Display.displayBoard(game.getBoard(), player, game.getMatch());
 
             boolean turnInProgress = true;
             game.promptPlayer(player);
             String userInput=inputHandler.getInput();
             if(inputHandler.isfileCommand(userInput)){
-                filename = userInput.substring(5);
-
-                try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                    String line;
-                    System.out.println("Reading commands from the file:");
-                    while ((line = reader.readLine()) != null) {
-                        while(turnInProgress) {
-                            turnInProgress = game.processTurn(player, line, reader);
-                        }
-
-                        player = (player == 0) ? 1 : 0;
-
+                try {
+                    assert filename != null; //No filename
+                    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+                        game.fileTurn(reader); // Pass the reader to the method
                     }
                 } catch (IOException e) {
-                    System.err.println("Error reading the file: " + e.getMessage());
+                    System.err.println("Error opening the file: " + e.getMessage());
                 }
             }
             else {
@@ -98,7 +74,7 @@ public class Backgammon { //Class to run game logic
                         userInput = inputHandler.getInput();
                     }
                 }
-                player = (player == 0) ? 1 : 0;
+                game.getPlayers().switchPlayer();
             }
             filename =null;
         }
@@ -172,24 +148,14 @@ public class Backgammon { //Class to run game logic
                 if (!moveHandler.legalmoves(player, rollValues[0], rollValues[1])){ //No valid moves
                     return false;
                 }
-                if(reader==null){
-                    chooseMove(player, rollValues, null);
-                }
-                else{
-                    chooseMove(player, rollValues, reader);
-                }
+                chooseMove(player, rollValues, reader);
                 if(rollValues[0] == rollValues[1]){
                     System.out.println("=======DOUBLES! Bonus Second Roll=====\n");
                     Display.displayBoard(getBoard(), player, match);
                     if (!moveHandler.legalmoves(player, rollValues[0], rollValues[1])){ //No valid moves
                         return false;
                     }
-                    if(reader==null){
-                        chooseMove(player, rollValues, null);
-                    }
-                    else{
-                        chooseMove(player, rollValues, reader);
-                    }
+                    chooseMove(player, rollValues, reader);
                 }
                 return false; //Turn over
             }
@@ -322,7 +288,7 @@ public class Backgammon { //Class to run game logic
         return first;
     }
 
-    public int decideFirstPlayer(BufferedReader reader) { //Change to use rolls as roll for first turn ///////
+    public void decideFirstPlayer(BufferedReader reader, Players players) { //Change to use rolls as roll for first turn ///////
         int[] rolls = new int[2];
 
         int first = 0;
@@ -377,7 +343,7 @@ public class Backgammon { //Class to run game logic
         moveHandler.legalmoves(first, rolls[0], rolls[1]);
         chooseMove(first, rolls, reader);
         first = (first == 0) ? 1 : 0;
-        return first;
+        players.setCurrentPlayer(first);
     }
 
     public Match getMatch(){
@@ -462,6 +428,34 @@ public class Backgammon { //Class to run game logic
         System.out.flush();
     }
 
+    public void fileStart(String filename){
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            setMatchLength(reader.readLine().trim());
+            setPlayers( reader.readLine().trim(), reader.readLine().trim());
+            decideFirstPlayer(reader, players);
+            fileTurn(reader);
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
 
+    public void fileTurn(BufferedReader reader){
+
+        try {
+            System.out.println("Reading commands from the file:");
+            String line = reader.readLine();
+            while (!board.checkWin(0) && !board.checkWin(1) && line !=null) { //Neither player has won and file not finished
+                Display.displayBoard(board, players.getCurrentPlayer(), match);
+                boolean turnInProgress = true;
+                while(turnInProgress && line !=null) {
+                    turnInProgress = processTurn(players.getCurrentPlayer(), line, reader);
+                    line = reader.readLine();
+                }
+                players.switchPlayer();
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
 
 }
