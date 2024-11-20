@@ -61,11 +61,6 @@ public class Match {
         if (doubleowner == -1){
             return true;
         }
-        else if (doubleowner == player){
-            return true;
-        }
-        else{
-            return false;
-        }
+        else return doubleowner == player;
     }
 }
