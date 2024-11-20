@@ -171,7 +171,6 @@ public class Backgammon { //Class to run game logic
                     }
                     chooseMove(player, rollValues);
                 }
-                return false; // NOT SURE WHATS GOING ON HERE
             }
             else if(inputHandler.isDoubleCommand(userInput)){
                 if (match.doublelegality(player)) {
