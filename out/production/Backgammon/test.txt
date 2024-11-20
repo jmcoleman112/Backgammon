@@ -1,0 +1,9 @@
+5
+N
+J
+roll
+roll
+a
+b
+hint
+q
