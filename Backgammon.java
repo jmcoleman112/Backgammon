@@ -51,7 +51,7 @@ public class Backgammon { //Class to run game logic
             }
         }
         else {
-            game.setMatchLength();
+            game.setMatchLength("");
             game.setPlayers();
             player = game.decideFirstPlayer();
         }
@@ -353,31 +353,15 @@ public class Backgammon { //Class to run game logic
         System.exit(0);
     }
 
-    public void setMatchLength(){
+    public void setMatchLength(String input){
         System.out.print("Please enter the length of the match: ");
         System.out.flush();
-        String input = inputHandler.getInput();
-        int matchLength;
-        while (true) {
-            try {
-                matchLength = Integer.parseInt(input);
-                if (matchLength > 0) {
-                    break;
-                } else {
-                    System.out.print("Match Length must be greater than 0. Please enter the length of the match: ");
-                }
-            } catch (NumberFormatException e) {
-                System.out.print("Invalid input. Match Length Must be an integer greater than 0. Please enter the length of the match: ");
-            }
+        if(input.isEmpty()){ //User input
             input = inputHandler.getInput();
         }
-        match.setMatchLength(matchLength);
-        System.out.println();
-    }
-
-    public void setMatchLength(String input){
-        System.out.println("Please enter the length of the match: "+input);
-        System.out.flush();
+        else{
+            System.out.println(input);
+        }
         int matchLength;
         while (true) {
             try {
