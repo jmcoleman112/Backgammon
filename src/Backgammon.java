@@ -1,9 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class Backgammon { //Class to run game logic
     private final Board board;
@@ -171,7 +168,6 @@ public class Backgammon { //Class to run game logic
                     }
                     chooseMove(player, rollValues);
                 }
-                return false; // NOT SURE WHATS GOING ON HERE
             }
             else if(inputHandler.isDoubleCommand(userInput)){
                 if (match.doublelegality(player)) {
@@ -410,6 +406,7 @@ public class Backgammon { //Class to run game logic
         if (userInput.equalsIgnoreCase("y")) {
             match.updateDoubleCount();
             System.out.println(players.getPlayerName(player) + " has doubled the stakes!");
+            player = (player == 0) ? 1 : 0;
             match.setDoubleOwner(player);
             Display.displayBoard(board, player, match);
         } else {
