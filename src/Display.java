@@ -226,10 +226,10 @@ public class Display {
         }
         System.out.print(dashedVerticalLine);
         if(match.getDoubleCount()>9){
-            System.out.print(Colour.getplayercolour(match.getDoubleOwner())+" Current Stake: " +match.getDoubleCount()+" ");
+            System.out.print(Colour.getplayercolour(match.getDoubleOwner())+" Current Stake: " +match.getDoubleCount()+" " + resetColour());
         }
         else{
-            System.out.print(Colour.getplayercolour(match.getDoubleOwner())+" Current Stake: " +match.getDoubleCount()+"  ");
+            System.out.print(Colour.getplayercolour(match.getDoubleOwner())+" Current Stake: " +match.getDoubleCount()+"  " + resetColour());
         }
         System.out.print(dashedVerticalLine);
         System.out.print(" " + Colour.getplayercolour(player) + box+" to Play " + resetColour());

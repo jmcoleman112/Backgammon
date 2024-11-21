@@ -6,3 +6,5 @@ roll 2
 c
 double
 y
+roll 4 6
+a

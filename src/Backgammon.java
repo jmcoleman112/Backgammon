@@ -47,10 +47,10 @@ public class Backgammon { //Class to run game logic
             game.setMatchLength("");
             game.setPlayers("", "");
             game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
+            Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
         }
         while(game.getBoard().noWinner()){ //Neither player has won
             int player = game.getPlayers().getCurrentPlayer();
-            Display.displayBoard(game.getBoard(), player, game.getMatch());
 
             boolean turnInProgress = true;
             game.promptPlayer(player);
@@ -155,11 +155,12 @@ public class Backgammon { //Class to run game logic
                     }
                     chooseMove(player, rollValues, reader);
                 }
+                Display.displayBoard(board, player, match);
                 return false; //Turn over
             }
             else if(inputHandler.isDoubleCommand(userInput)){
                 if (match.doublelegality(player)) {
-                    handleDoubleStakes(player);
+                    handleDoubleStakes(player, reader);
                     Display.displayBoard(board, player, match);
                 }
                 else{
@@ -398,11 +399,27 @@ public class Backgammon { //Class to run game logic
         return rollValues[0];
     }
 
-    public void handleDoubleStakes(int player) {
+    public void handleDoubleStakes(int player, BufferedReader reader) {
         System.out.println(players.getPlayerName(player) + " has offered to double the stakes to " + match.getDoubleCount()*2 + "! ");
         System.out.print(players.getPlayerName((player == 0) ? 1 : 0) + " do you accept? (y/n): ");
         System.out.flush();
-        String userInput = inputHandler.getInput();
+        String userInput;
+        if(reader == null){
+            userInput = inputHandler.getInput();
+        }
+        else{
+            try {
+                userInput = reader.readLine();
+                if(userInput==null){
+                    userInput = inputHandler.getInput();
+                }
+                else {
+                    System.out.println(userInput);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         while (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n")) {
             System.out.print("Please enter a valid response (y/n): ");
             System.out.flush();
@@ -446,10 +463,11 @@ public class Backgammon { //Class to run game logic
                 Display.displayBoard(board, players.getCurrentPlayer(), match);
                 boolean turnInProgress = true;
                 while(turnInProgress && line !=null) {
+                    //
                     turnInProgress = processTurn(players.getCurrentPlayer(), line, reader);
                     line = reader.readLine();
                 }
-                players.switchPlayer();
+                if (!turnInProgress) players.switchPlayer(); //Avoids switching player when file is finished but turn still in progress
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
