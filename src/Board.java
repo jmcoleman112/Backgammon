@@ -8,8 +8,11 @@ public class Board {
     private final Point[] points;
     private final Bar[] bars; //Player1, Player2
     private final End[] ends;
+    private int winner;
 
     public Board(){
+        winner = -1;
+
         points = new Point[24];
         bars = new Bar[2];
         ends = new End[2];
@@ -149,8 +152,18 @@ public class Board {
         return coloredPointsList;
     }
 
-    public boolean checkWin(int player){
-        return getTotalPipCount(player) == 0;
+    public boolean checkWin(){
+        for (int i = 0; i <= 1; i++){
+            if(getTotalPipCount(i) == 0){
+                winner = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getWinner(){
+        return winner;
     }
 
 

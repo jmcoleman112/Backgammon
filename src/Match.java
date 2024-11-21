@@ -63,4 +63,8 @@ public class Match {
         }
         else return doubleowner == player;
     }
+
+    public boolean checkMatchWin(){
+        return (BlueScore >= matchLength || RedScore >= matchLength);
+    }
 }

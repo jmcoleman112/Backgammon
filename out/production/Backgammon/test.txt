@@ -1,10 +1,7 @@
-5
-Naoise
-Jack
-roll 4
-roll 3
-c
 roll 5 4
 d
 pip
 hint
+roll 3 6
+b
+q

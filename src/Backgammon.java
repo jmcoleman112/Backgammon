@@ -47,9 +47,9 @@ public class Backgammon { //Class to run game logic
         else {
             game.setMatchLength("");
             game.setPlayers("", "");
-            game.decideFirstPlayer();
+            game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
         }
-        while(!game.getBoard().checkWin(0) && !game.getBoard().checkWin(1)){ //Neither player has won
+        while(!game.getBoard().checkWin()){ //Neither player has won
             int player = game.getPlayers().getCurrentPlayer();
             Display.displayBoard(game.getBoard(), player, game.getMatch());
 
@@ -57,8 +57,8 @@ public class Backgammon { //Class to run game logic
             game.promptPlayer(player);
             String userInput=inputHandler.getInput();
             if(inputHandler.isfileCommand(userInput)){
+                filename = userInput.substring(5);
                 try {
-                    assert filename != null; //No filename
                     try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
                         game.fileTurn(reader); // Pass the reader to the method
                     }
@@ -79,9 +79,7 @@ public class Backgammon { //Class to run game logic
             filename =null;
         }
 
-        if(game.getBoard().checkWin(0)) Display.printWinMessage(game.getPlayers(), 0);
-        else if(game.getBoard().checkWin(1)) Display.printWinMessage(game.getPlayers(), 1);
-
+        Display.printWinMessage(game.getPlayers(), game.getBoard().getWinner()); // Print message to winner
         inputHandler.closeScanner();
     }
 
@@ -98,6 +96,7 @@ public class Backgammon { //Class to run game logic
 
     public void setTestBoard(Board board){
         this.board = board;
+        getMoveHandler().setBoard(board);
     }
 
     public Players getPlayers(){
@@ -444,7 +443,7 @@ public class Backgammon { //Class to run game logic
         try {
             System.out.println("Reading commands from the file:");
             String line = reader.readLine();
-            while (!board.checkWin(0) && !board.checkWin(1) && line !=null) { //Neither player has won and file not finished
+            while (!board.checkWin() && line !=null) { //Neither player has won and file not finished
                 Display.displayBoard(board, players.getCurrentPlayer(), match);
                 boolean turnInProgress = true;
                 while(turnInProgress && line !=null) {
