@@ -152,7 +152,7 @@ public class Board {
         return coloredPointsList;
     }
 
-    public boolean noWinner(){
+    public boolean noGameWinner(){
         for (int i = 0; i <= 1; i++){
             if(getTotalPipCount(i) == 0){
                 winner = i;
@@ -164,6 +164,10 @@ public class Board {
 
     public int getWinner(){
         return winner;
+    }
+
+    public void setWinner(int player){
+        winner = player;
     }
 
 

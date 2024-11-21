@@ -7,12 +7,14 @@ public class Match {
     private int doubleCount;
     private int matchLength;
     private int doubleowner;
+    private int matchWinner;
 
     public Match(){
         this.RedScore = 0;
         this.BlueScore = 0;
         this.doubleCount = 1;
         doubleowner = -1;
+        matchWinner = -1;
     }
 
     public void setMatchLength(int matchLength){
@@ -64,7 +66,20 @@ public class Match {
         else return doubleowner == player;
     }
 
-    public boolean checkMatchWin(){
-        return (BlueScore >= matchLength || RedScore >= matchLength);
+    public boolean noMatchWinner(){
+        if(BlueScore >= matchLength){
+            matchWinner = 1;
+            return false;
+        }
+        else if(RedScore >= matchLength){
+            matchWinner = 0;
+            return false;
+        }
+        else return true;
     }
+
+    public int getMatchWinner(){
+        return matchWinner;
+    }
+
 }

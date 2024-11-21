@@ -22,21 +22,6 @@ public class Backgammon { //Class to run game logic
     public static void main(String[] args){
 
         Backgammon game = new Backgammon();
-
-
-//        {//Test
-//            int[] red = new int[24];
-//            int[] blue = new int[24];
-////            red[3] = 2;
-//            blue[2] = 4;
-//            Board board = new Board(red, blue);
-//            game.setTestBoard(board);
-//            game.getMoveHandler().setBoard(board);
-////            Display.displayBoard(board, 0, match);
-//        }
-
-
-
         InputHandler inputHandler = game.getInputHandler();
         String filename;
         filename = game.Welcome();
@@ -49,37 +34,57 @@ public class Backgammon { //Class to run game logic
             game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
             Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
         }
-        while(game.getBoard().noWinner()){ //Neither player has won
-            int player = game.getPlayers().getCurrentPlayer();
 
-            boolean turnInProgress = true;
-            game.promptPlayer(player);
-            String userInput=inputHandler.getInput();
-            if(inputHandler.isfileCommand(userInput)){
-                filename = userInput.substring(5);
-                try {
-                    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                        game.fileTurn(reader); // Pass the reader to the method
-                    }
-                } catch (IOException e) {
-                    System.err.println("Error opening the file: " + e.getMessage());
-                }
-            }
-            else {
-                while (turnInProgress) {
-                    turnInProgress = game.processTurn(player, userInput, null);
-                    if (turnInProgress) {
-                        game.promptPlayer(player);
-                        userInput = inputHandler.getInput();
-                    }
-                }
-                game.getPlayers().switchPlayer();
-            }
-            filename =null;
+
+        {//Test
+            int[] red = new int[24];
+            int[] blue = new int[24];
+//            red[3] = 2;
+            blue[2] = 4;
+            Board board = new Board(red, blue);
+            game.setTestBoard(board);
+            game.getMoveHandler().setBoard(board);
+//            Display.displayBoard(board, 0, match);
         }
 
-        Display.printWinMessage(game.getPlayers(), game.getBoard().getWinner()); // Print message to winner
+        while (game.getMatch().noMatchWinner()){
+            while(game.getBoard().noGameWinner()){ //Neither player has won
+                int player = game.getPlayers().getCurrentPlayer();
+
+                boolean turnInProgress = true;
+                game.promptPlayer(player);
+                String userInput=inputHandler.getInput();
+                if(inputHandler.isfileCommand(userInput)){
+                    filename = userInput.substring(5);
+                    try {
+                        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+                            game.fileTurn(reader); // Pass the reader to the method
+                        }
+                    } catch (IOException e) {
+                        System.err.println("Error opening the file: " + e.getMessage());
+                    }
+                }
+                else {
+                    while (turnInProgress) {
+                        turnInProgress = game.processTurn(player, userInput, null);
+                        if(game.getBoard().noGameWinner()){ //If Game is over don't print final board
+                            Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
+                        }
+                        if (turnInProgress) {
+                            game.promptPlayer(player);
+                            userInput = inputHandler.getInput();
+                        }
+                    }
+                    game.getPlayers().switchPlayer();
+                }
+            }
+            int winner = game.getBoard().getWinner();
+            game.newGame();
+            Display.printGameWinMessage(game.getPlayers(), winner, game.getMatch()); // Print message to winner
+            Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch()); //Print new board
+        }
         inputHandler.closeScanner();
+        Display.printMatchWinMessage(game.getPlayers(), game.getMatch().getMatchWinner(), game.getMatch());
     }
 
     public void setPlayers(String player1Name, String player2Name){
@@ -155,7 +160,6 @@ public class Backgammon { //Class to run game logic
                     }
                     chooseMove(player, rollValues, reader);
                 }
-                Display.displayBoard(board, player, match);
                 return false; //Turn over
             }
             else if(inputHandler.isDoubleCommand(userInput)){
@@ -431,8 +435,9 @@ public class Backgammon { //Class to run game logic
             player = (player == 0) ? 1 : 0;
             match.setDoubleOwner(player);
         } else {
-            match.updateScore(player);
+            board.setWinner(player);
             System.out.println(players.getPlayerName((player == 0) ? 1 : 0) + " has declined the offer to double the stakes, and forfeits the game.");
+            newGame(); //Start new game
             System.out.print("The score is now " + match.printScore() + "\n");
         }
     }
@@ -459,12 +464,13 @@ public class Backgammon { //Class to run game logic
         try {
             System.out.println("Reading commands from the file:");
             String line = reader.readLine();
-            while (board.noWinner() && line !=null) { //Neither player has won and file not finished
+            while (board.noGameWinner() && line !=null) { //Neither player has won and file not finished
                 Display.displayBoard(board, players.getCurrentPlayer(), match);
                 boolean turnInProgress = true;
                 while(turnInProgress && line !=null) {
                     //
                     turnInProgress = processTurn(players.getCurrentPlayer(), line, reader);
+                    if(getBoard().noGameWinner()) Display.displayBoard(board, players.getCurrentPlayer(), match);
                     line = reader.readLine();
                 }
                 if (!turnInProgress) players.switchPlayer(); //Avoids switching player when file is finished but turn still in progress
@@ -472,6 +478,14 @@ public class Backgammon { //Class to run game logic
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }
+    }
+
+    public void newGame(){
+        int winner = getBoard().getWinner();
+        getMatch().updateScore(winner); //Update score
+
+        this.board = new Board();
+        getMoveHandler().setBoard(board);
     }
 
 }

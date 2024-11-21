@@ -242,10 +242,15 @@ public class Display {
 
     }
 
+    public static void printGameWinMessage(Players players, int player, Match match){
+        System.out.println(players.getPlayerName(player) + resetColour() + " Wins!");
+        System.out.println("Match score is now: " + match.printScore());
+    }
 
-    public static void printWinMessage(Players players, int player){
+    public static void printMatchWinMessage(Players players, int player, Match match){
         System.out.println("Game Over");
         System.out.println("Congratulations " + players.getPlayerName(player) + resetColour() + "! You win!");
+        System.out.println("Final score was: " + match.printScore());
     }
 
     public static void displayHint(boolean rolled, boolean started){
