@@ -16,6 +16,7 @@ public class Display {
     private static final char box = '\u2588'; // █
 
     public static void displayBoard(Board board, int player, Match match) {
+        String[] doubleDice = getDoubleDice();
         printPipNumbers(board, true, player);
 
         //top of the board
@@ -28,11 +29,13 @@ public class Display {
         System.out.print(horizontalDownT);
         System.out.print(horizontalLine);
         System.out.print(horizontalLine);
-        System.out.println(topRightCorner);
+        System.out.print(topRightCorner);
+        printDoubleDice(0, 1, match); //Top layer of dice
+
 
 
         //middle top of the board
-        printMiddle(board, 0);
+        printMiddle(board, 0, match);
 
         //middle bar of the board
         System.out.print(verticalRightT);
@@ -44,10 +47,11 @@ public class Display {
         System.out.print(cross);
         System.out.print(horizontalLine);
         System.out.print(horizontalLine);
-        System.out.println(verticalLeftT);
+        System.out.print(verticalLeftT);
+        printDoubleDice(1, -1, match);
 
         //Middle bottom of board
-        printMiddle(board, 1);
+        printMiddle(board, 1, match);
 
         //bottom of board
         System.out.print(bottomLeftCorner);
@@ -59,7 +63,8 @@ public class Display {
         System.out.print(horizontalUpT);
         System.out.print(horizontalLine);
         System.out.print(horizontalLine);
-        System.out.println(bottomRightCorner);
+        System.out.print(bottomRightCorner);
+        printDoubleDice(3, 0, match); //Top layer of dice
 
         printPipNumbers(board, false, player);
 
@@ -72,7 +77,7 @@ public class Display {
         }
     }
 
-    private static void printMiddle(Board board, int bottom){
+    private static void printMiddle(Board board, int bottom, Match match){
         int i_start = bottom == 1 ? board.maxPoint() - 1 : 0;
         int i_end = bottom == 1 ? -1 : board.maxPoint();
         int i_step = bottom == 1 ? -1 : 1;
@@ -125,8 +130,11 @@ public class Display {
                 System.out.print(board.getEnd(1 - bottom).getColor().shader() + "O" + Colour.NONE.shader());
             }
             else System.out.print(dashedVerticalLine);
-            System.out.println(verticalLine);
+            System.out.print(verticalLine);
 
+            if(i+1 <= 2) printDoubleDice(i+1, (bottom + 1) % 2, match);
+            else if(i == 4) printDoubleDice(bottom == 1 ? 2 : 0, -1, match);
+            else System.out.println();
         }
     }
 
@@ -304,6 +312,30 @@ public class Display {
                     "Error: Invalid dice number."
             };
         };
+    }
+
+    private static String[] getDoubleDice(){
+        return new String[]{
+                "┌───┐",
+                "│ D │",
+                "└───┘"
+        };
+    }
+
+    private static void printDoubleDice(int layer, int player, Match match){
+        if(player != match.getDoubleOwner()){
+            System.out.println();
+        }
+        else{
+            String[] doubleDice = getDoubleDice();
+            if(player == 0) {
+                System.out.print(Colour.RED.shader());
+                if(layer == 2) layer = 0; // Need to print in reverse order
+                if(layer == 3) layer = 2; //Actually printing layer 2
+            }
+            else  if (player == 1) System.out.print(Colour.BLUE.shader());
+            System.out.println("  " + doubleDice[layer] + resetColour());
+        }
     }
 
     public static String resetColour(){

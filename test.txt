@@ -1,7 +1,8 @@
-roll 5 4
-d
-pip
-hint
-roll 3 6
-b
-q
+5
+Naoise
+Jack
+roll 4
+roll 2
+c
+double
+y

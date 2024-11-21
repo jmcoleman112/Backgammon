@@ -27,8 +27,7 @@ public class Backgammon { //Class to run game logic
 //        {//Test
 //            int[] red = new int[24];
 //            int[] blue = new int[24];
-//            Match match = new Match();
-//            red[3] = 2;
+////            red[3] = 2;
 //            blue[2] = 4;
 //            Board board = new Board(red, blue);
 //            game.setTestBoard(board);
@@ -49,7 +48,7 @@ public class Backgammon { //Class to run game logic
             game.setPlayers("", "");
             game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
         }
-        while(!game.getBoard().checkWin()){ //Neither player has won
+        while(game.getBoard().noWinner()){ //Neither player has won
             int player = game.getPlayers().getCurrentPlayer();
             Display.displayBoard(game.getBoard(), player, game.getMatch());
 
@@ -162,11 +161,11 @@ public class Backgammon { //Class to run game logic
                 if (match.doublelegality(player)) {
                     handleDoubleStakes(player);
                     Display.displayBoard(board, player, match);
-                    return true;
                 }
                 else{
                     System.out.println("You cannot double the stakes at this time. Please enter a valid command");
                 }
+                return true;
             }
             else if (inputHandler.isQuitCommand(userInput)) {
                 quitGame();
@@ -184,7 +183,6 @@ public class Backgammon { //Class to run game logic
                 System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
                 return true;
             }
-        return false; //Should be unreachable
     }
 
     public void chooseMove(int player, int[] rollValues, BufferedReader reader) {
@@ -253,6 +251,7 @@ public class Backgammon { //Class to run game logic
                         if(inputHandler.isrollOnetestcommand(userInput)){
                             String[] roll = userInput.substring(5).split(" ");
                             rolls[i] = Integer.parseInt(roll[0]);
+                            Display.printDiceFace(rolls[i], -1, false);
                             break;
                         }
                         else {
@@ -287,7 +286,7 @@ public class Backgammon { //Class to run game logic
         return first;
     }
 
-    public void decideFirstPlayer(BufferedReader reader, Players players) { //Change to use rolls as roll for first turn ///////
+    public void decideFirstPlayerFile(BufferedReader reader) { //Change to use rolls as roll for first turn ///////
         int[] rolls = new int[2];
 
         int first = 0;
@@ -431,7 +430,7 @@ public class Backgammon { //Class to run game logic
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             setMatchLength(reader.readLine().trim());
             setPlayers( reader.readLine().trim(), reader.readLine().trim());
-            decideFirstPlayer(reader, players);
+            decideFirstPlayerFile(reader);
             fileTurn(reader);
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
@@ -443,7 +442,7 @@ public class Backgammon { //Class to run game logic
         try {
             System.out.println("Reading commands from the file:");
             String line = reader.readLine();
-            while (!board.checkWin() && line !=null) { //Neither player has won and file not finished
+            while (board.noWinner() && line !=null) { //Neither player has won and file not finished
                 Display.displayBoard(board, players.getCurrentPlayer(), match);
                 boolean turnInProgress = true;
                 while(turnInProgress && line !=null) {
