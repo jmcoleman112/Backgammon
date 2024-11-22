@@ -49,8 +49,13 @@ public class Board {
         bars[0] = new Bar(Colour.RED);
         bars[1] = new Bar(Colour.BLUE);
 
+        bars[0].setCount(red[24]);
+        bars[1].setCount(blue[24]);
+
         ends[0] = new End(Colour.RED);
         ends[1] = new End(Colour.BLUE);
+        ends[0].setCount(red[25]);
+        ends[1].setCount(blue[25]);
 
         for (int i = 0; i < 24; i++){
             if (red[i] > 0){

@@ -29,12 +29,12 @@ public class Match {
         return doubleowner;
     }
 
-    public void updateScore(int player){
+    public void updateScore(int player, Board board){
         if (player == 0){
-            RedScore+=doubleCount;
+            RedScore+=returnPointsScored(player, board);
         }
         else{
-            BlueScore+=doubleCount;
+            BlueScore+=returnPointsScored(player, board);;
         }
         doubleCount = 1;
     }
@@ -76,6 +76,28 @@ public class Match {
             return false;
         }
         else return true;
+    }
+
+    public int returnPointsScored(int winner, Board board){
+        int loser = (winner + 1) % 2;
+        int i_start;
+        int i_end;
+        if(winner == 1) {
+            i_start = 16;
+            i_end = 23;
+        }
+        else{
+            i_start = 0;
+            i_end = 5;
+        }
+        if(board.getEnd(loser).getCount() > 0) return doubleCount; //Single
+
+        else if(board.getBar(loser).getCount() > 0) return 3*doubleCount; //Backgammon
+
+        else for(int i = i_start; i <= i_end; i++) {
+            if(board.getPoint(i).getCount() > 0) return 3*doubleCount; //Backgammon
+        }
+        return 2*doubleCount; //Gammon
     }
 
     public int getMatchWinner(){
