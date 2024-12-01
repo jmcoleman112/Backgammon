@@ -13,6 +13,18 @@ public class MatchTest {
     }
 
     @Test
+    public void testSetScorePlayer0(){
+        match.setScore(3, 0);
+        assertEquals("Score should be 3", 3, match.getRedScore());
+    }
+
+    @Test
+    public void testSetScorePlayer1(){
+        match.setScore(5, 1);
+        assertEquals("Score should be 5", 5, match.getBlueScore());
+    }
+
+    @Test
     public void setMatchLength() {
         match.setMatchLength(7);
         assertEquals(7, match.getMatchLength());

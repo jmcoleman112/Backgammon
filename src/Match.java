@@ -17,6 +17,11 @@ public class Match {
         matchWinner = -1;
     }
 
+    public void setScore(int score, int player){ //For testing
+        if(player ==0) RedScore = score;
+        else if(player ==1) BlueScore = score;
+    }
+
     public void setMatchLength(int matchLength){
         this.matchLength = matchLength;
     }

@@ -37,16 +37,16 @@ public class Backgammon { //Class to run game logic
         }
 
 
-//        {//Test
-//            int[] red = new int[26];
-//            int[] blue = new int[26];
-////            red[3] = 2;
-//            blue[2] = 4;
-//            Board board = new Board(red, blue);
-//            game.setTestBoard(board);
-//            game.getMoveHandler().setBoard(board);
-////            Display.displayBoard(board, 0, match);
-//        }
+        {//Test
+            int[] red = new int[26];
+            int[] blue = new int[26];
+            red[3] = 2;
+            blue[2] = 4;
+            Board board = new Board(red, blue);
+            game.setTestBoard(board);
+            game.getMoveHandler().setBoard(board);
+//            Display.displayBoard(board, 0, match);
+        }
 
         while (game.getMatch().noMatchWinner()){
             boolean filemode=false;

@@ -299,7 +299,8 @@ public class MoveHandler {//Class to check and execute moves
             bar.setCount(bar.getCount() - 1); // Remove one checker from the bar
         }
 
-        else {
+        // Proceed with moving to the destination
+        else if (to >= 0 && to <= 23) {
             // Normal move on the board
             Point source = board.getPoint(from);
             sColour = source.getColor();
@@ -314,10 +315,7 @@ public class MoveHandler {//Class to check and execute moves
             if (source.getCount() == 0) { // No more checkers on point
                 source.setColor(Colour.NONE);
             }
-        }
 
-        // Proceed with moving to the destination
-        if (to >= 0 && to <= 23) {
             Point destination = board.getPoint(to);
             Colour dColour = destination.getColor();
 

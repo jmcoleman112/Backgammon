@@ -243,13 +243,13 @@ public class Display {
     }
 
     public static void printGameWinMessage(Players players, int player, Match match){
-        System.out.println("=-=-=-=-=-=-=-"+players.getPlayerName(player) + resetColour() + " Wins! =-=-=-=-=-=-=-");
+        System.out.println("=-=-=-=-=-=-=-"+players.getPlayerName(player) + " Wins! =-=-=-=-=-=-=-");
         System.out.println("Match Score is now: " + match.printScore());
     }
 
     public static void printMatchWinMessage(Players players, int player, Match match){
         System.out.println("Game Over");
-        System.out.println("Congratulations " + players.getPlayerName(player) + resetColour() + "! You win!");
+        System.out.println("Congratulations " + players.getPlayerName(player) + "! You win!");
         System.out.println("Final score was: " + match.printScore());
     }
 
