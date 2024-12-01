@@ -59,7 +59,7 @@ public class PointTest {
     @Test
     public void getPipCountForPlayer1() {
         // BLUE player has no pips on a RED point
-        assertEquals("Expected pip count for BLUE player 1 to be 0", 0, point.getPipCount(1));
+        assertEquals("Expected pip cgount for BLUE player 1 to be 0", 0, point.getPipCount(1));
     }
 
     @Test
