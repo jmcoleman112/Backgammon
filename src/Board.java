@@ -71,6 +71,11 @@ public class Board {
     }
 
     public Point getPoint(int index){
+
+        if(index < 0 || index > 23){
+            return new Point(Colour.NONE, 0, 0);
+        }
+
         return points[index];
     }
 
@@ -100,20 +105,20 @@ public class Board {
     public boolean bearoffcheck(int player){
         int count = 0;
         if(player == 0){
-            for (int i = 0; i < 6; i++){
+            for (int i = 7; i < 24; i++){
                 if (points[i].getColor() == getPlayerColor(player)){
-                    count += points[i].getCount();
+                    count += 1;
                 }
             }
         }
         else {
-            for (int i = 18; i < 24; i++){
+            for (int i = 0; i < 18; i++){
                 if (points[i].getColor() == getPlayerColor(player)){
-                    count += points[i].getCount();
+                    count += 1;
                 }
             }
         }
-        return count == 15;
+        return count == 0;
     }
 
     public int maxPoint(){
@@ -177,7 +182,47 @@ public class Board {
 
 
 
+    public void setBoardFromString(String boardConfig) {
+        String[] parts = boardConfig.split(" ");
+        if (!parts[0].equals("setboard") || parts.length != 25) {
+            throw new IllegalArgumentException("Invalid board configuration string");
+        }
 
+        for (int i = 1; i < parts.length; i++) {
+            String pointConfig = parts[i];
+            int count = Character.getNumericValue(pointConfig.charAt(0));
+            char colorChar = pointConfig.charAt(1);
+            Colour color = switch (colorChar) {
+                case 'N' -> Colour.NONE;
+                case 'R' -> Colour.RED;
+                case 'B' -> Colour.BLUE;
+                default -> throw new IllegalArgumentException("Invalid color character: " + colorChar);
+            };
+
+            Point point = getPoint(i - 1);
+            point.setCount(count);
+            point.setColor(color);
+        }
+    }
+
+
+    public List<Integer> Pointsaboverollindex(int player, Colour color, int rollindex) {
+        List<Integer> pointsAboveRollIndex = new ArrayList<>();
+        if (player == 0) {
+            for (int i = 23; i >= rollindex; i--) {
+                if (points[i].getColor() == color) {
+                    pointsAboveRollIndex.add(i);
+                }
+            }
+        } else {
+            for (int i = 0; i < 24 - rollindex; i++) {
+                if (points[i].getColor() == color) {
+                    pointsAboveRollIndex.add(i);
+                }
+            }
+        }
+        return pointsAboveRollIndex;
+    }
 
 
 }

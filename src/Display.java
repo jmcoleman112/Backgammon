@@ -243,8 +243,8 @@ public class Display {
     }
 
     public static void printGameWinMessage(Players players, int player, Match match){
-        System.out.println(players.getPlayerName(player) + resetColour() + " Wins!");
-        System.out.println("Match score is now: " + match.printScore());
+        System.out.println("=-=-=-=-=-=-=-"+players.getPlayerName(player) + resetColour() + " Wins! =-=-=-=-=-=-=-");
+        System.out.println("Match Score is now: " + match.printScore());
     }
 
     public static void printMatchWinMessage(Players players, int player, Match match){

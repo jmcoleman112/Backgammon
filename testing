@@ -4,8 +4,8 @@ Naoise
 roll 6
 roll 5
 a
-roll 6 5
+setboard 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 1R 1B
+roll 1 2
 a
-roll 2 3
-a
-roll 3 4
+roll 5
+roll 6

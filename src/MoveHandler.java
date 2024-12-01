@@ -233,12 +233,33 @@ public class MoveHandler {//Class to check and execute moves
 
     private boolean isLegalMove(int player, int start, int target) {
 
-        if(board.bearoffcheck(player) && (target == -1 || target == 24)) { // Check if bearing off is allowed
+        if(board.bearoffcheck(player) && (target <0 || target>23)) {// Check if bearing off is allowed
+            if(target == -1 || target == 24){
+                return true;
+            }
+            int dist = start-target;
+            int rollIndex = (player == 0) ? dist : 24+dist;
+            List<Integer> higherRolls = board.Pointsaboverollindex(player, board.getPlayerColor(player), rollIndex);
+            for (Integer higherRoll : higherRolls) {
+                if (isLegalMove(player, higherRoll, higherRoll - dist)) {
+                    return false;
+                }
+            }
+
+            int direction = (player == 0) ? 1 : -1;
+
+            for (int i = start; i != dist; i += direction) {
+                if (board.getPointColor(i) == board.getPlayerColor(player)) {
+                    return false;
+                }
+            }
             return true;
         }
-        else if((target < 0 || target > 23) && !board.bearoffcheck(player)) { // Check if target is off-board
+
+        if(!board.bearoffcheck(player) && (target <0 || target>23)){
             return false;
         }
+
 
         if (start == -1 || start == 25) { // Check if it’s a re-entry move for players 1 and 0
             Colour targetColour = board.getPointColor(target);
@@ -357,4 +378,5 @@ public class MoveHandler {//Class to check and execute moves
     public void setBoard(Board board){
         this.board = board;
     }
+
 }

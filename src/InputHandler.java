@@ -26,6 +26,11 @@ public class InputHandler {
         return input.equalsIgnoreCase("board");
     }
 
+    public boolean isSetBoardCommand(String input) {
+        if(input == null) return false;
+        return input.length() ==80 && input.substring(0, 8).equalsIgnoreCase("setboard");
+    }
+
     public boolean isDoubleCommand(String input) {
         if(input == null) return false;
         return input.equalsIgnoreCase("double");}
