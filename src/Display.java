@@ -133,7 +133,7 @@ public class Display {
             System.out.print(verticalLine);
 
             if(i+1 <= 2) printDoubleDice(i+1, (bottom + 1) % 2, match);
-            else if(i == 4) printDoubleDice(bottom == 1 ? 2 : 0, -1, match);
+            else if(i == board.maxPoint() - 1) printDoubleDice(bottom == 1 ? 2 : 0, -1, match);
             else System.out.println();
         }
     }

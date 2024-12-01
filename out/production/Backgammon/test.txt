@@ -3,8 +3,4 @@ Naoise
 Jack
 roll 4
 roll 2
-c
-double
-y
-roll 4 6
 a
