@@ -315,14 +315,18 @@ public class Backgammon { //Class to run game logic
                 promptPlayer(i);
                 System.out.println();
                 while(true) {
-                    String userInput = null;
+                    String userInput ;
                     try {
-                        userInput = reader.readLine().trim();
-                        System.out.println(userInput);
+                        userInput = reader.readLine();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
+                    if(userInput==null){
+                        userInput = inputHandler.getInput();
+                    }
+                    else{
+                        userInput = userInput.trim();
+                    }
                     if (inputHandler.isRollCommand(userInput)) {
                         if(inputHandler.isrollOnetestcommand(userInput)){
                             String[] roll = userInput.substring(5).split(" ");
@@ -482,6 +486,9 @@ public class Backgammon { //Class to run game logic
         String line = reader.readLine();
         while (line != null) {
             Display.displayBoard(board, players.getCurrentPlayer(), match);
+            System.out.print(players.getPlayerName(players.getCurrentPlayer()) + "'s" + Display.resetColour() + " turn. ");
+            System.out.print("Please Enter a Command: ");
+            System.out.println(line);
             boolean turnInProgress = true;
             while (turnInProgress && line != null) {
                 turnInProgress = processTurn(players.getCurrentPlayer(), line, reader);
