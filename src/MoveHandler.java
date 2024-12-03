@@ -32,7 +32,7 @@ public class MoveHandler {//Class to check and execute moves
 
         // Start DFS to explore moves, including re-entry if necessary
         if (board.getBar(player).getCount() > 0) {
-            System.out.print("Player " + (player + 1) + " has checkers on the bar. ");
+            System.out.println("Player " + (player + 1) + " has checkers on the bar. ");
             dfsWithReentry(locs, dice1, dice2, validMoves, player, move, 0, 0, board.getBar(player).getCount());
         } else {
             dfs(locs, dice1, dice2, validMoves, player, move, 0);
