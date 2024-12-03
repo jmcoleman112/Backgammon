@@ -105,17 +105,19 @@ public class Board {
     public boolean bearoffcheck(int player){
         int count = 0;
         if(player == 0){
-            for (int i = 7; i < 24; i++){
+            for (int i = 6; i < 24; i++){
                 if (points[i].getColor() == getPlayerColor(player)){
                     count += 1;
                 }
             }
+            count += bars[0].getCount();
         }
         else {
-            for (int i = 0; i < 18; i++){
+            for (int i = 0; i < 19; i++){
                 if (points[i].getColor() == getPlayerColor(player)){
                     count += 1;
                 }
+                count += bars[1].getCount();
             }
         }
         return count == 0;
