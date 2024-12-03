@@ -1,5 +1,31 @@
-import utilities.Colour;
+/**
+ * The MoveHandler class is responsible for checking and executing moves in the Backgammon game.
+ * It provides methods to determine legal moves, validate move commands, and execute moves on the board.
+ * The class uses depth-first search (DFS) algorithms to explore possible moves, including handling re-entry from the bar.
+ * It also manages collections of available moves and their corresponding commands.
+ *
+ * <p>Features include:</p>
+ * <ul>
+ *   <li>Determining legal moves based on the current state of the board and dice rolls.</li>
+ *   <li>Validating move commands entered by the player.</li>
+ *   <li>Executing moves, including normal moves, re-entry from the bar, and bearing off.</li>
+ *   <li>Managing the board state and updating the positions of checkers.</li>
+ * </ul>
+ *
+ *
+ * <p>Author: jmcoleman112</p>
+ *
+ * @see Board
+ * @see Dice
+ * @see InputHandler
+ * @see MoveHandler
+ * @see Match
+ * @see Players
+ * @see Display
+ */
 
+
+import utilities.Colour;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,12 +39,23 @@ public class MoveHandler {//Class to check and execute moves
     private static final char horizontalLine = '\u2550'; // ━
 
 
-
+    /**
+     * Constructs a MoveHandler with the specified board.
+     *
+     * @param board the board to be used by the MoveHandler
+     */
     public MoveHandler(Board board) {
         this.board = board;
     }
 
-
+    /**
+     * Determines the legal moves for a player based on the dice rolls.
+     *
+     * @param player the player making the move
+     * @param dice1  the value of the first die
+     * @param dice2  the value of the second die
+     * @return true if there are legal moves available, false otherwise
+     */
     public boolean legalmoves(int player, int dice1, int dice2) {
         List<Integer> locs;
         if (player == 1) {
@@ -73,7 +110,7 @@ public class MoveHandler {//Class to check and execute moves
         // Remove marked arrays from the main list
         validMoves.removeAll(toRemove);
         // Display valid moves
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━Valid Moves:━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println(Colour.getplayercolour(player)+ "━━━━━━━━━━━━━━━━━━━━━━━━Valid Moves:━━━━━━━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
         for (int[] m : validMoves) {
             if (player == 0) {
                 // Check if the first move is a re-entry or a regular/bearing-off move
@@ -138,6 +175,13 @@ public class MoveHandler {//Class to check and execute moves
         return true;
     }
 
+
+    /**
+     * Generates the next label for a move based on the index.
+     *
+     * @param index the index of the move
+     * @return the label for the move
+     */
     private String getNextLabel(int index) {
         StringBuilder label = new StringBuilder();
         while (index >= 0) {
@@ -147,17 +191,42 @@ public class MoveHandler {//Class to check and execute moves
         return label.toString();
     }
 
+
+    /**
+     * Adds a move to the collections of available moves and move map.
+     *
+     * @param index the index of the move
+     * @param move  the move to be added
+     */
     private void addMoveToCollections(int index, int[] move) {
         String moveLabel = getNextLabel(index);
         availablemoves.add(moveLabel);
         moveMap.put(moveLabel, move.clone());
     }
 
+    /**
+     * Checks if the given move command is valid.
+     *
+     * @param moveInput the move command input
+     * @return true if the move command is valid, false otherwise
+     */
     public Boolean isValidMoveCommand(String moveInput) {
             return availablemoves.contains(moveInput);
 
 }
-
+    /**
+     * Performs a depth-first search with re-entry to explore valid moves.
+     *
+     * @param locs       the list of locations
+     * @param dice1      the value of the first die
+     * @param dice2      the value of the second die
+     * @param validMoves the list of valid moves
+     * @param player     the player making the move
+     * @param move       the current move being explored
+     * @param depth      the current depth of the search
+     * @param usedDice   the number of dice used
+     * @param barcount   the count of checkers on the bar
+     */
     private void dfsWithReentry(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth, int usedDice, int barcount) {
         int direction = (player == 1) ? 1 : -1;
 
@@ -195,6 +264,19 @@ public class MoveHandler {//Class to check and execute moves
         }
     }
 
+
+
+    /**
+     * Performs a depth-first search to explore valid moves.
+     *
+     * @param locs       the list of locations
+     * @param dice1      the value of the first die
+     * @param dice2      the value of the second die
+     * @param validMoves the list of valid moves
+     * @param player     the player making the move
+     * @param move       the current move being explored
+     * @param depth      the current depth of the search
+     */
     private void dfs(List<Integer> locs, int dice1, int dice2, List<int[]> validMoves, int player, int[] move, int depth) {
         // If both moves are used, add the move to valid moves and return
         if (depth == 2) {
@@ -239,6 +321,16 @@ public class MoveHandler {//Class to check and execute moves
         }
     }
 
+
+    /**
+     * Checks if a move is legal.
+     *
+     * @param player the player making the move
+     * @param start  the starting point of the move
+     * @param target the target point of the move
+     * @param locs   the list of locations
+     * @return true if the move is legal, false otherwise
+     */
     private boolean isLegalMove(int player, int start, int target, List<Integer> locs) {
 
         if(board.bearoffcheck(player) && (target <0 || target>23)) {// Check if bearing off is allowed
@@ -286,12 +378,22 @@ public class MoveHandler {//Class to check and execute moves
     }
 
 
-
+    /**
+     * Retrieves the move associated with the given command.
+     *
+     * @param command the move command
+     * @return the move associated with the command, or null if not found
+     */
     public int[] getMoveFromCommand(String command) {
         return moveMap.getOrDefault(command, null); // Return the associated move or null if not found
     }
 
-
+    /**
+     * Executes a move from the starting point to the target point.
+     *
+     * @param from the starting point of the move
+     * @param to   the target point of the move
+     */
     public void executeMove(int from, int to) { // Use array index, -1 for off-board
         Colour sColour;
 
@@ -351,6 +453,12 @@ public class MoveHandler {//Class to check and execute moves
         }
     }
 
+
+    /**
+     * Moves a checker to the end point.
+     *
+     * @param index the index of the point from which the checker is moved
+     */
     public void moveToEnd(int index){
         Point point = board.getPoint(index);
 
@@ -376,7 +484,14 @@ public class MoveHandler {//Class to check and execute moves
 
     }
 
-    // Method to check if two arrays are rotated versions of each other
+
+    /**
+     * Checks if two arrays are specific rotations of each other.
+     *
+     * @param arr1 the first array
+     * @param arr2 the second array
+     * @return true if the arrays are specific rotations of each other, false otherwise
+     */
     private static boolean isSpecificRotation(int[] arr1, int[] arr2) {
         if (arr1.length != 4 || arr2.length != 4) return false;
         // Check if arr2 is [x3, x4, x1, x2] of arr1
@@ -384,6 +499,12 @@ public class MoveHandler {//Class to check and execute moves
                 arr1[2] == arr2[0] && arr1[3] == arr2[1];
     }
 
+
+    /**
+     * Sets the board for the MoveHandler.
+     *
+     * @param board the board to be set
+     */
     public void setBoard(Board board){
         this.board = board;
     }

@@ -390,7 +390,9 @@ public class Display {
         return Colour.NONE.shader();
     }
 
-
+    public static void displayplayerchange(int player){
+        System.out.println(Colour.getplayercolour(player)+"━━━━━━━━━━━━━━━━━━━━━━━PLAYER CHANGE━━━━━━━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
+    }
 
 
 }

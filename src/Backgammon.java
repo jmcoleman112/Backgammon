@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 /**
  * The `Backgammon` class implements the game logic for a Backgammon game.
  * It manages the board, dice, input handling, move handling, match, and players.
@@ -48,6 +44,12 @@ import java.io.IOException;
  * @see Players
  * @see Display
  */
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
 public class Backgammon { //Class to run game logic
     private Board board;
     private Dice dice;
@@ -92,14 +94,14 @@ public class Backgammon { //Class to run game logic
                 game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
             }
 
-            // Test block
-            int[] red = new int[26];
-            int[] blue = new int[26];
-            red[6] = 1;
-            blue[22] = 2;
-            Board board = new Board(red, blue);
-            game.setTestBoard(board);
-            game.getMoveHandler().setBoard(board);
+//            // Test block
+//            int[] red = new int[26];
+//            int[] blue = new int[26];
+//            red[6] = 1;
+//            blue[22] = 2;
+//            Board board = new Board(red, blue);
+//            game.setTestBoard(board);
+//            game.getMoveHandler().setBoard(board);
 
             while (game.getMatch().noMatchWinner()) {
                 boolean filemode = false;
@@ -108,6 +110,7 @@ public class Backgammon { //Class to run game logic
                     int player = game.getPlayers().getCurrentPlayer();
                     filemode = false;
                     boolean turnInProgress = true;
+                    Display.displayplayerchange(player);
                     Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
                     game.promptPlayer(player);
                     String userInput = inputHandler.getInput();
