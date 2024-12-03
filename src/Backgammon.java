@@ -509,11 +509,14 @@ public class Backgammon { //Class to run game logic
                 int winner = board.getWinner();
                 getMatch().updateScore(winner, getBoard());
                 Display.printGameWinMessage(players, winner, match);
-                newGame(true, reader);
-                System.out.println("Game " + gamecount + " is now Starting.");
-            } else {
-                line = reader.readLine();
+                if(getMatch().noMatchWinner()) {
+                    incrementGameCount();
+                    System.out.println("Game " + gamecount + " is now Starting.");
+                    newGame(true, reader);
+                }
             }
+            line = reader.readLine();
+
         }
     } catch (IOException e) {
         System.err.println("Error reading the file: " + e.getMessage());

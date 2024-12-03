@@ -1,6 +1,6 @@
 1
 Naoise
 Jack
-roll 4
+roll 1
 roll 2
 a
