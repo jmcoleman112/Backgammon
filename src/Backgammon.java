@@ -40,8 +40,7 @@ public class Backgammon { //Class to run game logic
         {//Test
             int[] red = new int[26];
             int[] blue = new int[26];
-            red[3] = 1;
-            red[10] = 1;
+            red[6] = 1;
             blue[22] = 2;
             Board board = new Board(red, blue);
             game.setTestBoard(board);
