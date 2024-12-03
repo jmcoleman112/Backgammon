@@ -1,11 +1,8 @@
 5
 Jack
 Naoise
-roll 6
-roll 5
+roll 1
+roll 2
 a
-setboard 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 1R 1B
-roll 1 2
-a
-roll 5
-roll 6
+setboard 0N 0N 0N 0N 0N 0N 1R 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 1B
+roll 3 5

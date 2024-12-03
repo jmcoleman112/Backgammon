@@ -41,8 +41,7 @@ public class MoveHandler {//Class to check and execute moves
             System.out.println("No moves available");
             return false;
         }
-        // Display valid moves
-        System.out.println("Valid Moves:");
+
         int index = 0;
         boolean twopart = false;
         int maxdist = 0;
@@ -63,9 +62,17 @@ public class MoveHandler {//Class to check and execute moves
                 }
             }
         }
+        if(!twopart){
+            for (int[] m : validMoves) {
+                if (Math.abs(m[0] - m[1])!=maxdist) {
+                    toRemove.add(m);
+                }
+            }
+        }
         // Remove marked arrays from the main list
-
         validMoves.removeAll(toRemove);
+        // Display valid moves
+        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=Valid Moves:=-=-=-=-=-=-=-=-=-=-=-=-=");
         for (int[] m : validMoves) {
             if (player == 0) {
                 // Check if the first move is a re-entry or a regular/bearing-off move
@@ -163,7 +170,7 @@ public class MoveHandler {//Class to check and execute moves
         int reentryTarget2 = (player == 1 ? -1 : 24) + direction * dice2;
 
         // Use dice1 for re-entry and explore the second move with dice2
-        if (isLegalMove(player, -1, reentryTarget1)) {
+        if (isLegalMove(player, -1, reentryTarget1, locs)) {
             move[depth*2] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
             move[depth*2+1] = reentryTarget1;
             if(barcount ==0 ){
@@ -175,7 +182,7 @@ public class MoveHandler {//Class to check and execute moves
         }
 
         // Use dice2 for re-entry and explore the second move with dice1
-        if (isLegalMove(player, -1, reentryTarget2)) {
+        if (isLegalMove(player, -1, reentryTarget2, locs)) {
             move[0] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
             move[1] = reentryTarget2;
             if(barcount ==0){
@@ -200,7 +207,7 @@ public class MoveHandler {//Class to check and execute moves
         for (int loc : locs) {
             int target1 = loc + direction * dice1;
             int target2 = loc + direction * dice2;
-            if (isLegalMove(player, loc, target1)) {
+            if (isLegalMove(player, loc, target1, locs)) {
                 move[depth * 2] = loc;
                 move[depth * 2 + 1] = target1;
 
@@ -214,7 +221,7 @@ public class MoveHandler {//Class to check and execute moves
                 // Recursive DFS with incremented depth
                 dfs(newLocs, 0, dice2, validMoves, player, move, depth + 1);
             }
-            if (isLegalMove(player, loc, target2)) {
+            if (isLegalMove(player, loc, target2, locs)) {
                 move[depth * 2] = loc;
                 move[depth * 2 + 1] = target2;
 
@@ -231,24 +238,27 @@ public class MoveHandler {//Class to check and execute moves
         }
     }
 
-    private boolean isLegalMove(int player, int start, int target) {
+    private boolean isLegalMove(int player, int start, int target, List<Integer> locs) {
 
         if(board.bearoffcheck(player) && (target <0 || target>23)) {// Check if bearing off is allowed
             if(target == -1 || target == 24){
                 return true;
             }
             int dist = start-target;
-            int rollIndex = (player == 0) ? dist : 24+dist;
-            List<Integer> higherRolls = board.Pointsaboverollindex(player, board.getPlayerColor(player), rollIndex);
-            for (Integer higherRoll : higherRolls) {
-                if (isLegalMove(player, higherRoll, higherRoll - dist)) {
+            List<Integer> higherRolls = new ArrayList<>();
+            for (Integer loc : locs) {
+                if ((player == 0 && loc > start) || (player == 1 && loc < start)) {
+                    higherRolls.add(loc);
+                }
+            }for (Integer higherRoll : higherRolls) {
+                if (isLegalMove(player, higherRoll, higherRoll - dist, locs)){
                     return false;
                 }
             }
 
             int direction = (player == 0) ? 1 : -1;
 
-            for (int i = start; i != dist; i += direction) {
+            for (int i = start+direction; i != dist; i += direction) {
                 if (board.getPointColor(i) == board.getPlayerColor(player)) {
                     return false;
                 }
@@ -267,7 +277,7 @@ public class MoveHandler {//Class to check and execute moves
                     || board.getPointCount(target) == 1; // Allow re-entry if empty, same color, or only one opponent checker
         } else {
             // Regular legality check for non-re-entry moves
-            if ((board.getPointColor(target) == board.getPointColor(start).returnopp()) && board.getPointCount(target) > 1) {
+            if ((board.getPointColor(target) == board.getPlayerColor(player).returnopp()) && board.getPointCount(target) > 1) {
                 return false;
             }
             return true;
