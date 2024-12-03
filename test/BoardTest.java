@@ -78,7 +78,7 @@ public class BoardTest {
         red[5] = 5; // Five checkers on 6-point
         red[24] = 3; // Three checkers on the bar
         Board testBoard = new Board(red, new int[26]);
-        assertEquals(3 + (1 * 2) + (6 * 5), testBoard.getTotalPipCount(0));
+        assertEquals(25*3 + (1 * 2) + (6 * 5), testBoard.getTotalPipCount(0));
     }
 
     @Test
@@ -93,7 +93,12 @@ public class BoardTest {
     public void noGameWinner() {
         assertTrue(board.noGameWinner()); // Default board has no winner
         board.setWinner(0);
-        assertFalse(board.noGameWinner());
+
+        int[] red = new int[26];
+        int[] blue = new int[26];
+        red[0] = 5;
+        Board winBoard = new Board(red, blue);
+        assertFalse(winBoard.noGameWinner());
     }
 
     @Test
