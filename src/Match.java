@@ -88,7 +88,7 @@ public class Match {
         int i_start;
         int i_end;
         if(winner == 1) {
-            i_start = 16;
+            i_start = 18;
             i_end = 23;
         }
         else{
@@ -102,7 +102,10 @@ public class Match {
         else for(int i = i_start; i <= i_end; i++) {
             if(board.getPoint(i).getCount() > 0) return 3*doubleCount; //Backgammon
         }
-        return 2*doubleCount; //Gammon
+        for(int i = 6; i <= 17; i++){
+            if(board.getPoint(i).getCount() > 0) return 2*doubleCount; //Gammon
+        }
+        return doubleCount; //Single
     }
 
     public int getMatchWinner(){

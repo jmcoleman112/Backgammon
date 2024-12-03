@@ -37,16 +37,17 @@ public class Backgammon { //Class to run game logic
         }
 
 
-//        {//Test
-//            int[] red = new int[26];
-//            int[] blue = new int[26];
-//            red[3] = 2;
-//            blue[2] = 4;
-//            Board board = new Board(red, blue);
-//            game.setTestBoard(board);
-//            game.getMoveHandler().setBoard(board);
-////            Display.displayBoard(board, 0, match);
-//        }
+        {//Test
+            int[] red = new int[26];
+            int[] blue = new int[26];
+            red[3] = 1;
+            red[10] = 1;
+            blue[22] = 2;
+            Board board = new Board(red, blue);
+            game.setTestBoard(board);
+            game.getMoveHandler().setBoard(board);
+//            Display.displayBoard(board, 0, match);
+        }
 
         while (game.getMatch().noMatchWinner()){
             boolean filemode=false;
@@ -84,9 +85,12 @@ public class Backgammon { //Class to run game logic
             }
             int winner = game.getBoard().getWinner();
             game.getMatch().updateScore(winner, game.getBoard());
-            game.newGame(filemode, reader);
             Display.printGameWinMessage(game.getPlayers(), winner, game.getMatch()); // Print message to winner
-            System.out.println("Game " + game.gamecount + " is now Starting.");
+            if(game.getMatch().noMatchWinner())  {
+                game.incrementGameCount();
+                System.out.println("Game " + game.gamecount + " is now Starting.");
+                game.newGame(filemode, reader);
+            }
         }
         inputHandler.closeScanner();
         Display.printMatchWinMessage(game.getPlayers(), game.getMatch().getMatchWinner(), game.getMatch());
@@ -518,8 +522,6 @@ public class Backgammon { //Class to run game logic
 }
 
     public void newGame(boolean filemode, BufferedReader reader){
-
-        gamecount++;
         this.board = new Board();
         getMoveHandler().setBoard(board);
         if(!filemode) {
@@ -528,6 +530,10 @@ public class Backgammon { //Class to run game logic
         else{
             decideFirstPlayerFile(reader);
         }
+    }
+
+    public void incrementGameCount(){
+        gamecount++;
     }
 
 }
