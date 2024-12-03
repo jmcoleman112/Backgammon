@@ -8,8 +8,11 @@ public class Board {
     private final Point[] points;
     private final Bar[] bars; //Player1, Player2
     private final End[] ends;
+    private int winner;
 
     public Board(){
+        winner = -1;
+
         points = new Point[24];
         bars = new Bar[2];
         ends = new End[2];
@@ -38,7 +41,41 @@ public class Board {
         }
     }
 
+    public Board(int[] red, int[] blue){ //Test board
+        points = new Point[24];
+        bars = new Bar[2];
+        ends = new End[2];
+
+        bars[0] = new Bar(Colour.RED);
+        bars[1] = new Bar(Colour.BLUE);
+
+        bars[0].setCount(red[24]);
+        bars[1].setCount(blue[24]);
+
+        ends[0] = new End(Colour.RED);
+        ends[1] = new End(Colour.BLUE);
+        ends[0].setCount(red[25]);
+        ends[1].setCount(blue[25]);
+
+        for (int i = 0; i < 24; i++){
+            if (red[i] > 0){
+                points[i] = new Point(Colour.RED, red[i], i + 1);
+            }
+            else if (blue[i] > 0){
+                points[i] = new Point(Colour.BLUE, blue[i], i + 1);
+            }
+            else{
+                points[i] = new Point(Colour.NONE, 0, i + 1);
+            }
+        }
+    }
+
     public Point getPoint(int index){
+
+        if(index < 0 || index > 23){
+            return new Point(Colour.NONE, 0, 0);
+        }
+
         return points[index];
     }
 
@@ -68,20 +105,20 @@ public class Board {
     public boolean bearoffcheck(int player){
         int count = 0;
         if(player == 0){
-            for (int i = 0; i < 6; i++){
+            for (int i = 7; i < 24; i++){
                 if (points[i].getColor() == getPlayerColor(player)){
-                    count += points[i].getCount();
+                    count += 1;
                 }
             }
         }
         else {
-            for (int i = 18; i < 24; i++){
+            for (int i = 0; i < 18; i++){
                 if (points[i].getColor() == getPlayerColor(player)){
-                    count += points[i].getCount();
+                    count += 1;
                 }
             }
         }
-        return count == 15;
+        return count == 0;
     }
 
     public int maxPoint(){
@@ -125,13 +162,76 @@ public class Board {
         return coloredPointsList;
     }
 
-    public boolean checkWin(int player){
-        return getTotalPipCount(player) == 0;
+    public boolean noGameWinner(){
+        for (int i = 0; i <= 1; i++){
+            if(getTotalPipCount(i) == 0){
+                winner = i;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int getWinner(){
+        return winner;
+    }
+
+    public void setWinner(int player){
+        winner = player;
     }
 
 
 
+    public void setBoardFromString(String boardConfig) {
+        String[] parts = boardConfig.split(" ");
+        if (!parts[0].equals("setboard") || parts.length != 25) {
+            throw new IllegalArgumentException("Invalid board configuration string");
+        }
 
+        for (int i = 1; i < parts.length; i++) {
+            String pointConfig = parts[i];
+            int count = Character.getNumericValue(pointConfig.charAt(0));
+            char colorChar = pointConfig.charAt(1);
+            Colour color = switch (colorChar) {
+                case 'N' -> Colour.NONE;
+                case 'R' -> Colour.RED;
+                case 'B' -> Colour.BLUE;
+                default -> throw new IllegalArgumentException("Invalid color character: " + colorChar);
+            };
 
+            Point point = getPoint(i - 1);
+            point.setCount(count);
+            point.setColor(color);
+        }
+    }
+    public String Wintype() {
+        int winner = getWinner();
+        if (winner == -1) {
+            return "No winner";
+        }
 
+        int loser = (winner + 1) % 2;
+
+        if (getEnd(loser).getCount() > 0) {
+            return "Single";
+        }
+
+        if (getBar(loser).getCount() > 0) {
+            return "Backgammon";
+        }
+
+        for (int i = (winner == 1 ? 18 : 0); i <= (winner == 1 ? 23 : 5); i++) {
+            if (getPoint(i).getCount() > 0) {
+                return "Backgammon";
+            }
+        }
+
+        for (int i = 6; i <= 17; i++) {
+            if (getPoint(i).getCount() > 0) {
+                return "Gammon";
+            }
+        }
+
+        return "Single";
+    }
 }

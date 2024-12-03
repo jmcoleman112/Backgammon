@@ -12,7 +12,17 @@ public enum Colour {
         this.ansiCode = ansiCode;
     }
 
-
+    public static String getplayercolour(int player){
+        if (player == 0){
+            return RED.shader();
+        }
+        if (player ==1){
+            return BLUE.shader();
+        }
+        else{
+            return NONE.shader();
+        }
+    }
 
     // Getter method to retrieve the ANSI code
     public String shader() {
