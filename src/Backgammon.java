@@ -23,76 +23,83 @@ public class Backgammon { //Class to run game logic
 
     public static void main(String[] args){
 
+        boolean MatchLive=true;
         Backgammon game = new Backgammon();
-        InputHandler inputHandler = game.getInputHandler();
-        String filename;
-        filename = game.Welcome();
-        if(filename != null){
-            game.fileStart(filename);
-        }
-        else {
-            game.setMatchLength("");
-            game.setPlayers("", "");
-            game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
-        }
+        Display.welcomeMessage();
+        System.out.flush();
+        while(MatchLive) {
+            game = new Backgammon();
+            InputHandler inputHandler = game.getInputHandler();
+            String filename;
+            filename = game.Welcome();
+            if (filename != null) {
+                game.fileStart(filename);
+            } else {
+                game.setMatchLength("");
+                game.setPlayers("", "");
+                game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
+            }
 
 
-        {//Test
-            int[] red = new int[26];
-            int[] blue = new int[26];
-            red[6] = 1;
-            blue[22] = 2;
-            Board board = new Board(red, blue);
-            game.setTestBoard(board);
-            game.getMoveHandler().setBoard(board);
+            {//Test
+                int[] red = new int[26];
+                int[] blue = new int[26];
+                red[6] = 1;
+                blue[22] = 2;
+                Board board = new Board(red, blue);
+                game.setTestBoard(board);
+                game.getMoveHandler().setBoard(board);
 //            Display.displayBoard(board, 0, match);
-        }
+            }
 
-        while (game.getMatch().noMatchWinner()){
-            boolean filemode=false;
-            BufferedReader reader = null;
-            while(game.getBoard().noGameWinner()){ //Neither player has won
-                int player = game.getPlayers().getCurrentPlayer();
-                filemode = false;
-                boolean turnInProgress = true;
-                Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
-                game.promptPlayer(player);
-                String userInput=inputHandler.getInput();
-                if(inputHandler.isfileCommand(userInput)){
-                    filemode = true;
-                    filename = userInput.substring(5);
-                    try {
+            while (game.getMatch().noMatchWinner()) {
+                boolean filemode = false;
+                BufferedReader reader = null;
+                while (game.getBoard().noGameWinner()) { //Neither player has won
+                    int player = game.getPlayers().getCurrentPlayer();
+                    filemode = false;
+                    boolean turnInProgress = true;
+                    Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
+                    game.promptPlayer(player);
+                    String userInput = inputHandler.getInput();
+                    if (inputHandler.isfileCommand(userInput)) {
+                        filemode = true;
+                        filename = userInput.substring(5);
+                        try {
 
-                        reader = new BufferedReader(new FileReader(filename));
-                        game.fileTurn(reader); // Pass the reader to the method
+                            reader = new BufferedReader(new FileReader(filename));
+                            game.fileTurn(reader); // Pass the reader to the method
 
-                    } catch (IOException e) {
-                        System.err.println("Error opening the file: " + e.getMessage());
-                    }
-                }
-                else {
-                    while (turnInProgress) {
-                        turnInProgress = game.processTurn(player, userInput, null);
-                        if (turnInProgress) {
-                            Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
-                            game.promptPlayer(player);
-                            userInput = inputHandler.getInput();
+                        } catch (IOException e) {
+                            System.err.println("Error opening the file: " + e.getMessage());
                         }
+                    } else {
+                        while (turnInProgress) {
+                            turnInProgress = game.processTurn(player, userInput, null);
+                            if (turnInProgress) {
+                                Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
+                                game.promptPlayer(player);
+                                userInput = inputHandler.getInput();
+                            }
+                        }
+                        game.getPlayers().switchPlayer();
                     }
-                    game.getPlayers().switchPlayer();
+                }
+                int winner = game.getBoard().getWinner();
+                game.getMatch().updateScore(winner, game.getBoard());
+                Display.printGameWinMessage(game.getPlayers(), winner, game.getMatch(), game.getBoard()); // Print message to winner
+                if (game.getMatch().noMatchWinner()) {
+                    game.incrementGameCount();
+                    System.out.println("Game " + game.gamecount + " is now Starting.");
+                    game.newGame(filemode, reader);
                 }
             }
-            int winner = game.getBoard().getWinner();
-            game.getMatch().updateScore(winner, game.getBoard());
-            Display.printGameWinMessage(game.getPlayers(), winner, game.getMatch()); // Print message to winner
-            if(game.getMatch().noMatchWinner())  {
-                game.incrementGameCount();
-                System.out.println("Game " + game.gamecount + " is now Starting.");
-                game.newGame(filemode, reader);
-            }
+
+            Display.printMatchWinMessage(game.getPlayers(), game.getMatch().getMatchWinner(), game.getMatch());
+            MatchLive = game.newMatch();
         }
-        inputHandler.closeScanner();
-        Display.printMatchWinMessage(game.getPlayers(), game.getMatch().getMatchWinner(), game.getMatch());
+        game.quitGame();
+
     }
 
     public void setPlayers(String player1Name, String player2Name){
@@ -124,11 +131,6 @@ public class Backgammon { //Class to run game logic
     }
 
     public String Welcome() { //Loop until game started
-        System.out.println("\n\n====================================================================================================");
-        System.out.println("Welcome to Backgammon! This is a implementation of Backgammon created by Jack Coleman and Naoise Golden.");
-        System.out.println("For instructions on how to play, please read the README file.");
-        System.out.println("====================================================================================================\n\n");
-        System.out.flush();
 
         System.out.print("Please Hit Enter to begin the game: ");
         String welcomestring = inputHandler.getInput();
@@ -160,8 +162,9 @@ public class Backgammon { //Class to run game logic
                     return false;
                 }
                 chooseMove(player, rollValues, reader);
-                if(rollValues[0] == rollValues[1]){
-                    System.out.println("=======DOUBLES! Bonus Second Roll=====\n");
+                if(rollValues[0] == rollValues[1] && getBoard().noGameWinner()){
+                    System.out.println("━━━━━━━━━━━━━━━━━━DOUBLES! Bonus Second Roll━━━━━━━━━━━━━━━━━━\n");
+                    Display.printDiceFace(rollValues[0], rollValues[1], false);
                     Display.displayBoard(getBoard(), player, match);
                     if (!moveHandler.legalmoves(player, rollValues[0], rollValues[1])){ //No valid moves
                         return false;
@@ -210,7 +213,7 @@ public class Backgammon { //Class to run game logic
         boolean turnInProgress = true;
         while (turnInProgress) {
             String moveInput;
-            System.out.println(players.getPlayerName(player) + Display.resetColour() + " please choose a move from the list above (e.g., 'a', 'b', etc.): ");
+            System.out.println("\n"+players.getPlayerName(player) + Display.resetColour() + " please choose a move from the list above (e.g., 'a', 'b', etc.): ");
             System.out.flush();
             if(reader==null){
                 moveInput = inputHandler.getInput();
@@ -259,7 +262,7 @@ public class Backgammon { //Class to run game logic
         int[] rolls = new int[2];
 
         int first = 0;
-        System.out.println("=-=-=-=-=-=-=-=-ROLL TO SEE WHO GOES FIRST-=-=-=-=-=-=-=-");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━ROLL TO SEE WHO GOES FIRST━━━━━━━━━━━━━━━━━━━━━━━━");
         while(rolls[0] == rolls[1]){
 
             for (int i = 0; i < 2; i++){
@@ -311,7 +314,7 @@ public class Backgammon { //Class to run game logic
         int[] rolls = new int[2];
 
         int first = 0;
-        System.out.println("=-=-=-=-=-=-=-=-ROLL TO SEE WHO GOES FIRST-=-=-=-=-=-=-=-");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━ROLL TO SEE WHO GOES FIRST━━━━━━━━━━━━━━━━━━━━━━━━");
         while(rolls[0] == rolls[1]){
 
             for (int i = 0; i < 2; i++){
@@ -376,6 +379,7 @@ public class Backgammon { //Class to run game logic
     public void quitGame(){
         System.out.println("Thank You for playing!");
         System.out.println("Quitting game\n\n");
+        inputHandler.closeScanner();
         System.exit(0);
     }
 
@@ -508,7 +512,7 @@ public class Backgammon { //Class to run game logic
             if (!board.noGameWinner()) {
                 int winner = board.getWinner();
                 getMatch().updateScore(winner, getBoard());
-                Display.printGameWinMessage(players, winner, match);
+                Display.printGameWinMessage(players, winner, match, board);
                 if(getMatch().noMatchWinner()) {
                     incrementGameCount();
                     System.out.println("Game " + gamecount + " is now Starting.");
@@ -536,6 +540,18 @@ public class Backgammon { //Class to run game logic
 
     public void incrementGameCount(){
         gamecount++;
+    }
+
+    public boolean newMatch(){
+        System.out.println("Would you like to play another match? (y/n): ");
+        System.out.flush();
+        String userInput = inputHandler.getInput();
+        while (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n")) {
+            System.out.print("Please enter a valid response (y/n): ");
+            System.out.flush();
+            userInput = inputHandler.getInput();
+        }
+        return userInput.equalsIgnoreCase("y");
     }
 
 }

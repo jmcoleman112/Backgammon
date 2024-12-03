@@ -47,6 +47,11 @@ public class Match {
     public String printScore(){
         return Colour.RED.shader() + RedScore + Colour.NONE.shader()+ "-" +Colour.BLUE.shader() + BlueScore + Colour.NONE.shader();
     }
+    public int printScorelength(){
+        String Score = RedScore + "-" + BlueScore;
+        return Score.length();
+    }
+
     public int getRedScore(){
         return RedScore;
     }

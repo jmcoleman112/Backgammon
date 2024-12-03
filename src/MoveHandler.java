@@ -10,6 +10,7 @@ public class MoveHandler {//Class to check and execute moves
     private Board board;
     List<String> availablemoves = new ArrayList<>();
     private Map<String, int[]> moveMap = new HashMap<>();
+    private static final char horizontalLine = '\u2550'; // ━
 
 
 
@@ -72,7 +73,7 @@ public class MoveHandler {//Class to check and execute moves
         // Remove marked arrays from the main list
         validMoves.removeAll(toRemove);
         // Display valid moves
-        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=Valid Moves:=-=-=-=-=-=-=-=-=-=-=-=-=");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━Valid Moves:━━━━━━━━━━━━━━━━━━━━━━━━━━");
         for (int[] m : validMoves) {
             if (player == 0) {
                 // Check if the first move is a re-entry or a regular/bearing-off move

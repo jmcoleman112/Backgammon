@@ -76,6 +76,11 @@ public class Display {
             System.out.print(horizontalLine);
         }
     }
+    private static void printSpace(int count){
+        for (int i = 0; i < count; i++) {
+            System.out.print(" ");
+        }
+    }
 
     private static void printMiddle(Board board, int bottom, Match match){
         int i_start = bottom == 1 ? board.maxPoint() - 1 : 0;
@@ -242,15 +247,35 @@ public class Display {
 
     }
 
-    public static void printGameWinMessage(Players players, int player, Match match){
-        System.out.println("=-=-=-=-=-=-=-"+players.getPlayerName(player) + " Wins! =-=-=-=-=-=-=-");
+    public static void printGameWinMessage(Players players, int player, Match match, Board board){
+        System.out.println("\033[32m━━━━━━━━━━━━━━━━━━ "+players.getPlayerName(player) + "\033[32m Wins With a "+board.Wintype()+ "! ━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
+        printSpace(20);
         System.out.println("Match Score is now: " + match.printScore());
     }
 
     public static void printMatchWinMessage(Players players, int player, Match match){
-        System.out.println("Game Over");
-        System.out.println("Congratulations " + players.getPlayerName(player) + "! You win!");
-        System.out.println("Final score was: " + match.printScore());
+        System.out.print("\033[32m"+topLeftCorner);
+        printBars(60);
+        System.out.println(topRightCorner);
+
+        System.out.print(verticalLine); printSpace(25);
+        System.out.print("Match Over!");
+        printSpace(24);System.out.println(verticalLine);
+
+
+        System.out.print(verticalLine);printSpace(10);
+        System.out.print("Congratulations " + players.getPlayerName(player) + "\033[32m! You have won the Match!");
+        printSpace(11-players.getCurrentLength());System.out.println(verticalLine);
+
+        System.out.print(verticalLine);printSpace(20);
+        System.out.print("Final score was: " + match.printScore());
+        printSpace(23-match.printScorelength());System.out.println("\u001B[32m"+verticalLine);
+
+
+
+        System.out.print(bottomLeftCorner);
+        printBars(60);
+        System.out.println(bottomRightCorner+Colour.NONE.shader());
     }
 
     public static void displayHint(boolean rolled, boolean started){
@@ -327,23 +352,45 @@ public class Display {
         };
     }
 
-    private static void printDoubleDice(int layer, int player, Match match){
-        if(player != match.getDoubleOwner()){
+    private static void printDoubleDice(int layer, int player, Match match) {
+        if (player != match.getDoubleOwner()) {
             System.out.println();
-        }
-        else{
+        } else {
             String[] doubleDice = getDoubleDice();
-            if(player == 0) {
+            if (player == 0) {
                 System.out.print(Colour.RED.shader());
-                if(layer == 2) layer = 0; // Need to print in reverse order
-                if(layer == 3) layer = 2; //Actually printing layer 2
-            }
-            else  if (player == 1) System.out.print(Colour.BLUE.shader());
+                if (layer == 2) layer = 0; // Need to print in reverse order
+                if (layer == 3) layer = 2; //Actually printing layer 2
+            } else if (player == 1) System.out.print(Colour.BLUE.shader());
             System.out.println("  " + doubleDice[layer] + resetColour());
         }
     }
+    public static void welcomeMessage(){
+        System.out.println();
+        System.out.println();
+        System.out.print(topLeftCorner);
+        printBars(87);
+        System.out.println(topRightCorner);
+        System.out.print(verticalLine);
+        System.out.print("Welcome to Backgammon! This is a implementation of Backgammon created by Jack Coleman  ");
+        System.out.println(verticalLine);
+        System.out.print(verticalLine);
+        System.out.print("and Naoise Golden. For instructions on how to play, please read the README file.       ");
+        System.out.println(verticalLine);
+
+        System.out.print(bottomLeftCorner);
+        printBars(87);
+        System.out.println(bottomRightCorner);
+        System.out.println();
+        System.out.println();
+    }
+
 
     public static String resetColour(){
         return Colour.NONE.shader();
     }
+
+
+
+
 }

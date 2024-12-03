@@ -33,6 +33,8 @@ public class Players {
         return currentPlayer;
     }
 
+    public int getCurrentLength(){return players[currentPlayer].length();}
+
     public void setCurrentPlayer(int player){
         currentPlayer = player;
     }

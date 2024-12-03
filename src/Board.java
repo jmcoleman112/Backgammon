@@ -204,25 +204,34 @@ public class Board {
             point.setColor(color);
         }
     }
+    public String Wintype() {
+        int winner = getWinner();
+        if (winner == -1) {
+            return "No winner";
+        }
 
+        int loser = (winner + 1) % 2;
 
-    public List<Integer> Pointsaboverollindex(int player, Colour color, int rollindex) {
-        List<Integer> pointsAboveRollIndex = new ArrayList<>();
-        if (player == 0) {
-            for (int i = 23; i >= rollindex; i--) {
-                if (points[i].getColor() == color) {
-                    pointsAboveRollIndex.add(i);
-                }
-            }
-        } else {
-            for (int i = 0; i < 24 - rollindex; i++) {
-                if (points[i].getColor() == color) {
-                    pointsAboveRollIndex.add(i);
-                }
+        if (getEnd(loser).getCount() > 0) {
+            return "Single";
+        }
+
+        if (getBar(loser).getCount() > 0) {
+            return "Backgammon";
+        }
+
+        for (int i = (winner == 1 ? 18 : 0); i <= (winner == 1 ? 23 : 5); i++) {
+            if (getPoint(i).getCount() > 0) {
+                return "Backgammon";
             }
         }
-        return pointsAboveRollIndex;
+
+        for (int i = 6; i <= 17; i++) {
+            if (getPoint(i).getCount() > 0) {
+                return "Gammon";
+            }
+        }
+
+        return "Single";
     }
-
-
 }
