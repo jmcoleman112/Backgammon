@@ -4,3 +4,9 @@ Jack
 roll 1
 roll 2
 a
+roll 1 2
+d
+roll 1 6
+a
+roll 1 2
+a

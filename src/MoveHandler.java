@@ -410,6 +410,8 @@ public class MoveHandler {//Class to check and execute moves
             // Set source color for re-entry
             sColour = (barIndex == 1) ? Colour.BLUE : Colour.RED;
             bar.setCount(bar.getCount() - 1); // Remove one checker from the bar
+            Point destination = board.getPoint(to);
+            moveToPoint(sColour, destination);
         }
 
         // Proceed with moving to the destination
@@ -430,23 +432,7 @@ public class MoveHandler {//Class to check and execute moves
             }
 
             Point destination = board.getPoint(to);
-            Colour dColour = destination.getColor();
-
-            // If destination has the same color, just increment count
-            if (sColour == dColour) {
-                destination.setCount(destination.getCount() + 1);
-            } else {
-                // If destination has an opponent checker or is empty, place the checker and handle pipping
-                destination.setColor(sColour);
-                destination.setCount(1);
-
-                // If opponent checker was present, move it to the bar
-                if (dColour != Colour.NONE) { // Checker was "pipped"
-                    int opponentBarIndex = (dColour == Colour.BLUE) ? 1 : 0;
-                    Bar opponentBar = board.getBar(opponentBarIndex);
-                    opponentBar.setCount(opponentBar.getCount() + 1);
-                }
-            }
+            moveToPoint(sColour, destination);
         } else {
             // If `to` is outside 0-23, it indicates bearing off
             moveToEnd(from);
@@ -482,6 +468,26 @@ public class MoveHandler {//Class to check and execute moves
             point.setColor(Colour.NONE);
         }
 
+    }
+
+    public void moveToPoint(Colour sColour, Point destination){
+        Colour dColour = destination.getColor();
+
+        // If destination has the same color, just increment count
+        if (sColour == dColour) {
+            destination.setCount(destination.getCount() + 1);
+        } else {
+            // If destination has an opponent checker or is empty, place the checker and handle pipping
+            destination.setColor(sColour);
+            destination.setCount(1);
+
+            // If opponent checker was present, move it to the bar
+            if (dColour != Colour.NONE) { // Checker was "pipped"
+                int opponentBarIndex = (dColour == Colour.BLUE) ? 1 : 0;
+                Bar opponentBar = board.getBar(opponentBarIndex);
+                opponentBar.setCount(opponentBar.getCount() + 1);
+            }
+        }
     }
 
 

@@ -73,7 +73,15 @@ public class DisplayTest {
         Match match = new Match();
         match.setScore(5, 0);
 
-        Display.printGameWinMessage(players, 0, match);
+        int[] red = new int[26];
+        int[] blue = new int[26];
+        red[6] = 1;
+        red[2] = 1;
+        blue[22] = 2;
+        blue[1] = 1;
+        Board board = new Board(red, blue);
+
+        Display.printGameWinMessage(players, 0, match, board);
 
         String output = outputStream.toString();
         assertTrue("Output should display the winner's name", output.contains("\033[0;31mPlayer 1\033[0m Wins!"));
