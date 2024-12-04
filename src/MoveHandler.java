@@ -36,7 +36,6 @@ public class MoveHandler {//Class to check and execute moves
     private Board board;
     List<String> availablemoves = new ArrayList<>();
     private Map<String, int[]> moveMap = new HashMap<>();
-    private static final char horizontalLine = '\u2550'; // ━
 
 
     /**
@@ -110,7 +109,7 @@ public class MoveHandler {//Class to check and execute moves
         // Remove marked arrays from the main list
         validMoves.removeAll(toRemove);
         // Display valid moves
-        System.out.println(Colour.getplayercolour(player)+ "━━━━━━━━━━━━━━━━━━━━━━━━Valid Moves:━━━━━━━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
+        System.out.println(Colour.getplayercolour(player)+ "\n━━━━━━━━━━━━━━━━━━━━━━━━Valid Moves:━━━━━━━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
         for (int[] m : validMoves) {
             if (player == 0) {
                 // Check if the first move is a re-entry or a regular/bearing-off move
@@ -183,13 +182,18 @@ public class MoveHandler {//Class to check and execute moves
      * @return the label for the move
      */
     private String getNextLabel(int index) {
-        StringBuilder label = new StringBuilder();
-        while (index >= 0) {
-            label.insert(0, (char) ('a' + index % 26));
-            index = index / 26 - 1;
+    StringBuilder label = new StringBuilder();
+    while (index >= 0) {
+        int remainder = index % 25;
+        char nextChar = (char) ('a' + remainder);
+        if (nextChar >= 'q') {
+            nextChar++;
         }
-        return label.toString();
+        label.insert(0, nextChar);
+        index = index / 25 - 1;
     }
+    return label.toString();
+}
 
 
     /**

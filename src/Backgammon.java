@@ -45,6 +45,8 @@
  * @see Display
  */
 
+import utilities.Colour;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -256,7 +258,7 @@ public class Backgammon { //Class to run game logic
             }
             chooseMove(player, rollValues, reader);
             if (rollValues[0] == rollValues[1] && getBoard().noGameWinner()) {
-                System.out.println("━━━━━━━━━━━━━━━━━━DOUBLES! Bonus Second Roll━━━━━━━━━━━━━━━━━━\n");
+                System.out.println(Colour.getplayercolour(player)+ "━━━━━━━━━━━━━━━━━━DOUBLES! Bonus Second Roll━━━━━━━━━━━━━━━━━━\n"+Display.resetColour());
                 Display.printDiceFace(rollValues[0], rollValues[1], false);
                 Display.displayBoard(getBoard(), player, match);
                 if (!moveHandler.legalmoves(player, rollValues[0], rollValues[1])) { // No valid moves
@@ -280,6 +282,7 @@ public class Backgammon { //Class to run game logic
             UpdatedBoard.setBoardFromString(userInput);
             board = UpdatedBoard;
             this.moveHandler = new MoveHandler(board);
+            Display.displayBoard(board, players.getCurrentPlayer(), match);
             return true;
         } else if (inputHandler.isPipCommand(userInput)) {
             Display.displayPipCount(getBoard(), players);
@@ -307,7 +310,7 @@ public class Backgammon { //Class to run game logic
         boolean turnInProgress = true;
         while (turnInProgress) {
             String moveInput;
-            System.out.println("\n" + players.getPlayerName(player) + Display.resetColour() + " please choose a move from the list above (e.g., 'a', 'b', etc.): ");
+            System.out.print("\n" + players.getPlayerName(player) + Display.resetColour() + " please choose a move from the list above (e.g., 'a', 'b', etc.): ");
             System.out.flush();
             if (reader == null) {
                 moveInput = inputHandler.getInput();
@@ -389,15 +392,15 @@ public class Backgammon { //Class to run game logic
             }
             if (rolls[0] != rolls[1]) {
                 first = (rolls[0] > rolls[1] ? 0 : 1); // Higher roll goes first
-                System.out.println(players.getPlayerName(first) + Display.resetColour() + " rolled higher and will go first\n");
+                System.out.println(players.getPlayerName(first) + Display.resetColour() + " rolled higher and will go first.\n");
                 break;
             }
             System.out.println("Rolls were equal! Roll again to decide who goes first\n");
         }
 
         // Use dice
-        Display.printDiceFace(rolls[0], rolls[1], false);
         Display.displayBoard(getBoard(), first, match);
+        Display.printDiceFace(rolls[0], rolls[1], false);
         moveHandler.legalmoves(first, rolls[0], rolls[1]);
         chooseMove(first, rolls, null);
         first = (first == 0) ? 1 : 0;
@@ -466,6 +469,7 @@ public class Backgammon { //Class to run game logic
         moveHandler.legalmoves(first, rolls[0], rolls[1]);
         chooseMove(first, rolls, reader);
         first = (first == 0) ? 1 : 0;
+        Display.displayplayerchange(first);
         players.setCurrentPlayer(first);
     }
 
@@ -530,7 +534,6 @@ public class Backgammon { //Class to run game logic
         rollValues = dice.rollDice();
         boolean doubleRoll = rollValues[0] == rollValues[1];
         Display.printDiceFace(rollValues[0], rollValues[1], doubleRoll);
-        System.out.println(players.getPlayerName(player) + Display.resetColour() + " rolled a " + rollValues[0] + " and a " + rollValues[1]);
 
         return rollValues;
     }
@@ -555,7 +558,7 @@ public class Backgammon { //Class to run game logic
      */
     public void handleDoubleStakes(int player, BufferedReader reader) {
         System.out.println(players.getPlayerName(player) + " has offered to double the stakes to " + match.getDoubleCount() * 2 + "! ");
-        System.out.print(players.getPlayerName((player == 0) ? 1 : 0) + " do you accept? (y/n): ");
+        System.out.print(players.getPlayerName((player == 0) ? 1 : 0) + " do you accept? (accept/reject): ");
         System.out.flush();
         String userInput;
         if (reader == null) {
@@ -572,12 +575,12 @@ public class Backgammon { //Class to run game logic
                 throw new RuntimeException(e);
             }
         }
-        while (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n")) {
-            System.out.print("Please enter a valid response (y/n): ");
+        while (!userInput.equalsIgnoreCase("accept") && !userInput.equalsIgnoreCase("reject")) {
+            System.out.print("Please enter a valid response (accept/reject): ");
             System.out.flush();
             userInput = inputHandler.getInput();
         }
-        if (userInput.equalsIgnoreCase("y")) {
+        if (userInput.equalsIgnoreCase("accept")) {
             match.updateDoubleCount();
             System.out.println(players.getPlayerName(player) + " has doubled the stakes!");
             player = (player == 0) ? 1 : 0;
@@ -600,7 +603,7 @@ public class Backgammon { //Class to run game logic
      * @param player the current player
      */
     public void promptPlayer(int player) {
-        System.out.print(players.getPlayerName(player) + "'s" + Display.resetColour() + " turn. ");
+        System.out.print("\n"+players.getPlayerName(player) + "'s" + Display.resetColour() + " turn. ");
         System.out.print("Please Enter a Command: ");
         System.out.flush();
     }
@@ -628,25 +631,25 @@ public class Backgammon { //Class to run game logic
      */
     public void fileTurn(BufferedReader reader) {
         try {
-            System.out.println("Reading commands from the file:");
             String line = reader.readLine();
             while (line != null) {
                 Display.displayBoard(board, players.getCurrentPlayer(), match);
-                System.out.print(players.getPlayerName(players.getCurrentPlayer()) + "'s" + Display.resetColour() + " turn. ");
-                System.out.print("Please Enter a Command: ");
-                System.out.println(line);
                 boolean turnInProgress = true;
                 while (turnInProgress && line != null) {
+                    System.out.print(players.getPlayerName(players.getCurrentPlayer()) + "'s" + Display.resetColour() + " turn. ");
+                    System.out.print("Please Enter a Command: ");
+                    System.out.println(line);
                     turnInProgress = processTurn(players.getCurrentPlayer(), line, reader);
-                    if (getBoard().noGameWinner()) {
-                        Display.displayBoard(board, players.getCurrentPlayer(), match);
-                    }
+//                    if (getBoard().noGameWinner()) {
+//                        Display.displayBoard(board, players.getCurrentPlayer(), match);
+//                    }
                     if (turnInProgress) {
                         line = reader.readLine();
                     }
                 }
-                if (!turnInProgress) {
+                if (!turnInProgress && getBoard().noGameWinner()) {
                     players.switchPlayer();
+                    Display.displayplayerchange(players.getCurrentPlayer());
                 }
                 if (!board.noGameWinner()) {
                     int winner = board.getWinner();
@@ -694,10 +697,10 @@ public class Backgammon { //Class to run game logic
      * @return true if the user wants to start a new match, false otherwise
      */
     public boolean newMatch() {
-        System.out.println("Would you like to play another match? (y/n): ");
+        System.out.print("Would you like to play another match? (y/n): ");
         System.out.flush();
         String userInput = inputHandler.getInput();
-        while (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n")) {
+        while (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n") && !userInput.equalsIgnoreCase("q")) {
             System.out.print("Please enter a valid response (y/n): ");
             System.out.flush();
             userInput = inputHandler.getInput();
