@@ -268,7 +268,6 @@ public class Backgammon { //Class to run game logic
         } else if (inputHandler.isDoubleCommand(userInput)) {
             if (match.doublelegality(player)) {
                 handleDoubleStakes(player, reader);
-                Display.displayBoard(board, player, match);
             } else {
                 System.out.println("You cannot double the stakes at this time. Please enter a valid command");
             }
@@ -358,7 +357,7 @@ public class Backgammon { //Class to run game logic
         int[] rolls = new int[2];
 
         int first = 0;
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━ROLL TO SEE WHO GOES FIRST━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━ROLL TO SEE WHO GOES FIRST━━━━━━━━━━━━━━━━━━━━━━━━");
         while (rolls[0] == rolls[1]) {
 
             for (int i = 0; i < 2; i++) {
@@ -384,7 +383,7 @@ public class Backgammon { //Class to run game logic
                     } else if (inputHandler.isHintCommand(userInput)) {
                         Display.displayHint(false, false);
                     } else {
-                        System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
+                        System.out.print("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
                     }
                 }
             }
@@ -414,7 +413,7 @@ public class Backgammon { //Class to run game logic
         int[] rolls = new int[2];
 
         int first = 0;
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━ROLL TO SEE WHO GOES FIRST━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━ROLL TO SEE WHO GOES FIRST━━━━━━━━━━━━━━━━━━━━━━━━");
         while (rolls[0] == rolls[1]) {
 
             for (int i = 0; i < 2; i++) {
