@@ -279,17 +279,17 @@ public class Display {
     }
 
     public static void displayHint(boolean rolled, boolean started){
-        System.out.println("Hint of all allowed command:");
+        System.out.println("     Hint of all allowed command:");
         if (started) {
-            System.out.println("Enter 'pip' to display pip count for both players");
-            System.out.println("Enter 'board' to display game board");
+            System.out.println("     Enter 'pip' to display pip count for both players");
+            System.out.println("     Enter 'board' to display game board");
         }
-        System.out.println("Enter 'q' to quit game");
+        System.out.println("     Enter 'q' to quit game");
         if (!rolled){
-            System.out.println("Enter 'roll' to roll dice"); //Can only do if haven't rolled already. Add this/////////////////
+            System.out.println("     Enter 'roll' to roll dice"); //Can only do if haven't rolled already. Add this/////////////////
         }
         else{
-            System.out.println("To make a move choose an option from the following list:");
+            System.out.println("     To make a move choose an option from the following list:");
         }
         //////////Add moves
     }

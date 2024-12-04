@@ -137,7 +137,7 @@ public class MoveHandler {//Class to check and execute moves
                     index++;
                 }
                 else if(m[0] != m[1]&& m[2] != m[3]){
-                    System.out.printf("%s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
+                    System.out.printf("         %s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
                     addMoveToCollections(index, m);
                     index++;
                 }
@@ -166,7 +166,7 @@ public class MoveHandler {//Class to check and execute moves
                     index++;
                 }
                 else if(m[0] != m[1]&& m[2] != m[3]){
-                    System.out.printf("%s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
+                    System.out.printf("         %s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
                     addMoveToCollections(index, m);
                     index++;
                 }
