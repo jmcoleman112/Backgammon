@@ -245,10 +245,12 @@ public class MoveHandler {//Class to check and execute moves
 
         // Use dice1 for re-entry and explore the second move with dice2
         if (isLegalMove(player, -1, reentryTarget1, locs)) {
+            List<Integer> newLocs = new ArrayList<>(locs);
             move[depth*2] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
             move[depth*2+1] = reentryTarget1;
+            newLocs.add(reentryTarget1); // Add the new position
             if(barcount ==0 ){
-                dfs(locs, 0, dice2, validMoves, player, move, depth+1);
+                dfs(newLocs, 0, dice2, validMoves, player, move, depth+1);
             }
             else{
                 dfsWithReentry(locs, 0, dice2, validMoves, player, move, depth+1, usedDice+1, barcount);
@@ -257,10 +259,12 @@ public class MoveHandler {//Class to check and execute moves
 
         // Use dice2 for re-entry and explore the second move with dice1
         if (isLegalMove(player, -1, reentryTarget2, locs)) {
+            List<Integer> newLocs = new ArrayList<>(locs);
             move[0] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
             move[1] = reentryTarget2;
+            newLocs.add(reentryTarget2); // Add the new position
             if(barcount ==0){
-                dfs(locs, dice1, 0, validMoves, player, move, 1);
+                dfs(newLocs, dice1, 0, validMoves, player, move, 1);
             }
             else{
                 dfsWithReentry(locs, dice1, 0, validMoves, player, move, 1, 0, barcount);

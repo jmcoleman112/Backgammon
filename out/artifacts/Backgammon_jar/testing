@@ -6,5 +6,4 @@ roll 2
 a
 roll 6 6
 a
-a
-setboard 0N 0N 0N 0N 0N 0N 1R 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 1B 0N 0N 0N 0N 0N 0N
+setboard 0N 0N 0N 0N 0N 1B 1R 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 2B 0N
