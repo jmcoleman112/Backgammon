@@ -286,7 +286,8 @@ public class Display {
         }
         System.out.println("     Enter 'q' to quit game");
         if (!rolled){
-            System.out.println("     Enter 'roll' to roll dice"); //Can only do if haven't rolled already. Add this/////////////////
+            System.out.println("     Enter 'roll' to roll dice"); //Can only do if haven't rolled already.
+            System.out.println("     Enter 'double' to double the stakes");
         }
         else{
             System.out.println("     To make a move choose an option from the following list:");
