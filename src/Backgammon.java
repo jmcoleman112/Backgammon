@@ -94,16 +94,16 @@ public class Backgammon { //Class to run game logic
                 game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
             }
 
-            // Test block
-            int[] red = new int[26];
-            int[] blue = new int[26];
-            red[6] = 1;
-            red[2] = 1;
-            blue[22] = 2;
-            blue[1] = 1;
-            Board board = new Board(red, blue);
-            game.setTestBoard(board);
-            game.getMoveHandler().setBoard(board);
+//            // Test block
+//            int[] red = new int[26];
+//            int[] blue = new int[26];
+//            red[6] = 1;
+//            red[2] = 1;
+//            blue[22] = 2;
+//            blue[1] = 1;
+//            Board board = new Board(red, blue);
+//            game.setTestBoard(board);
+//            game.getMoveHandler().setBoard(board);
 
             while (game.getMatch().noMatchWinner()) {
                 boolean filemode = false;
