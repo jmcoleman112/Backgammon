@@ -61,7 +61,9 @@ public class MatchTest {
         int[] redPointsGammon = new int[26]; // Red has pieces on the board
         int[] bluePointsGammon = new int[26];
         bluePointSingle[25] = 15;
-        redPointsGammon[0] = 15; // 15 points left on board
+        redPointsGammon[0] = 14; // 15 counters left on board
+        redPointsGammon[10] = 1; // 1 counter for gammon
+
         Board gammonBoard = new Board(redPointsGammon, bluePointsGammon);
         match.updateScore(1, gammonBoard); // Blue wins
         assertEquals(5, match.getBlueScore()); // Gammon win awards 2 points, 3+2=5
@@ -179,7 +181,8 @@ public class MatchTest {
         int[] redPointsGammon = new int[26]; // Red has pieces on the board
         int[] bluePointsGammon = new int[26];
         bluePointSingle[25] = 15;
-        redPointsGammon[0] = 15; // 15 points left on board
+        redPointsGammon[0] = 14; // 15 points left on board
+        redPointsGammon[10] = 1; // 15 points left on board
         Board gammonBoard = new Board(redPointsGammon, bluePointsGammon);
         assertEquals(2, match.returnPointsScored(1, gammonBoard));
         match.updateDoubleCount();

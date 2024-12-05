@@ -84,7 +84,7 @@ public class DisplayTest {
         Display.printGameWinMessage(players, 0, match, board);
 
         String output = outputStream.toString();
-        assertTrue("Output should display the winner's name", output.contains("\033[0;31mPlayer 1\033[0m Wins!"));
+        assertTrue("Output should display the winner's name", output.contains("Player 1\033[0m" + "\033[32m Wins"));
         assertTrue("Output should display the final score", output.contains("5"));
     }
 
@@ -98,8 +98,8 @@ public class DisplayTest {
         Display.printMatchWinMessage(players, 0, match);
 
         String output = outputStream.toString();
-        assertTrue("Output should display match end message", output.contains("Game Over"));
-        assertTrue("Output should display the winner's name", output.contains("\033[0;31mPlayer 1\033[0m!"));
+        assertTrue("Output should display match end message", output.contains("Match Over!"));
+        assertTrue("Output should display the winner's name", output.contains("\033[0;31mPlayer 1\033[0m\033[32m!"));
         assertTrue("Output should display the final score", output.contains("9"));
     }
 

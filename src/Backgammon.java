@@ -92,7 +92,7 @@ public class Backgammon { //Class to run game logic
                 game.fileStart(filename);
             } else {
                 game.setMatchLength("");
-                game.setPlayers("", "");
+                game.setPlayers("", "", game.getInputHandler());
                 game.getPlayers().setCurrentPlayer(game.decideFirstPlayer());
             }
 
@@ -150,8 +150,8 @@ public class Backgammon { //Class to run game logic
      * @param player1Name the name of player 1
      * @param player2Name the name of player 2
      */
-    public void setPlayers(String player1Name, String player2Name) {
-        if (player1Name.isEmpty() || player2Name.isEmpty()) this.players = new Players();
+    public void setPlayers(String player1Name, String player2Name, InputHandler inputHandler) {
+        if (player1Name.isEmpty() || player2Name.isEmpty()) this.players = new Players(inputHandler);
         else {
             this.players = new Players(player1Name, player2Name);
         }
@@ -605,7 +605,7 @@ public class Backgammon { //Class to run game logic
     public void fileStart(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             setMatchLength(reader.readLine().trim());
-            setPlayers(reader.readLine().trim(), reader.readLine().trim());
+            setPlayers(reader.readLine().trim(), reader.readLine().trim(), getInputHandler());
             decideFirstPlayerFile(reader);
             fileTurn(reader);
         } catch (IOException e) {
@@ -695,6 +695,10 @@ public class Backgammon { //Class to run game logic
             userInput = inputHandler.getInput();
         }
         return userInput.equalsIgnoreCase("y");
+    }
+
+    public void setInputHandler(InputHandler inputHandler){ //For testing
+        this.inputHandler = inputHandler;
     }
 
 }

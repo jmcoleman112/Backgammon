@@ -5,11 +5,10 @@ public class Players {
     private int currentPlayer;
 
 
-    public Players() { // Sets player names at start of game
+    public Players(InputHandler inputHandler) { // Sets player names at start of game
         this.players = new String[2];
 
         for(int i = 0; i <= 1; i++){
-            InputHandler inputHandler = new InputHandler();
             System.out.print("Please enter the name for "+ Colour.getplayercolour(i) +"PLayer " + (i+1) + Colour.NONE.shader() + ": ");
             players[i] = inputHandler.getInput();
         }

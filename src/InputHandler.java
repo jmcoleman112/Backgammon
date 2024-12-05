@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 
 public class InputHandler {
-    private final Scanner scanner;
+    private Scanner scanner;
 
 
     /**
@@ -170,6 +170,10 @@ public class InputHandler {
         return input.equalsIgnoreCase("pip");}
 
 
+    public void setScanner(Scanner scanner){ //For testing
+        this.scanner.close();
+        this.scanner = scanner;
+    }
     /**
      * Closes the scanner.
      */
