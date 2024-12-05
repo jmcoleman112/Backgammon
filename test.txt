@@ -10,3 +10,9 @@ roll 1 6
 a
 roll 1 2
 a
+roll 2 3
+a
+roll 2 4
+j
+roll 1 6
+a

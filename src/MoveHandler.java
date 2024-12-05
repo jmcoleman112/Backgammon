@@ -421,9 +421,11 @@ public class MoveHandler {//Class to check and execute moves
 
             // Set source color for re-entry
             sColour = (barIndex == 1) ? Colour.BLUE : Colour.RED;
-            bar.setCount(bar.getCount() - 1); // Remove one checker from the bar
-            Point destination = board.getPoint(to);
-            moveToPoint(sColour, destination);
+            if(from != to) {
+                bar.setCount(bar.getCount() - 1); // Remove one checker from the bar
+                Point destination = board.getPoint(to);
+                moveToPoint(sColour, destination);
+            }
         }
 
         // Proceed with moving to the destination

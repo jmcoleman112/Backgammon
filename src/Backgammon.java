@@ -114,7 +114,6 @@ public class Backgammon { //Class to run game logic
                     int player = game.getPlayers().getCurrentPlayer();
                     filemode = false;
                     boolean turnInProgress = true;
-                    Display.displayplayerchange(player);
                     Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
                     game.promptPlayer(player);
                     String userInput = inputHandler.getInput();
@@ -137,6 +136,7 @@ public class Backgammon { //Class to run game logic
                             }
                         }
                         game.getPlayers().switchPlayer();
+                        Display.displayplayerchange(game.getPlayers().getCurrentPlayer());
                     }
                 }
                 int winner = game.getBoard().getWinner();
@@ -404,6 +404,7 @@ public class Backgammon { //Class to run game logic
         moveHandler.legalmoves(first, rolls[0], rolls[1]);
         chooseMove(first, rolls, null);
         first = (first == 0) ? 1 : 0;
+        Display.displayplayerchange(first);
         return first;
     }
 
