@@ -126,12 +126,12 @@ public class MoveHandler {//Class to check and execute moves
                         ? String.format("bear off from Pt. %d", m[2] + 1)
                         : String.format("Move %d -> %d", m[2] + 1, m[3] + 1);
                 if(!twopart && m[2]==m[3]){
-                    System.out.printf("%s) %s%n", getNextLabel(index), firstMove);
+                    System.out.printf("         %s) %s%n", getNextLabel(index), firstMove);
                     addMoveToCollections(index, m);
                     index++;
                 }
                 else if(!twopart && m[0] == m[1]){
-                    System.out.printf("%s) %s%n", getNextLabel(index), secondMove);
+                    System.out.printf("         %s) %s%n", getNextLabel(index), secondMove);
                     addMoveToCollections(index, m);
                     index++;
                 }
@@ -155,12 +155,12 @@ public class MoveHandler {//Class to check and execute moves
                         ? String.format("bear off from Pt. %d", 24 - m[2])
                         : String.format("Move %d -> %d", 24 - m[2], 24 - m[3]);
                 if(!twopart && m[2]==m[3]){
-                    System.out.printf("%s) %s%n", getNextLabel(index), firstMove);
+                    System.out.printf("         %s) %s%n", getNextLabel(index), firstMove);
                     addMoveToCollections(index, m);
                     index++;
                 }
                 else if(!twopart && m[0] == m[1]){
-                    System.out.printf("%s) %s%n", getNextLabel(index), secondMove);
+                    System.out.printf("         %s) %s%n", getNextLabel(index), secondMove);
                     addMoveToCollections(index, m);
                     index++;
                 }
@@ -253,21 +253,21 @@ public class MoveHandler {//Class to check and execute moves
                 dfs(newLocs, 0, dice2, validMoves, player, move, depth+1);
             }
             else{
-                dfsWithReentry(locs, 0, dice2, validMoves, player, move, depth+1, usedDice+1, barcount);
+                dfsWithReentry(newLocs, 0, dice2, validMoves, player, move, depth+1, usedDice+1, barcount);
             }
         }
 
         // Use dice2 for re-entry and explore the second move with dice1
         if (isLegalMove(player, -1, reentryTarget2, locs)) {
             List<Integer> newLocs = new ArrayList<>(locs);
-            move[0] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
-            move[1] = reentryTarget2;
+            move[depth*2] = player==1 ? -1 : 24; // Set re-entry point as -1 for off-board
+            move[depth*2+1] = reentryTarget2;
             newLocs.add(reentryTarget2); // Add the new position
             if(barcount ==0){
-                dfs(newLocs, dice1, 0, validMoves, player, move, 1);
+                dfs(newLocs, dice1, 0, validMoves, player, move, depth+1);
             }
             else{
-                dfsWithReentry(locs, dice1, 0, validMoves, player, move, 1, 0, barcount);
+                dfsWithReentry(newLocs, dice1, 0, validMoves, player, move, depth+1, usedDice+1, barcount);
             }
         }
     }
@@ -340,6 +340,10 @@ public class MoveHandler {//Class to check and execute moves
      * @return true if the move is legal, false otherwise
      */
     private boolean isLegalMove(int player, int start, int target, List<Integer> locs) {
+
+        if(start==target){
+            return true;
+        }
 
         if(board.bearoffcheck(player) && (target <0 || target>23)) {// Check if bearing off is allowed
             if(target == -1 || target == 24){

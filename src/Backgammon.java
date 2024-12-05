@@ -557,7 +557,7 @@ public class Backgammon { //Class to run game logic
      * @param reader the buffered reader for file input
      */
     public void handleDoubleStakes(int player, BufferedReader reader) {
-        System.out.println(players.getPlayerName(player) + " has offered to double the stakes to " + match.getDoubleCount() * 2 + "! ");
+        System.out.println(players.getPlayerName(player) + " has offered to double the stakes to " + match.getDoubleCount() * 2 + "! \n");
         System.out.print(players.getPlayerName((player == 0) ? 1 : 0) + " do you accept? (accept/reject): ");
         System.out.flush();
         String userInput;
@@ -582,12 +582,12 @@ public class Backgammon { //Class to run game logic
         }
         if (userInput.equalsIgnoreCase("accept")) {
             match.updateDoubleCount();
-            System.out.println(players.getPlayerName(player) + " has doubled the stakes!");
+            System.out.println("\n"+players.getPlayerName(player) + " has doubled the stakes!");
             player = (player == 0) ? 1 : 0;
             match.setDoubleOwner(player);
         } else {
             board.setWinner(player);
-            System.out.println(players.getPlayerName((player == 0) ? 1 : 0) + " has declined the offer to double the stakes, and forfeits the game.");
+            System.out.println("\n"+players.getPlayerName((player == 0) ? 1 : 0) + " has declined the offer to double the stakes, and forfeits the game.");
 
             boolean filemode = (reader != null);
             int winner = board.getWinner();

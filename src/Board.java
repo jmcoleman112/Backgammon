@@ -113,7 +113,7 @@ public class Board {
             count += bars[0].getCount();
         }
         else {
-            for (int i = 0; i < 19; i++){
+            for (int i = 0; i < 18; i++){
                 if (points[i].getColor() == getPlayerColor(player)){
                     count += 1;
                 }
