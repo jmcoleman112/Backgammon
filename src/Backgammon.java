@@ -212,12 +212,7 @@ public class Backgammon { //Class to run game logic
         System.out.print("Please Hit Enter to begin the game: ");
         String welcomestring = inputHandler.getInput();
         if (inputHandler.isfileCommand(welcomestring)) {
-            String filename = welcomestring.substring(5);
-            try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                return filename;
-            } catch (IOException e) {
-                System.err.println("Invalid Filename. Starting Game");
-            }
+            return welcomestring.substring(5);
         }
         return null;
     }
