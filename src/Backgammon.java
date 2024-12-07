@@ -570,7 +570,16 @@ public class Backgammon { //Class to run game logic
         while (!userInput.equalsIgnoreCase("accept") && !userInput.equalsIgnoreCase("reject")) {
             System.out.print("Please enter a valid response (accept/reject): ");
             System.out.flush();
-            userInput = inputHandler.getInput();
+            try {
+                userInput = reader.readLine();
+                if (userInput == null) {
+                    userInput = inputHandler.getInput();
+                } else {
+                    System.out.println(userInput);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         if (userInput.equalsIgnoreCase("accept")) {
             match.updateDoubleCount();

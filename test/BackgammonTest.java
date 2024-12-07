@@ -18,23 +18,31 @@ public class BackgammonTest {
         game = new Backgammon();
 
         //Set players
-        String simulatedInput = "Alice\nBob\n";
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
+        setupInput("Alice\nBob\n");
 
         // Call the updated method to set players, passing the custom InputHandler
-        game.setPlayers("", "", testInputHandler);
+        game.setPlayers("", "", game.getInputHandler());
+    }
+
+    public ByteArrayOutputStream setupOutput(){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        return outputStream;
+    }
+
+    public void setupInput(String input){
+        InputHandler testInputHandler = new InputHandler();
+        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(input.getBytes())));
+        game.setInputHandler(testInputHandler);
     }
 
     @Test
     public void testSetPlayers() {
         // Simulate user input for player names
-        String simulatedInput = "Alice\nBob\n";
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
+        setupInput("Alice\nBob\n");
 
         // Call the updated method to set players, passing the custom InputHandler
-        game.setPlayers("", "", testInputHandler);
+        game.setPlayers("", "", game.getInputHandler());
 
         // Verify the player names
         assertEquals("\033[0;31mAlice\033[0m", game.getPlayers().getPlayerName(0));
@@ -66,20 +74,14 @@ public class BackgammonTest {
 
     @Test
     public void testWelcomeFile(){ //Test starting with file
-        String simulatedInput = "test filename\n";
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("test filename\n");
 
         assertEquals(game.Welcome(), "filename");
     }
 
     @Test
     public void testWelcomeNoFile(){
-        String simulatedInput = "\n";
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("\n");
 
         assertNull(game.Welcome());
 
@@ -94,10 +96,7 @@ public class BackgammonTest {
 
     @Test
     public void testDecideFirstPlayer() {
-        String simulatedInput = "roll 3\nroll 4\na\n";
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("roll 3\nroll 4\na\n");
 
         int firstPlayer = game.decideFirstPlayer();
         assertEquals(0, firstPlayer);
@@ -113,10 +112,7 @@ public class BackgammonTest {
         game.setTestBoard(board);
         game.getPlayers().setCurrentPlayer(0);
 
-        String simulatedInput = "a\n"; //Select move
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("a\n");
 
         boolean turnInProgress = game.processTurn(0, "roll 4 6", null);
         assertFalse(turnInProgress);
@@ -132,10 +128,7 @@ public class BackgammonTest {
         game.setTestBoard(board);
         game.getPlayers().setCurrentPlayer(0);
 
-        String simulatedInput = "a\na\n"; //Select move
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("a\na\n");
 
         boolean turnInProgress = game.processTurn(0, "roll 6 6", null);
         assertFalse(turnInProgress);
@@ -153,10 +146,7 @@ public class BackgammonTest {
         game.setTestBoard(board);
         game.getPlayers().setCurrentPlayer(0);
 
-        String simulatedInput = "a\na\n"; //Select move
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("a\na\n");
 
         boolean turnInProgress = game.processTurn(0, "roll 3 3", null);
         assertFalse(turnInProgress);
@@ -174,10 +164,7 @@ public class BackgammonTest {
         game.setTestBoard(board);
         game.getPlayers().setCurrentPlayer(0);
 
-        String simulatedInput = "a\na\n"; //Select move
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("a\na\n");
 
         boolean turnInProgress = game.processTurn(0, "roll 6 6", null);
         assertFalse(turnInProgress);
@@ -235,8 +222,7 @@ public class BackgammonTest {
         game.setTestBoard(board);
         game.getPlayers().setCurrentPlayer(0);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
+        ByteArrayOutputStream outputStream = setupOutput();
 
         game.processTurn(0, "pip", null);
 
@@ -247,8 +233,8 @@ public class BackgammonTest {
 
     @Test
     public void testProcessTurnHintCommand(){
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
+        ByteArrayOutputStream outputStream = setupOutput();
+
 
         game.processTurn(0, "hint", null);
 
@@ -260,8 +246,7 @@ public class BackgammonTest {
 
     @Test
     public void testProcessTurnBoardCommand(){
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
+        ByteArrayOutputStream outputStream = setupOutput();
 
         game.processTurn(0, "board", null);
 
@@ -272,10 +257,7 @@ public class BackgammonTest {
 
     @Test
     public void testProcessTurnDoubleCommandAccepted(){
-        String simulatedInput = "accept\n";
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("accept");
 
         game.processTurn(0, "double", null);
 
@@ -291,10 +273,7 @@ public class BackgammonTest {
 
         game.setTestBoard(board);
 
-        String simulatedInput = "reject\nroll 3\nroll 4\na\n"; //Reject double and start new game
-        InputHandler testInputHandler = new InputHandler();
-        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(simulatedInput.getBytes())));
-        game.setInputHandler(testInputHandler);
+        setupInput("reject\nroll 3\nroll 4\na\n");
 
         game.processTurn(0, "double", null);
 
@@ -302,9 +281,105 @@ public class BackgammonTest {
     }
 
     @Test
-    public void testProcessTurnFile(){
-        try (BufferedReader reader = new BufferedReader(new FileReader("test.txt"))) {
+    public void testProcessTurnFileMove(){
+        try (BufferedReader reader = new BufferedReader(new FileReader("testMove.txt"))) {
             boolean turnInProgress = game.processTurn(0, "roll 2 3", reader);
+            assertFalse(turnInProgress);
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testProcessTurnFileHint(){
+        ByteArrayOutputStream outputStream = setupOutput();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testHint.txt"))) {
+            boolean turnInProgress = game.processTurn(0, "roll 2 3", reader);
+
+            String output = outputStream.toString();
+
+            assertFalse(turnInProgress);
+            assertTrue(output.contains("Hint of all allowed command:"));
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testProcessTurnFilePip(){
+        ByteArrayOutputStream outputStream = setupOutput();
+
+        int[] red = new int[26];
+        red[24] = 2;
+        int[] blue = new int[26];
+        blue[23] = 2;
+        blue[22] = 2;
+        Board board = new Board(red, blue);
+
+        game.setTestBoard(board);
+        game.getPlayers().setCurrentPlayer(0);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testPip.txt"))) {
+            boolean turnInProgress = game.processTurn(0, "roll 4 6", reader);
+
+
+            String output = outputStream.toString();
+            assertTrue("Output should display red pip count", output.contains("50")); //Red pipcount
+            assertTrue("Output should display blue pip count", output.contains("6")); //Blue pipcount
+
+            assertFalse(turnInProgress);
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testProcessTurnFileBoard(){
+        ByteArrayOutputStream outputStream = setupOutput();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testBoard.txt"))) {
+            boolean turnInProgress = game.processTurn(0, "roll 4 6", reader);
+
+
+            String output = outputStream.toString();
+            assertTrue("Output should contain board corners", output.contains("\u2554") && output.contains("\u255D"));
+            assertTrue("Output should display points for red and blue pieces", output.contains("\033[0;31mO") || output.contains("\033[0;34mO"));
+
+            assertFalse(turnInProgress);
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testProcessTurnFileDouble(){
+        ByteArrayOutputStream outputStream = setupOutput();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testDoubleAfterRoll.txt"))) {
+            boolean turnInProgress = game.processTurn(0, "roll 4 6", reader);
+
+
+            String output = outputStream.toString();
+            assertTrue("Can't double after rolling", output.contains("You cannot double the stakes at this time. Please enter a valid command"));
+
+            assertFalse(turnInProgress);
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testProcessTurnFileInvalidMove(){
+        ByteArrayOutputStream outputStream = setupOutput();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testInvalidMove.txt"))) {
+            boolean turnInProgress = game.processTurn(0, "roll 4 6", reader);
+
+
+            String output = outputStream.toString();
+            assertTrue("Should print if invalid move entered", output.contains("Error: Please enter a valid command"));
+
             assertFalse(turnInProgress);
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
@@ -378,5 +453,76 @@ public class BackgammonTest {
         boolean turnInProgress = game.processTurn(0, "roll 1 2\n", null);
         assertFalse(turnInProgress);
         assertEquals(1, board.getEnd(0).getCount());
+    }
+
+    @Test
+    public void testFileStart(){
+        Backgammon testGame = new Backgammon();
+        ByteArrayOutputStream outputStream = setupOutput();
+
+
+        testGame.fileStart("testFiles/testFileStart.txt");
+        String output = outputStream.toString();
+
+        assertEquals("Match length set to 5", 5, testGame.getMatch().getMatchLength());
+
+        assertEquals("Player 1 is Alice", "\033[0;31mAlice\033[0m", testGame.getPlayers().getPlayerName(0));
+        assertEquals("Player 2 is Bob", "\033[0;34mBob\033[0m", testGame.getPlayers().getPlayerName(1));
+
+        assertEquals("Player is player 0 after player 1 chooses move", 0, testGame.getPlayers().getCurrentPlayer());
+    }
+
+    @Test
+    public void testFileTurn() {
+        ByteArrayOutputStream outputStream = setupOutput();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testFileTurn.txt"))) {
+
+            game.fileTurn(reader);
+            String output = outputStream.toString();
+            assertTrue("Hints have been displayed", output.contains("Hint of all allowed command:"));
+            assertTrue("Moves have been printed", output.contains("please choose a move from the list above"));
+            assertTrue("Player change after move chosen", output.contains("PLAYER CHANGE"));
+
+
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testNewMatch(){
+        setupInput("h\ny\n");
+        assertTrue(game.newMatch());
+
+        setupInput("n");
+        assertFalse(game.newMatch());
+    }
+
+    @Test
+    public void testOneRoll(){
+        int rolls = game.oneRoll();
+        assertTrue("Valid roll", rolls > 0 && rolls <= 6);
+    }
+
+    @Test
+    public void testHandleDoubleFile(){
+        try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testHandleDoubleFile.txt"))) {
+
+            game.handleDoubleStakes(0, reader);
+
+            assertEquals("Check double count", 2, game.getMatch().getDoubleCount());
+            assertEquals("Player 1 has ownership of dice", 1, game.getMatch().getDoubleOwner());
+
+            game.handleDoubleStakes(0, reader);
+            assertEquals("Winner is player 0 if player 1 rejects", 0, game.getBoard().getWinner());
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testQuitGame(){
+
     }
 }
