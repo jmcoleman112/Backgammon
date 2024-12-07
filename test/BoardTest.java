@@ -12,7 +12,7 @@ public class BoardTest {
 
     @Before
     public void setUp() {
-        board = new Board(); // Default board setup
+        board = new Board();
     }
 
     @Test
@@ -60,25 +60,25 @@ public class BoardTest {
         int[] blue = new int[26];
         red[0] = 5;
         red[1] = 5;
-        red[2] = 5; // Red has 15 checkers in its home board
+        red[2] = 5;
         Board testBoard = new Board(red, blue);
         assertTrue(testBoard.bearoffcheck(0));
-        assertFalse(board.bearoffcheck(0)); // Default board should fail bearoffcheck
+        assertFalse(board.bearoffcheck(0));
     }
 
     @Test
     public void maxPoint() {
-        assertEquals(5, board.maxPoint()); // Default board max point
+        assertEquals(5, board.maxPoint());
     }
 
     @Test
     public void getTotalPipCount() {
         int[] red = new int[26];
-        red[0] = 2; // Two checkers on 1-point
-        red[5] = 5; // Five checkers on 6-point
-        red[24] = 3; // Three checkers on the bar
+        red[0] = 2;
+        red[5] = 5;
+        red[24] = 3;
         Board testBoard = new Board(red, new int[26]);
-        assertEquals(25*3 + (1 * 2) + (6 * 5), testBoard.getTotalPipCount(0));
+        assertEquals(25 * 3 + (1 * 2) + (6 * 5), testBoard.getTotalPipCount(0));
     }
 
     @Test
@@ -86,12 +86,12 @@ public class BoardTest {
         List<Integer> redPoints = board.getColoredPoints(Colour.RED);
         assertTrue(redPoints.contains(5));
         assertTrue(redPoints.contains(12));
-        assertFalse(redPoints.contains(0)); // Blue point
+        assertFalse(redPoints.contains(0));
     }
 
     @Test
     public void noGameWinner() {
-        assertTrue(board.noGameWinner()); // Default board has no winner
+        assertTrue(board.noGameWinner());
         board.setWinner(0);
 
         int[] red = new int[26];
@@ -103,7 +103,7 @@ public class BoardTest {
 
     @Test
     public void getWinner() {
-        assertEquals(-1, board.getWinner()); // Default board has no winner
+        assertEquals(-1, board.getWinner());
         board.setWinner(0);
         assertEquals(0, board.getWinner());
     }

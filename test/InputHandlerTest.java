@@ -2,6 +2,10 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
+
 import static org.junit.Assert.*;
 
 public class InputHandlerTest {
@@ -14,9 +18,14 @@ public class InputHandlerTest {
     }
 
     @Test
-    public void getInput() {
-        // Since `getInput()` requires user input, you could mock the input stream to test it.
-        // Example: System.setIn(new ByteArrayInputStream("test input".getBytes()));
+    public void testGetInput() {
+        String testInput = "test";
+        InputHandler testInputHandler = new InputHandler();
+        testInputHandler.setScanner(new Scanner(new ByteArrayInputStream(testInput.getBytes())));
+
+        String input = testInputHandler.getInput();
+
+        assertEquals("Check simulated input", testInput, input);
     }
 
     @Test
@@ -86,7 +95,6 @@ public class InputHandlerTest {
 
     @Test
     public void closeScanner() {
-        // This test ensures no exceptions are thrown when closing the scanner.
         inputHandler.closeScanner();
     }
 }

@@ -14,12 +14,10 @@ public class DisplayTest {
 
     @Before
     public void setUp() {
-        // Define a custom board setup
-        int[] red = {2, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}; // Red stones at specific positions
-        int[] blue = {0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1}; // Blue stones at specific positions
+        int[] red = {2, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+        int[] blue = {0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1};
         testBoard = new Board(red, blue);
 
-        // Redirect system output to capture printed content
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
     }
@@ -27,28 +25,25 @@ public class DisplayTest {
     @Test
     public void testDisplayBoard() {
         Display.displayBoard(testBoard, 0, new Match());
-
         String output = outputStream.toString();
-        assertTrue("Output should contain board corners", output.contains("\u2554") && output.contains("\u255D"));
-        assertTrue("Output should display points for red and blue pieces", output.contains("\033[0;31mO") || output.contains("\033[0;34mO"));
+        assertTrue(output.contains("\u2554") && output.contains("\u255D"));
+        assertTrue(output.contains("\033[0;31mO") || output.contains("\033[0;34mO"));
     }
 
     @Test
     public void testPrintPipNumbers() {
         Display.printPipNumbers(testBoard, true, 0);
-
         String output = outputStream.toString();
-        assertTrue("Output should contain first pip number", output.contains("13")); // First pip number
-        assertTrue("Output should contain last pip number", output.contains("24")); // Last pip number
-        assertTrue("Output should contain BAR", output.contains("BAR")); // BAR
+        assertTrue(output.contains("13"));
+        assertTrue(output.contains("24"));
+        assertTrue(output.contains("BAR"));
     }
 
     @Test
     public void testPrintDiceFace() {
         Display.printDiceFace(3, 5, false);
-
         String output = outputStream.toString();
-        assertTrue("Output should contain dice faces", output.contains("┌───────┐") && output.contains("│   ●   │"));
+        assertTrue(output.contains("┌───────┐") && output.contains("│   ●   │"));
     }
 
     @Test
@@ -57,14 +52,13 @@ public class DisplayTest {
         match.setScore(5, 0);
         match.setScore(4, 1);
         match.setMatchLength(7);
-        match.updateDoubleCount(); //Goes form 1 to 2
+        match.updateDoubleCount();
         match.setDoubleOwner(0);
 
         Display.printOverlay(match, 0);
-
         String output = outputStream.toString();
-        assertTrue("Output should display red score", output.contains("\033[0;31m5"));
-        assertTrue("Output should display blue score", output.contains("\033[0;34m4"));
+        assertTrue(output.contains("\033[0;31m5"));
+        assertTrue(output.contains("\033[0;34m4"));
     }
 
     @Test
@@ -82,10 +76,9 @@ public class DisplayTest {
         Board board = new Board(red, blue);
 
         Display.printGameWinMessage(players, 0, match, board);
-
         String output = outputStream.toString();
-        assertTrue("Output should display the winner's name", output.contains("Player 1\033[0m" + "\033[32m Wins"));
-        assertTrue("Output should display the final score", output.contains("5"));
+        assertTrue(output.contains("Player 1\033[0m" + "\033[32m Wins"));
+        assertTrue(output.contains("5"));
     }
 
     @Test
@@ -96,19 +89,17 @@ public class DisplayTest {
         match.setScore(8, 1);
 
         Display.printMatchWinMessage(players, 0, match);
-
         String output = outputStream.toString();
-        assertTrue("Output should display match end message", output.contains("Match Over!"));
-        assertTrue("Output should display the winner's name", output.contains("\033[0;31mPlayer 1\033[0m\033[32m!"));
-        assertTrue("Output should display the final score", output.contains("9"));
+        assertTrue(output.contains("Match Over!"));
+        assertTrue(output.contains("\033[0;31mPlayer 1\033[0m\033[32m!"));
+        assertTrue(output.contains("9"));
     }
 
     @Test
     public void testDisplayHint() {
         Display.displayHint(false, true);
-
         String output = outputStream.toString();
-        assertTrue("Output should include the 'roll' command", output.contains("Enter 'roll' to roll dice"));
-        assertTrue("Output should include the 'board' command", output.contains("Enter 'board' to display game board"));
+        assertTrue(output.contains("Enter 'roll' to roll dice"));
+        assertTrue(output.contains("Enter 'board' to display game board"));
     }
 }

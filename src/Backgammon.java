@@ -50,6 +50,7 @@ import utilities.Colour;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class Backgammon { //Class to run game logic
@@ -79,6 +80,7 @@ public class Backgammon { //Class to run game logic
      * @param args command line arguments
      */
     public static void main(String[] args) {
+        boolean testing = (Objects.equals(args[0], "test"));
         boolean MatchLive = true;
         Backgammon game = new Backgammon();
         Display.welcomeMessage();
@@ -107,7 +109,6 @@ public class Backgammon { //Class to run game logic
                     game.promptPlayer(player);
                     String userInput = inputHandler.getInput();
                     if (inputHandler.isfileCommand(userInput)) {
-                        filemode = true;
                         filename = userInput.substring(5);
                         try {
                             reader = new BufferedReader(new FileReader(filename));
@@ -135,6 +136,7 @@ public class Backgammon { //Class to run game logic
                             Display.displayplayerchange(game.getPlayers().getCurrentPlayer());
                         }
                     }
+                    if(testing) System.out.println("Test complete!"); return; //If testing main start game, make one move for each player then return
                 }
                 int winner = game.getBoard().getWinner();
                 game.getMatch().updateScore(winner, game.getBoard());
@@ -149,7 +151,7 @@ public class Backgammon { //Class to run game logic
             Display.printMatchWinMessage(game.getPlayers(), game.getMatch().getMatchWinner(), game.getMatch());
             MatchLive = game.newMatch();
         }
-        game.quitGame();
+        game.quitGame(false);
     }
 
     /**
@@ -267,7 +269,7 @@ public class Backgammon { //Class to run game logic
             }
             return true;
         } else if (inputHandler.isQuitCommand(userInput)) {
-            quitGame();
+            quitGame(false);
             return false;
         } else if (inputHandler.isSetBoardCommand(userInput)) {
             Board UpdatedBoard = new Board();
@@ -324,7 +326,7 @@ public class Backgammon { //Class to run game logic
 
                 turnInProgress = false;
             } else if (inputHandler.isQuitCommand(moveInput)) {
-                quitGame();
+                quitGame(false);
                 turnInProgress = false;
             } else if (inputHandler.isPipCommand(moveInput)) {
                 Display.displayPipCount(getBoard(), players);
@@ -370,7 +372,7 @@ public class Backgammon { //Class to run game logic
                         }
                     }
                     if (inputHandler.isQuitCommand(userInput)) {
-                        quitGame();
+                        quitGame(false);
                         break;
                     } else if (inputHandler.isHintCommand(userInput)) {
                         Display.displayHint(false, false);
@@ -436,7 +438,7 @@ public class Backgammon { //Class to run game logic
                         }
                     }
                     if (inputHandler.isQuitCommand(userInput)) {
-                        quitGame();
+                        quitGame(false);
                         break;
                     } else if (inputHandler.isHintCommand(userInput)) {
                         Display.displayHint(false, false);
@@ -475,11 +477,11 @@ public class Backgammon { //Class to run game logic
     /**
      * Quits the game.
      */
-    public void quitGame() {
+    public void quitGame(boolean testing) { //To test without calling system exit
         System.out.println("Thank You for playing!");
         System.out.println("Quitting game\n\n");
         inputHandler.closeScanner();
-        System.exit(0);
+        if(!testing) System.exit(0); //To test without calling system exit
     }
 
     /**
@@ -692,6 +694,10 @@ public class Backgammon { //Class to run game logic
      */
     public void incrementGameCount() {
         gamecount++;
+    }
+
+    public int getGamecount(){
+        return gamecount;
     }
 
     /**

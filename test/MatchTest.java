@@ -13,15 +13,15 @@ public class MatchTest {
     }
 
     @Test
-    public void testSetScorePlayer0(){
+    public void testSetScorePlayer0() {
         match.setScore(3, 0);
-        assertEquals("Score should be 3", 3, match.getRedScore());
+        assertEquals(3, match.getRedScore());
     }
 
     @Test
-    public void testSetScorePlayer1(){
+    public void testSetScorePlayer1() {
         match.setScore(5, 1);
-        assertEquals("Score should be 5", 5, match.getBlueScore());
+        assertEquals(5, match.getBlueScore());
     }
 
     @Test
@@ -44,53 +44,48 @@ public class MatchTest {
 
     @Test
     public void updateScore() {
-        // Single game win setup: The loser has borne off at least one checker
         int[] redPointsSingle = new int[26];
-        int[] bluePointSingle = new int[26]; //Blue is winner
-        redPointsSingle[0] = 1; // Red has a single piece remaining (loser)
-        redPointsSingle[25] = 14; //End count
+        int[] bluePointSingle = new int[26];
+        redPointsSingle[0] = 1;
+        redPointsSingle[25] = 14;
         bluePointSingle[25] = 15;
         Board singleBoard = new Board(redPointsSingle, bluePointSingle);
-        match.updateScore(1, singleBoard); // Blue wins
-        assertEquals(1, match.getBlueScore()); // Single game win awards 1 point
+        match.updateScore(1, singleBoard);
+        assertEquals(1, match.getBlueScore());
         match.updateDoubleCount();
-        match.updateScore(1, singleBoard); // Blue wins
-        assertEquals(3, match.getBlueScore()); // Single game win awards 2 points with double, Blue now has 3
+        match.updateScore(1, singleBoard);
+        assertEquals(3, match.getBlueScore());
 
-        // Gammon win setup: The loser has not borne off any checkers
-        int[] redPointsGammon = new int[26]; // Red has pieces on the board
+        int[] redPointsGammon = new int[26];
         int[] bluePointsGammon = new int[26];
         bluePointSingle[25] = 15;
-        redPointsGammon[0] = 14; // 15 counters left on board
-        redPointsGammon[10] = 1; // 1 counter for gammon
-
+        redPointsGammon[0] = 14;
+        redPointsGammon[10] = 1;
         Board gammonBoard = new Board(redPointsGammon, bluePointsGammon);
-        match.updateScore(1, gammonBoard); // Blue wins
-        assertEquals(5, match.getBlueScore()); // Gammon win awards 2 points, 3+2=5
+        match.updateScore(1, gammonBoard);
+        assertEquals(5, match.getBlueScore());
         match.updateDoubleCount();
-        match.updateScore(1, gammonBoard); // Blue wins
-        assertEquals(9, match.getBlueScore()); // 4 points with double, 5+4=9
+        match.updateScore(1, gammonBoard);
+        assertEquals(9, match.getBlueScore());
 
-        // Backgammon win setup: The loser has not borne off and has pieces on the bar or in the winner's home board
         int[] redPointsBackgammon = new int[26];
         int[] bluePointsBackgammon = new int[26];
-        bluePointsBackgammon[23] = 14; // One counter on bar
-        bluePointsBackgammon[24] = 1; //One on bar
+        bluePointsBackgammon[23] = 14;
+        bluePointsBackgammon[24] = 1;
         Board backgammonBoard = new Board(redPointsBackgammon, bluePointsBackgammon);
-        match.updateScore(0, backgammonBoard); // Red wins
-        assertEquals(3, match.getRedScore()); // Backgammon win awards 3 points
+        match.updateScore(0, backgammonBoard);
+        assertEquals(3, match.getRedScore());
         match.updateDoubleCount();
-        match.updateScore(0, backgammonBoard); // Blue wins
-        assertEquals(9, match.getRedScore()); // 6 points with double, 3+6=9
+        match.updateScore(0, backgammonBoard);
+        assertEquals(9, match.getRedScore());
     }
-
 
     @Test
     public void printScore() {
         int[] redPoints = new int[26];
-        int[] bluePoints = new int[26]; //Blue is winner
-        redPoints[0] = 1; // Red has a single piece remaining (loser)
-        redPoints[25] = 14; //End count
+        int[] bluePoints = new int[26];
+        redPoints[0] = 1;
+        redPoints[25] = 14;
         bluePoints[25] = 15;
         Board board = new Board(redPoints, bluePoints);
 
@@ -98,15 +93,14 @@ public class MatchTest {
         assertEquals(Colour.RED.shader() + "0" + Colour.NONE.shader() + "-" + Colour.BLUE.shader() + "0" + Colour.NONE.shader(), match.printScore());
         match.updateScore(1, board);
         assertEquals(Colour.RED.shader() + "0" + Colour.NONE.shader() + "-" + Colour.BLUE.shader() + "1" + Colour.NONE.shader(), match.printScore());
-
     }
 
     @Test
     public void getRedScore() {
         int[] redPoints = new int[26];
-        int[] bluePoints = new int[26]; //Blue is winner
-        bluePoints[0] = 1; // Red has a single piece remaining (loser)
-        bluePoints[25] = 14; //End count
+        int[] bluePoints = new int[26];
+        bluePoints[0] = 1;
+        bluePoints[25] = 14;
         redPoints[25] = 15;
         Board board = new Board(redPoints, bluePoints);
 
@@ -117,9 +111,9 @@ public class MatchTest {
     @Test
     public void getBlueScore() {
         int[] redPoints = new int[26];
-        int[] bluePoints = new int[26]; //Blue is winner
-        redPoints[0] = 1; // Red has a single piece remaining (loser)
-        redPoints[25] = 14; //End count
+        int[] bluePoints = new int[26];
+        redPoints[0] = 1;
+        redPoints[25] = 14;
         bluePoints[25] = 15;
         Board board = new Board(redPoints, bluePoints);
 
@@ -164,36 +158,33 @@ public class MatchTest {
 
     @Test
     public void returnPointsScored() {
-        // Single game win setup: The loser has borne off at least one checker
         int[] redPointsSingle = new int[26];
-        int[] bluePointSingle = new int[26]; //Blue is winner
-        redPointsSingle[0] = 1; // Red has a single piece remaining (loser)
-        redPointsSingle[25] = 14; //End count
+        int[] bluePointSingle = new int[26];
+        redPointsSingle[0] = 1;
+        redPointsSingle[25] = 14;
         bluePointSingle[25] = 15;
         Board singleBoard = new Board(redPointsSingle, bluePointSingle);
         assertEquals(1, match.returnPointsScored(1, singleBoard));
         match.updateDoubleCount();
         assertEquals(2, match.returnPointsScored(1, singleBoard));
-        match.updateScore(1, singleBoard); //To reset doubleCount
+        match.updateScore(1, singleBoard);
 
-        // Gammon win setup: The loser has not borne off any checkers
-        int[] redPointsGammon = new int[26]; // Red has pieces on the board
+        int[] redPointsGammon = new int[26];
         int[] bluePointsGammon = new int[26];
         bluePointSingle[25] = 15;
-        redPointsGammon[0] = 14; // 15 points left on board
-        redPointsGammon[10] = 1; // 15 points left on board
+        redPointsGammon[0] = 14;
+        redPointsGammon[10] = 1;
         Board gammonBoard = new Board(redPointsGammon, bluePointsGammon);
         assertEquals(2, match.returnPointsScored(1, gammonBoard));
         match.updateDoubleCount();
         assertEquals(4, match.returnPointsScored(1, gammonBoard));
-        match.updateScore(1, gammonBoard); //To reset doubleCount
+        match.updateScore(1, gammonBoard);
 
-        // Backgammon win setup: The loser has not borne off and has pieces on the bar or in the winner's home board
         int[] redPointsBackgammon = new int[26];
         int[] bluePointsBackgammon = new int[26];
-        redPointsBackgammon[0] = 0; // No red pieces on the board
-        bluePointsBackgammon[23] = 14; // One counter on bar
-        bluePointsBackgammon[24] = 1; //One on bar
+        redPointsBackgammon[0] = 0;
+        bluePointsBackgammon[23] = 14;
+        bluePointsBackgammon[24] = 1;
         Board backgammonBoard = new Board(redPointsBackgammon, bluePointsBackgammon);
         assertEquals(3, match.returnPointsScored(0, backgammonBoard));
         match.updateDoubleCount();
@@ -205,10 +196,7 @@ public class MatchTest {
         match.setMatchLength(2);
         match.updateScore(0, new Board());
         match.updateScore(0, new Board());
-        // Simulate enough updates to reach matchLength
         match.noMatchWinner();
         assertEquals(0, match.getMatchWinner());
     }
-
-
 }
