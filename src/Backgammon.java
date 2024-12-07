@@ -273,7 +273,7 @@ public class Backgammon { //Class to run game logic
             if (match.doublelegality(player)) {
                 handleDoubleStakes(player, reader);
             } else {
-                System.out.println("You cannot double the stakes at this time. Please enter a valid command");
+                System.out.println("You cannot double the stakes at this time. Please enter a valid command. ");
             }
             return true;
         } else if (inputHandler.isQuitCommand(userInput)) {
@@ -284,6 +284,7 @@ public class Backgammon { //Class to run game logic
             UpdatedBoard.setBoardFromString(userInput);
             board = UpdatedBoard;
             this.moveHandler = new MoveHandler(board);
+            Display.displayBoard(getBoard(), player, match);
             return true;
         } else if (inputHandler.isPipCommand(userInput)) {
             Display.displayPipCount(getBoard(), players);
@@ -296,7 +297,7 @@ public class Backgammon { //Class to run game logic
             Display.displayBoard(board, player, match);
             return true;
         } else {
-            System.out.println("\nError: Please enter a valid command. For a list of valid commands type 'hint'");
+            System.out.println("\nError: Please enter a valid command. For a list of valid commands type 'hint'.");
             return true;
         }
     }
@@ -347,7 +348,7 @@ public class Backgammon { //Class to run game logic
             } else if (inputHandler.isDoubleCommand(moveInput)) {
                 System.out.println("You cannot double the stakes at this time. Please enter a valid command");
             } else {
-                System.out.println("\nError: Please enter a valid command. For a list of valid commands type 'hint'");
+                System.out.println("\nError: Please enter a valid command. For a list of valid commands type 'hint'.");
             }
         }
     }
@@ -387,7 +388,8 @@ public class Backgammon { //Class to run game logic
                     } else if (inputHandler.isHintCommand(userInput)) {
                         Display.displayHint(false, false, false);
                     } else {
-                        System.out.print("\nError: Please enter a valid command. For a list of valid commands type 'hint'");
+                        System.out.println("\nError: Please enter a valid command. For a list of valid commands type 'hint.'");
+                        promptPlayer(i);
                     }
                 }
             }
@@ -423,7 +425,6 @@ public class Backgammon { //Class to run game logic
 
             for (int i = 0; i < 2; i++) {
                 promptPlayer(i);
-                System.out.println();
                 while (true) {
                     String userInput;
                     try {
@@ -435,6 +436,7 @@ public class Backgammon { //Class to run game logic
                         userInput = inputHandler.getInput();
                     } else {
                         userInput = userInput.trim();
+                        System.out.println(userInput);
                     }
                     if (inputHandler.isRollCommand(userInput)) {
                         if (inputHandler.isrollOnetestcommand(userInput)) {
@@ -453,7 +455,8 @@ public class Backgammon { //Class to run game logic
                     } else if (inputHandler.isHintCommand(userInput)) {
                         Display.displayHint(false, false, false);
                     } else {
-                        System.out.println("\nError: Please enter a valid command. For a list of valid commands type 'hint'");
+                        System.out.println("\nError: Please enter a valid command. For a list of valid commands type 'hint'.");
+                        promptPlayer(i);
                     }
                 }
             }

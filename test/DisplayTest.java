@@ -97,7 +97,7 @@ public class DisplayTest {
 
     @Test
     public void testDisplayHint() {
-        Display.displayHint(false, true);
+        Display.displayHint(false,false, true);
         String output = outputStream.toString();
         assertTrue(output.contains("Enter 'roll' to roll dice"));
         assertTrue(output.contains("Enter 'board' to display game board"));
