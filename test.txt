@@ -1,1 +1,5 @@
-a
+5
+N
+J
+roll 4
+roll 5
