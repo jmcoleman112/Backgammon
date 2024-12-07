@@ -1,4 +1,4 @@
-1
+4
 Jack
 Naoise
 roll 1
@@ -6,4 +6,7 @@ roll 2
 a
 roll 6 5
 a
-setboard 0N 0N 0N 0N 0N 1B 1R 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 2B 0N
+setboard 5R 5R 5R 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 3B 3B 3B 3B 3B
+roll 1 2
+a
+roll 2 6

@@ -248,13 +248,13 @@ public class Display {
     }
 
     public static void printGameWinMessage(Players players, int player, Match match, Board board){
-        System.out.println("\033[32m━━━━━━━━━━━━━━━━━━ "+players.getPlayerName(player) + "\033[32m Wins With a "+board.Wintype()+ "! ━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
+        System.out.println("\n\n\033[32m━━━━━━━━━━━━━━━━━━ "+players.getPlayerName(player) + "\033[32m Wins With a "+board.Wintype()+ "! ━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
         printSpace(20);
         System.out.println("Match Score is now: " + match.printScore());
     }
 
     public static void printMatchWinMessage(Players players, int player, Match match){
-        System.out.print("\033[32m"+topLeftCorner);
+        System.out.print("\n\033[32m"+topLeftCorner);
         printBars(60);
         System.out.println(topRightCorner);
 
@@ -265,7 +265,7 @@ public class Display {
 
         System.out.print(verticalLine);printSpace(10);
         System.out.print("Congratulations " + players.getPlayerName(player) + "\033[32m! You have won the Match!");
-        printSpace(11-players.getCurrentLength());System.out.println(verticalLine);
+        printSpace(9-players.getCurrentLength());System.out.println(verticalLine);
 
         System.out.print(verticalLine);printSpace(20);
         System.out.print("Final score was: " + match.printScore());
@@ -279,7 +279,7 @@ public class Display {
     }
 
     public static void displayHint(boolean rolled, boolean started){
-        System.out.println("     Hint of all allowed command:");
+        System.out.println("\n     Hint of all allowed command:");
         if (started) {
             System.out.println("     Enter 'pip' to display pip count for both players");
             System.out.println("     Enter 'board' to display game board");
@@ -290,7 +290,7 @@ public class Display {
             System.out.println("     Enter 'double' to double the stakes");
         }
         else{
-            System.out.println("     To make a move choose an option from the following list:");
+            System.out.println("     To make a move choose an option from the above list:");
         }
         //////////Add moves
     }

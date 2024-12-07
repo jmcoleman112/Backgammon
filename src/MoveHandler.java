@@ -26,10 +26,8 @@
 
 
 import utilities.Colour;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 
 public class MoveHandler {//Class to check and execute moves
@@ -84,7 +82,9 @@ public class MoveHandler {//Class to check and execute moves
         int maxdist = 0;
         for(int[] m: validMoves){
             if(m[0] != m[1] && m[2] != m[3]) {
-                twopart=true;
+                if(!((m[0] < 0 && m[1] < 0) || (m[0] > 23 && m[1] > 23) || (m[2] < 0 && m[3] < 0) || (m[2] > 23 && m[3] > 23))){
+                    twopart = true;
+                }
             }
             maxdist = Math.max(maxdist, Math.max(Math.abs(m[0]-m[1]), Math.abs(m[2]-m[3])));
         }
@@ -106,6 +106,7 @@ public class MoveHandler {//Class to check and execute moves
                 }
             }
         }
+
         // Remove marked arrays from the main list
         validMoves.removeAll(toRemove);
         // Display valid moves
@@ -116,14 +117,14 @@ public class MoveHandler {//Class to check and execute moves
                 String firstMove = (m[0] == 24)
                         ? String.format("Re-enter from off-board to %d", m[1] + 1)
                         : (m[1] < 0 || m[1] > 23) // Allow bearing off on the first move
-                        ? String.format("bear off from Pt. %d", m[0] + 1)
+                        ? String.format("Bear off from Pt. %d", m[0] + 1)
                         : String.format("Move %d -> %d", m[0] + 1, m[1] + 1);
 
                 // Check if the second move is a regular move or bearing-off
                 String secondMove = (m[2] == 24)
                         ? String.format("Re-enter from off-board to %d", m[3] + 1)
                         : (m[3] < 0 || m[3] > 23) // Allow bearing off on the first move
-                        ? String.format("bear off from Pt. %d", m[2] + 1)
+                        ? String.format("Bear off from Pt. %d", m[2] + 1)
                         : String.format("Move %d -> %d", m[2] + 1, m[3] + 1);
                 if(!twopart && m[2]==m[3]){
                     System.out.printf("         %s) %s%n", getNextLabel(index), firstMove);
@@ -135,7 +136,7 @@ public class MoveHandler {//Class to check and execute moves
                     addMoveToCollections(index, m);
                     index++;
                 }
-                else if(m[0] != m[1]&& m[2] != m[3]){
+                else if(m[0] != m[1]&& m[2] != m[3] && twopart){
                     System.out.printf("         %s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
                     addMoveToCollections(index, m);
                     index++;
@@ -145,14 +146,14 @@ public class MoveHandler {//Class to check and execute moves
                 String firstMove = (m[0] == -1)
                         ? String.format("Re-enter from off-board to %d", 24 - m[1])
                         : (m[1] < 0 || m[1] > 23) // Allow bearing off on the first move
-                        ? String.format("bear off from Pt. %d", 24 - m[0])
+                        ? String.format("Bear off from Pt. %d", 24 - m[0])
                         : String.format("Move %d -> %d", 24 - m[0], 24 - m[1]);
 
                 // Check if the second move is a regular move or bearing-off
                 String secondMove = (m[2] == -1)
                         ? String.format("Re-enter from off-board to %d", 24 - m[3])
                         : (m[3] < 0 || m[3] > 23) // Allow bearing off on the first move
-                        ? String.format("bear off from Pt. %d", 24 - m[2])
+                        ? String.format("Bear off from Pt. %d", 24 - m[2])
                         : String.format("Move %d -> %d", 24 - m[2], 24 - m[3]);
                 if(!twopart && m[2]==m[3]){
                     System.out.printf("         %s) %s%n", getNextLabel(index), firstMove);
@@ -164,7 +165,7 @@ public class MoveHandler {//Class to check and execute moves
                     addMoveToCollections(index, m);
                     index++;
                 }
-                else if(m[0] != m[1]&& m[2] != m[3]){
+                else if(m[0] != m[1]&& m[2] != m[3] && twopart){
                     System.out.printf("         %s) %s, and then %s%n", getNextLabel(index), firstMove, secondMove);
                     addMoveToCollections(index, m);
                     index++;
@@ -341,6 +342,7 @@ public class MoveHandler {//Class to check and execute moves
      */
     private boolean isLegalMove(int player, int start, int target, List<Integer> locs) {
 
+
         if(start==target){
             return true;
         }
@@ -364,7 +366,7 @@ public class MoveHandler {//Class to check and execute moves
             int direction = (player == 0) ? 1 : -1;
 
             for (int i = start+direction; i != dist; i += direction) {
-                if (board.getPointColor(i) == board.getPlayerColor(player)) {
+                if (locs.contains(i) && board.getPointColor(i) == board.getPlayerColor(player)) {
                     return false;
                 }
             }
@@ -415,7 +417,6 @@ public class MoveHandler {//Class to check and execute moves
             Bar bar = board.getBar(barIndex);
 
             if (bar.getCount() == 0) {
-                System.out.println("Error: no checkers on the bar to re-enter.");
                 return;
             }
 
@@ -435,7 +436,6 @@ public class MoveHandler {//Class to check and execute moves
             sColour = source.getColor();
 
             if (source.getCount() == 0) {
-                System.out.println("Error: source point is empty");
                 return;
             }
 
@@ -463,7 +463,6 @@ public class MoveHandler {//Class to check and execute moves
         Point point = board.getPoint(index);
 
         if(point.getCount() == 0){
-            System.out.println("Error point is empty\n\n");
             return;
         }
 
@@ -513,10 +512,13 @@ public class MoveHandler {//Class to check and execute moves
      * @return true if the arrays are specific rotations of each other, false otherwise
      */
     private static boolean isSpecificRotation(int[] arr1, int[] arr2) {
+
         if (arr1.length != 4 || arr2.length != 4) return false;
-        // Check if arr2 is [x3, x4, x1, x2] of arr1
-        return arr1[0] == arr2[2] && arr1[1] == arr2[3] &&
-                arr1[2] == arr2[0] && arr1[3] == arr2[1];
+        // Check if both values in the array are negative
+        // Check if arr2 is [x3, x4, x1, x2] of arr1 or if they are identical
+        return (arr1[0] == arr2[2] && arr1[1] == arr2[3] &&
+                arr1[2] == arr2[0] && arr1[3] == arr2[1]) ||
+                (Arrays.equals(arr1, arr2));
     }
 
 

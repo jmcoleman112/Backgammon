@@ -122,7 +122,7 @@ public class Backgammon { //Class to run game logic
                                 break;
                             }
                             if (turnInProgress) {
-                                Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
+                                //Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
                                 game.promptPlayer(player);
                                 userInput = inputHandler.getInput();
                             }
@@ -328,10 +328,8 @@ public class Backgammon { //Class to run game logic
                 turnInProgress = false;
             } else if (inputHandler.isPipCommand(moveInput)) {
                 Display.displayPipCount(getBoard(), players);
-                moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
             } else if (inputHandler.isHintCommand(moveInput)) { // Display hints
                 Display.displayHint(true, true);
-                moveHandler.legalmoves(player, rollValues[0], rollValues[1]);
             } else if (inputHandler.isBoardCommand(moveInput)) {
                 Display.displayBoard(board, player, match);
             } else if (inputHandler.isDoubleCommand(moveInput)) {
@@ -570,7 +568,16 @@ public class Backgammon { //Class to run game logic
         while (!userInput.equalsIgnoreCase("accept") && !userInput.equalsIgnoreCase("reject")) {
             System.out.print("Please enter a valid response (accept/reject): ");
             System.out.flush();
-            userInput = inputHandler.getInput();
+            try {
+                userInput = reader.readLine();
+                if (userInput == null) {
+                    userInput = inputHandler.getInput();
+                } else {
+                    System.out.println(userInput);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         if (userInput.equalsIgnoreCase("accept")) {
             match.updateDoubleCount();
@@ -667,6 +674,7 @@ public class Backgammon { //Class to run game logic
      */
     public void newGame(boolean filemode, BufferedReader reader) {
         this.board = new Board();
+        match.setDoubleOwner(-1);
         getMoveHandler().setBoard(board);
         if (!filemode) {
             getPlayers().setCurrentPlayer(decideFirstPlayer());
