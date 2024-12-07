@@ -80,7 +80,12 @@ public class Backgammon { //Class to run game logic
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        boolean testing = (Objects.equals(args[0], "test"));
+        boolean testing;
+        if(args.length != 0) {
+            testing = (Objects.equals(args[0], "test"));
+        }
+        else testing = false;
+
         boolean MatchLive = true;
         Backgammon game = new Backgammon();
         Display.welcomeMessage();
@@ -136,7 +141,10 @@ public class Backgammon { //Class to run game logic
                             Display.displayplayerchange(game.getPlayers().getCurrentPlayer());
                         }
                     }
-                    if(testing) System.out.println("Test complete!"); return; //If testing main start game, make one move for each player then return
+                    if(testing) {
+                        System.out.println("Test complete!");
+                        return; //If testing main start game, make one move for each player then return
+                    }
                 }
                 int winner = game.getBoard().getWinner();
                 game.getMatch().updateScore(winner, game.getBoard());
@@ -281,7 +289,8 @@ public class Backgammon { //Class to run game logic
             Display.displayPipCount(getBoard(), players);
             return true;
         } else if (inputHandler.isHintCommand(userInput)) { // Display hints
-            Display.displayHint(false, true);
+            boolean canDouble = (player == match.getDoubleOwner() || match.getDoubleOwner() == -1);
+            Display.displayHint(canDouble, false, true);
             return true;
         } else if (inputHandler.isBoardCommand(userInput)) {
             Display.displayBoard(board, player, match);
@@ -331,7 +340,8 @@ public class Backgammon { //Class to run game logic
             } else if (inputHandler.isPipCommand(moveInput)) {
                 Display.displayPipCount(getBoard(), players);
             } else if (inputHandler.isHintCommand(moveInput)) { // Display hints
-                Display.displayHint(true, true);
+                boolean canDouble = (player == match.getDoubleOwner() || match.getDoubleOwner() == -1);
+                Display.displayHint(canDouble, true, true);
             } else if (inputHandler.isBoardCommand(moveInput)) {
                 Display.displayBoard(board, player, match);
             } else if (inputHandler.isDoubleCommand(moveInput)) {
@@ -375,7 +385,7 @@ public class Backgammon { //Class to run game logic
                         quitGame(false);
                         break;
                     } else if (inputHandler.isHintCommand(userInput)) {
-                        Display.displayHint(false, false);
+                        Display.displayHint(false, false, false);
                     } else {
                         System.out.print("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
                     }
@@ -441,7 +451,7 @@ public class Backgammon { //Class to run game logic
                         quitGame(false);
                         break;
                     } else if (inputHandler.isHintCommand(userInput)) {
-                        Display.displayHint(false, false);
+                        Display.displayHint(false, false, false);
                     } else {
                         System.out.println("Error: Please enter a valid command\nFor a list of valid commands type 'hint'");
                     }

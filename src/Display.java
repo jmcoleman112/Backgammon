@@ -278,8 +278,8 @@ public class Display {
         System.out.println(bottomRightCorner+Colour.NONE.shader());
     }
 
-    public static void displayHint(boolean rolled, boolean started){
-        System.out.println("\n     Hint of all allowed command:");
+    public static void displayHint(boolean doubleOwner, boolean rolled, boolean started){
+        System.out.println("\n     Hint of all allowed commands:");
         if (started) {
             System.out.println("     Enter 'pip' to display pip count for both players");
             System.out.println("     Enter 'board' to display game board");
@@ -287,7 +287,9 @@ public class Display {
         System.out.println("     Enter 'q' to quit game");
         if (!rolled){
             System.out.println("     Enter 'roll' to roll dice"); //Can only do if haven't rolled already.
-            System.out.println("     Enter 'double' to double the stakes");
+            if(doubleOwner) {
+                System.out.println("     Enter 'double' to double the stakes"); //Can only double if owns dice
+            }
         }
         else{
             System.out.println("     To make a move choose an option from the above list:");
