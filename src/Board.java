@@ -209,7 +209,11 @@ public class Board {
     public String Wintype() {
         int winner = getWinner();
         if (winner == -1) {
-            return "No winner";
+            return "No Winner";
+        }
+
+        if(getTotalPipCount(winner) > 0){
+            return "Forfeit";
         }
 
         int loser = (winner + 1) % 2;

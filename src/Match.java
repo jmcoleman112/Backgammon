@@ -100,6 +100,11 @@ public class Match {
             i_start = 0;
             i_end = 5;
         }
+
+        if(board.getTotalPipCount(winner) > 0) return doubleCount; //Forfeit
+
+        else
+
         if(board.getEnd(loser).getCount() > 0) return doubleCount; //Single
 
         else if(board.getBar(loser).getCount() > 0) return 3*doubleCount; //Backgammon

@@ -118,14 +118,22 @@ public class Backgammon { //Class to run game logic
                     } else {
                         while (turnInProgress) {
                             turnInProgress = game.processTurn(player, userInput, null);
+                            if(game.getBoard().getWinner()!=-1){
+                                break;
+                            }
                             if (turnInProgress) {
                                 Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
                                 game.promptPlayer(player);
                                 userInput = inputHandler.getInput();
                             }
                         }
-                        game.getPlayers().switchPlayer();
-                        Display.displayplayerchange(game.getPlayers().getCurrentPlayer());
+                        if(game.getBoard().getWinner()!=-1){
+                            break;
+                        }
+                        if(game.getBoard().noGameWinner()) {
+                            game.getPlayers().switchPlayer();
+                            Display.displayplayerchange(game.getPlayers().getCurrentPlayer());
+                        }
                     }
                 }
                 int winner = game.getBoard().getWinner();
@@ -571,13 +579,12 @@ public class Backgammon { //Class to run game logic
             match.setDoubleOwner(player);
         } else {
             board.setWinner(player);
-            System.out.println("\n"+players.getPlayerName((player == 0) ? 1 : 0) + " has declined the offer to double the stakes, and forfeits the game.");
-
-            boolean filemode = (reader != null);
-            int winner = board.getWinner();
-            getMatch().updateScore(winner, getBoard());
-            newGame(filemode, reader); // Start new game
-            System.out.print("The score is now " + match.printScore() + "\n");
+            System.out.println("\n"+players.getPlayerName((player == 0) ? 1 : 0) + " has declined the offer to double the stakes.");
+//            boolean filemode = (reader != null);
+//            int winner = board.getWinner();
+//            getMatch().updateScore(winner, getBoard());
+//            Display.printGameWinMessage(getPlayers(), winner, getMatch(), getBoard()); // Print message to winner
+//            newGame(filemode, reader); // Start new game
         }
     }
 
