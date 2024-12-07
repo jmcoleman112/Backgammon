@@ -1,9 +1,3 @@
-4
-Jack
-Naoise
-roll 1
-roll 2
-a
 roll 6 5
 a
 setboard 1R 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 3B 3B 3B 3B 3B
@@ -12,3 +6,8 @@ a
 roll 6 6
 a
 roll 3
+roll 4
+a
+setboard 1R 3B 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 0N 3B 3B 3B 3B 3B
+roll 6 6
+a

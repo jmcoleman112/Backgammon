@@ -187,8 +187,9 @@ public class BackgammonTest {
     public void testProcessTurnHintCommand() {
         ByteArrayOutputStream outputStream = setupOutput();
         game.processTurn(0, "hint", null);
+
         String output = outputStream.toString();
-        assertTrue(output.contains("Hint of all allowed command:"));
+        assertTrue(output.contains("Hint of all allowed commands:"));
         assertTrue(output.contains("Enter 'pip' to display pip count for both players"));
         assertTrue(output.contains("Enter 'roll' to roll dice"));
     }
@@ -238,7 +239,7 @@ public class BackgammonTest {
             boolean turnInProgress = game.processTurn(0, "roll 2 3", reader);
             String output = outputStream.toString();
             assertFalse(turnInProgress);
-            assertTrue(output.contains("Hint of all allowed command:"));
+            assertTrue(output.contains("Hint of all allowed commands:"));
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }
@@ -388,7 +389,7 @@ public class BackgammonTest {
         try (BufferedReader reader = new BufferedReader(new FileReader("testFiles/testFileTurn.txt"))) {
             game.fileTurn(reader);
             String output = outputStream.toString();
-            assertTrue("Hints have been displayed", output.contains("Hint of all allowed command:"));
+            assertTrue("Hints have been displayed", output.contains("Hint of all allowed commands:"));
             assertTrue("Moves have been printed", output.contains("please choose a move from the list above"));
             assertTrue("Player change after move chosen", output.contains("PLAYER CHANGE"));
         } catch (IOException e) {

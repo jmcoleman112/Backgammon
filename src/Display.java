@@ -294,7 +294,6 @@ public class Display {
         else{
             System.out.println("     To make a move choose an option from the above list:");
         }
-        //////////Add moves
     }
 
     private static String[] getDiceFace(int number) {
