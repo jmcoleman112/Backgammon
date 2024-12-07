@@ -74,14 +74,13 @@ public class MatchTest {
         // Backgammon win setup: The loser has not borne off and has pieces on the bar or in the winner's home board
         int[] redPointsBackgammon = new int[26];
         int[] bluePointsBackgammon = new int[26];
-        redPointsBackgammon[0] = 0; // No red pieces on the board
         bluePointsBackgammon[23] = 14; // One counter on bar
         bluePointsBackgammon[24] = 1; //One on bar
         Board backgammonBoard = new Board(redPointsBackgammon, bluePointsBackgammon);
         match.updateScore(0, backgammonBoard); // Red wins
         assertEquals(3, match.getRedScore()); // Backgammon win awards 3 points
         match.updateDoubleCount();
-        match.updateScore(0, gammonBoard); // Blue wins
+        match.updateScore(0, backgammonBoard); // Blue wins
         assertEquals(9, match.getRedScore()); // 6 points with double, 3+6=9
     }
 
@@ -156,10 +155,10 @@ public class MatchTest {
 
     @Test
     public void noMatchWinner() {
-        match.setMatchLength(5);
-        match.updateScore(0, new Board()); // Assuming this updates the RedScore
+        match.setMatchLength(2);
+        match.updateScore(0, new Board());
         assertTrue(match.noMatchWinner());
-        match.updateScore(0, new Board()); // Assuming enough updates to hit matchLength
+        match.updateScore(0, new Board());
         assertFalse(match.noMatchWinner());
     }
 
@@ -203,11 +202,13 @@ public class MatchTest {
 
     @Test
     public void getMatchWinner() {
-        match.setMatchLength(5);
+        match.setMatchLength(2);
         match.updateScore(0, new Board());
         match.updateScore(0, new Board());
         // Simulate enough updates to reach matchLength
         match.noMatchWinner();
         assertEquals(0, match.getMatchWinner());
     }
+
+
 }
