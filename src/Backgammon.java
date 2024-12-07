@@ -289,7 +289,7 @@ public class Backgammon { //Class to run game logic
         } else if (inputHandler.isPipCommand(userInput)) {
             Display.displayPipCount(getBoard(), players);
             return true;
-        } else if (inputHandler.isHintCommand(userInput)) { // utilities.Display hints
+        } else if (inputHandler.isHintCommand(userInput)) { // Display hints
             boolean canDouble = (player == match.getDoubleOwner() || match.getDoubleOwner() == -1);
             Display.displayHint(canDouble, false, true);
             return true;
@@ -340,7 +340,7 @@ public class Backgammon { //Class to run game logic
                 turnInProgress = false;
             } else if (inputHandler.isPipCommand(moveInput)) {
                 Display.displayPipCount(getBoard(), players);
-            } else if (inputHandler.isHintCommand(moveInput)) { // utilities.Display hints
+            } else if (inputHandler.isHintCommand(moveInput)) { // Display hints
                 boolean canDouble = (player == match.getDoubleOwner() || match.getDoubleOwner() == -1);
                 Display.displayHint(canDouble, true, true);
             } else if (inputHandler.isBoardCommand(moveInput)) {
@@ -517,10 +517,10 @@ public class Backgammon { //Class to run game logic
                 if (matchLength > 0) {
                     break;
                 } else {
-                    System.out.print("utilities.Match Length must be greater than 0. Please enter the length of the match: ");
+                    System.out.print("Match Length must be greater than 0. Please enter the length of the match: ");
                 }
             } catch (NumberFormatException e) {
-                System.out.print("Invalid input. utilities.Match Length Must be an integer greater than 0. Please enter the length of the match: ");
+                System.out.print("Invalid input. Match Length Must be an integer greater than 0. Please enter the length of the match: ");
             }
             input = inputHandler.getInput();
         }
@@ -606,11 +606,6 @@ public class Backgammon { //Class to run game logic
         } else {
             board.setWinner(player);
             System.out.println("\n"+players.getPlayerName((player == 0) ? 1 : 0) + " has declined the offer to double the stakes.");
-//            boolean filemode = (reader != null);
-//            int winner = board.getWinner();
-//            getMatch().updateScore(winner, getBoard());
-//            utilities.Display.printGameWinMessage(getPlayers(), winner, getMatch(), getBoard()); // Print message to winner
-//            newGame(filemode, reader); // Start new game
         }
     }
 
@@ -658,7 +653,7 @@ public class Backgammon { //Class to run game logic
                     System.out.println(line);
                     turnInProgress = processTurn(players.getCurrentPlayer(), line, reader);
 //                    if (getBoard().noGameWinner()) {
-//                        utilities.Display.displayBoard(board, players.getCurrentPlayer(), match);
+//                        Display.displayBoard(board, players.getCurrentPlayer(), match);
 //                    }
                     if (turnInProgress) {
                         line = reader.readLine();

@@ -190,7 +190,7 @@ public class Board {
         if (!parts[0].equals("setboard") || parts.length != 25) {
             throw new IllegalArgumentException("Invalid board configuration string");
         }
-        System.out.println("\nSetting up Test utilities.Board...\n");
+        System.out.println("\nSetting up Test Board...\n");
         for (int i = 1; i < parts.length; i++) {
             String pointConfig = parts[i];
             int count = Character.getNumericValue(pointConfig.charAt(0));

@@ -114,7 +114,7 @@ public class InputHandler {
      */
     public boolean isRollCommand(String input) {
         if(input == null) return false;
-        return input.length() >= 4 && input.substring(0, 4).equalsIgnoreCase("roll");
+        return input.length() >= 4 && (input.substring(0, 4).equalsIgnoreCase("roll")||input.substring(0, 4).equalsIgnoreCase("dice"));
     }
 
 

@@ -107,7 +107,7 @@ public class MoveHandler {//Class to check and execute moves
 
         // Remove marked arrays from the main list
         validMoves.removeAll(toRemove);
-        // utilities.Display valid moves
+        // Display valid moves
         System.out.println(Colour.getplayercolour(player)+ "\n━━━━━━━━━━━━━━━━━━━━━━━━Valid Moves:━━━━━━━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
         for (int[] m : validMoves) {
             if (player == 0) {
@@ -521,7 +521,7 @@ public class MoveHandler {//Class to check and execute moves
 
 
     /**
-     * Sets the board for the utilities.MoveHandler.
+     * Sets the board for the MoveHandler.
      *
      * @param board the board to be set
      */
