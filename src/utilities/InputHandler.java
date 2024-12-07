@@ -1,5 +1,5 @@
-/**
- * The InputHandler class is responsible for handling user input in the Backgammon game.
+package utilities; /**
+ * The utilities.InputHandler class is responsible for handling user input in the Backgammon game.
  * It provides methods to read input from the console and to validate various commands.
  *
  * <p>Features include:</p>
@@ -21,7 +21,7 @@ public class InputHandler {
 
 
     /**
-     * Constructs an InputHandler with a new Scanner for reading console input.
+     * Constructs an utilities.InputHandler with a new Scanner for reading console input.
      */
     public InputHandler(){
         this.scanner = new Scanner(System.in);

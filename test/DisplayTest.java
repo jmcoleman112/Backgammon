@@ -1,6 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Colour;
+import utilities.Board;
+import utilities.Display;
+import utilities.Match;
+import utilities.Players;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -90,7 +93,7 @@ public class DisplayTest {
 
         Display.printMatchWinMessage(players, 0, match);
         String output = outputStream.toString();
-        assertTrue(output.contains("Match Over!"));
+        assertTrue(output.contains("utilities.Match Over!"));
         assertTrue(output.contains("\033[0;31mPlayer 1\033[0m\033[32m!"));
         assertTrue(output.contains("9"));
     }

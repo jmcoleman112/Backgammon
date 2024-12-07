@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
+import utilities.Board;
 import utilities.Colour;
+import utilities.MoveHandler;
 
 import static org.junit.Assert.*;
 

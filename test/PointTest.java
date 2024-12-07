@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 import utilities.Colour;
+import utilities.Point;
 
 import static org.junit.Assert.*;
 

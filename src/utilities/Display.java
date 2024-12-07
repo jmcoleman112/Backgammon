@@ -1,4 +1,4 @@
-import utilities.Colour;
+package utilities;
 
 public class Display {
     private static final char horizontalLine = '\u2550'; // ━
@@ -224,10 +224,10 @@ public class Display {
         }
         System.out.print(dashedVerticalLine);
         if(match.getMatchLength()>9){
-            System.out.print(" Match Length: " + match.getMatchLength()+" ");
+            System.out.print(" utilities.Match Length: " + match.getMatchLength()+" ");
         }
         else{
-            System.out.print(" Match Length: " + match.getMatchLength()+"  ");
+            System.out.print(" utilities.Match Length: " + match.getMatchLength()+"  ");
         }
         System.out.print(dashedVerticalLine);
         if(match.getDoubleCount()>9){
@@ -250,7 +250,7 @@ public class Display {
     public static void printGameWinMessage(Players players, int player, Match match, Board board){
         System.out.println("\n\n\033[32m━━━━━━━━━━━━━━━━━━ "+players.getPlayerName(player) + "\033[32m Wins With a "+board.Wintype()+ "! ━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
         printSpace(20);
-        System.out.println("Match Score is now: " + match.printScore());
+        System.out.println("utilities.Match Score is now: " + match.printScore());
     }
 
     public static void printMatchWinMessage(Players players, int player, Match match){
@@ -259,12 +259,12 @@ public class Display {
         System.out.println(topRightCorner);
 
         System.out.print(verticalLine); printSpace(25);
-        System.out.print("Match Over!");
+        System.out.print("utilities.Match Over!");
         printSpace(24);System.out.println(verticalLine);
 
 
         System.out.print(verticalLine);printSpace(10);
-        System.out.print("Congratulations " + players.getPlayerName(player) + "\033[32m! You have won the Match!");
+        System.out.print("Congratulations " + players.getPlayerName(player) + "\033[32m! You have won the utilities.Match!");
         printSpace(9-players.getCurrentLength());System.out.println(verticalLine);
 
         System.out.print(verticalLine);printSpace(20);

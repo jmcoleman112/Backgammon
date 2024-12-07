@@ -1,4 +1,4 @@
-import utilities.Colour;
+package utilities;
 
 public class Players {
     private final String[] players;

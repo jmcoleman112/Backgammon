@@ -25,27 +25,27 @@
  *
  * <p>Dependencies:</p>
  * <ul>
- *   <li>Board</li>
- *   <li>Dice</li>
- *   <li>InputHandler</li>
- *   <li>MoveHandler</li>
- *   <li>Match</li>
- *   <li>Players</li>
- *   <li>Display</li>
+ *   <li>utilities.Board</li>
+ *   <li>utilities.Dice</li>
+ *   <li>utilities.InputHandler</li>
+ *   <li>utilities.MoveHandler</li>
+ *   <li>utilities.Match</li>
+ *   <li>utilities.Players</li>
+ *   <li>utilities.Display</li>
  * </ul>
  *
  * <p>Author: jmcoleman112</p>
  *
- * @see Board
- * @see Dice
- * @see InputHandler
- * @see MoveHandler
- * @see Match
- * @see Players
- * @see Display
+ * @see utilities.Board
+ * @see utilities.Dice
+ * @see utilities.InputHandler
+ * @see utilities.MoveHandler
+ * @see utilities.Match
+ * @see utilities.Players
+ * @see utilities.Display
  */
 
-import utilities.Colour;
+import utilities.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -128,7 +128,7 @@ public class Backgammon { //Class to run game logic
                                 break;
                             }
                             if (turnInProgress) {
-                                //Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
+                                //utilities.Display.displayBoard(game.getBoard(), game.getPlayers().getCurrentPlayer(), game.getMatch());
                                 game.promptPlayer(player);
                                 userInput = inputHandler.getInput();
                             }
@@ -289,7 +289,7 @@ public class Backgammon { //Class to run game logic
         } else if (inputHandler.isPipCommand(userInput)) {
             Display.displayPipCount(getBoard(), players);
             return true;
-        } else if (inputHandler.isHintCommand(userInput)) { // Display hints
+        } else if (inputHandler.isHintCommand(userInput)) { // utilities.Display hints
             boolean canDouble = (player == match.getDoubleOwner() || match.getDoubleOwner() == -1);
             Display.displayHint(canDouble, false, true);
             return true;
@@ -340,7 +340,7 @@ public class Backgammon { //Class to run game logic
                 turnInProgress = false;
             } else if (inputHandler.isPipCommand(moveInput)) {
                 Display.displayPipCount(getBoard(), players);
-            } else if (inputHandler.isHintCommand(moveInput)) { // Display hints
+            } else if (inputHandler.isHintCommand(moveInput)) { // utilities.Display hints
                 boolean canDouble = (player == match.getDoubleOwner() || match.getDoubleOwner() == -1);
                 Display.displayHint(canDouble, true, true);
             } else if (inputHandler.isBoardCommand(moveInput)) {
@@ -517,10 +517,10 @@ public class Backgammon { //Class to run game logic
                 if (matchLength > 0) {
                     break;
                 } else {
-                    System.out.print("Match Length must be greater than 0. Please enter the length of the match: ");
+                    System.out.print("utilities.Match Length must be greater than 0. Please enter the length of the match: ");
                 }
             } catch (NumberFormatException e) {
-                System.out.print("Invalid input. Match Length Must be an integer greater than 0. Please enter the length of the match: ");
+                System.out.print("Invalid input. utilities.Match Length Must be an integer greater than 0. Please enter the length of the match: ");
             }
             input = inputHandler.getInput();
         }
@@ -609,7 +609,7 @@ public class Backgammon { //Class to run game logic
 //            boolean filemode = (reader != null);
 //            int winner = board.getWinner();
 //            getMatch().updateScore(winner, getBoard());
-//            Display.printGameWinMessage(getPlayers(), winner, getMatch(), getBoard()); // Print message to winner
+//            utilities.Display.printGameWinMessage(getPlayers(), winner, getMatch(), getBoard()); // Print message to winner
 //            newGame(filemode, reader); // Start new game
         }
     }
@@ -658,7 +658,7 @@ public class Backgammon { //Class to run game logic
                     System.out.println(line);
                     turnInProgress = processTurn(players.getCurrentPlayer(), line, reader);
 //                    if (getBoard().noGameWinner()) {
-//                        Display.displayBoard(board, players.getCurrentPlayer(), match);
+//                        utilities.Display.displayBoard(board, players.getCurrentPlayer(), match);
 //                    }
                     if (turnInProgress) {
                         line = reader.readLine();

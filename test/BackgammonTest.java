@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
+import utilities.Board;
 import utilities.Colour;
+import utilities.InputHandler;
 
 import java.io.*;
 import java.util.Scanner;
@@ -50,7 +52,7 @@ public class BackgammonTest {
     public void testGetInputHandler() {
         Backgammon game = new Backgammon();
         InputHandler inputHandler = game.getInputHandler();
-        assertNotNull("InputHandler should not be null", inputHandler);
+        assertNotNull("utilities.InputHandler should not be null", inputHandler);
     }
 
     @Test
@@ -376,7 +378,7 @@ public class BackgammonTest {
         testGame.fileStart("testFiles/testFileStart.txt");
         String output = outputStream.toString();
 
-        assertEquals("Match length set to 5", 5, testGame.getMatch().getMatchLength());
+        assertEquals("utilities.Match length set to 5", 5, testGame.getMatch().getMatchLength());
         assertEquals("Player 1 is Alice", "\033[0;31mAlice\033[0m", testGame.getPlayers().getPlayerName(0));
         assertEquals("Player 2 is Bob", "\033[0;34mBob\033[0m", testGame.getPlayers().getPlayerName(1));
         assertEquals("Player is player 0 after player 1 chooses move", 0, testGame.getPlayers().getCurrentPlayer());

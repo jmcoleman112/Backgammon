@@ -1,4 +1,4 @@
-import utilities.Colour;
+package utilities;
 
 public class Bar extends Point{
 

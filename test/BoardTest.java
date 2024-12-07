@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import utilities.Board;
 import utilities.Colour;
 
 import java.util.List;

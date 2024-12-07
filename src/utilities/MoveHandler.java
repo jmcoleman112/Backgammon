@@ -1,5 +1,5 @@
-/**
- * The MoveHandler class is responsible for checking and executing moves in the Backgammon game.
+package utilities; /**
+ * The utilities.MoveHandler class is responsible for checking and executing moves in the Backgammon game.
  * It provides methods to determine legal moves, validate move commands, and execute moves on the board.
  * The class uses depth-first search (DFS) algorithms to explore possible moves, including handling re-entry from the bar.
  * It also manages collections of available moves and their corresponding commands.
@@ -15,17 +15,15 @@
  *
  * <p>Author: jmcoleman112</p>
  *
- * @see Board
- * @see Dice
- * @see InputHandler
- * @see MoveHandler
- * @see Match
- * @see Players
- * @see Display
+ * @see utilities.Board
+ * @see utilities.Dice
+ * @see utilities.InputHandler
+ * @see utilities.MoveHandler
+ * @see utilities.Match
+ * @see utilities.Players
+ * @see utilities.Display
  */
 
-
-import utilities.Colour;
 
 import java.util.*;
 
@@ -37,9 +35,9 @@ public class MoveHandler {//Class to check and execute moves
 
 
     /**
-     * Constructs a MoveHandler with the specified board.
+     * Constructs a utilities.MoveHandler with the specified board.
      *
-     * @param board the board to be used by the MoveHandler
+     * @param board the board to be used by the utilities.MoveHandler
      */
     public MoveHandler(Board board) {
         this.board = board;
@@ -109,7 +107,7 @@ public class MoveHandler {//Class to check and execute moves
 
         // Remove marked arrays from the main list
         validMoves.removeAll(toRemove);
-        // Display valid moves
+        // utilities.Display valid moves
         System.out.println(Colour.getplayercolour(player)+ "\n━━━━━━━━━━━━━━━━━━━━━━━━Valid Moves:━━━━━━━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
         for (int[] m : validMoves) {
             if (player == 0) {
@@ -523,7 +521,7 @@ public class MoveHandler {//Class to check and execute moves
 
 
     /**
-     * Sets the board for the MoveHandler.
+     * Sets the board for the utilities.MoveHandler.
      *
      * @param board the board to be set
      */
