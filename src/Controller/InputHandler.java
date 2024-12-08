@@ -1,5 +1,13 @@
+//===============================================================
+//By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
+//GITHUB ID: jmcoleman112, NaoiseG
+//================================================================
+
+package Controller;
+import java.util.Scanner;
+
 /**
- * The utilities.InputHandler class is responsible for handling user input in the Backgammon game.
+ * The InputHandler class is responsible for handling user input in the Backgammon game.
  * It provides methods to read input from the console and to validate various commands.
  *
  * <p>Features include:</p>
@@ -12,20 +20,12 @@
  *
  * @see java.util.Scanner
  */
-
-//By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
-//GITHUB ID: jmcoleman112, NaoiseG
-
-package Controller;
-import java.util.Scanner;
-
-
 public class InputHandler {
     private Scanner scanner;
 
 
     /**
-     * Constructs an utilities.InputHandler with a new Scanner for reading console input.
+     * Constructs an InputHandler with a new Scanner for reading console input.
      */
     public InputHandler(){
         this.scanner = new Scanner(System.in);

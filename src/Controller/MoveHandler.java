@@ -1,5 +1,19 @@
+//===============================================================
+//By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
+//GITHUB ID: jmcoleman112, NaoiseG
+//================================================================
+
+package Controller;
+import Model.Bar;
+import Model.Board;
+import Model.End;
+import Model.Point;
+import View.Colour;
+
+import java.util.*;
+
 /**
- * The utilities.MoveHandler class is responsible for checking and executing moves in the Backgammon game.
+ * The MoveHandler class is responsible for checking and executing moves in the Backgammon game.
  * It provides methods to determine legal moves, validate move commands, and execute moves on the board.
  * The class uses depth-first search (DFS) algorithms to explore possible moves, including handling re-entry from the bar.
  * It also manages collections of available moves and their corresponding commands.
@@ -23,19 +37,6 @@
  * @see Model.Players
  * @see View.Display
  */
-//By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
-//GITHUB ID: jmcoleman112, NaoiseG
-
-package Controller;
-import Model.Bar;
-import Model.Board;
-import Model.End;
-import Model.Point;
-import View.Colour;
-
-import java.util.*;
-
-
 public class MoveHandler {//Class to check and execute moves
     private Board board;
     List<String> availablemoves = new ArrayList<>();
@@ -43,9 +44,9 @@ public class MoveHandler {//Class to check and execute moves
 
 
     /**
-     * Constructs a utilities.MoveHandler with the specified board.
+     * Constructs a MoveHandler with the specified board.
      *
-     * @param board the board to be used by the utilities.MoveHandler
+     * @param board the board to be used by the MoveHandler
      */
     public MoveHandler(Board board) {
         this.board = board;
@@ -599,6 +600,13 @@ public class MoveHandler {//Class to check and execute moves
 
     }
 
+    /**
+     *  Moves a checker to a specific point.
+     *
+     *
+     * @param sColour the color of the source checker
+     * @param destination the destination point
+     */
     public void moveToPoint(Colour sColour, Point destination){
         Colour dColour = destination.getColor();
 

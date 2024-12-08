@@ -1,5 +1,8 @@
+//===============================================================
 //By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
 //GITHUB ID: jmcoleman112, NaoiseG
+//================================================================
+
 package Model;
 
 import View.Colour;
