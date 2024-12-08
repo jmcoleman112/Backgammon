@@ -1,5 +1,6 @@
 package utilities;
 
+//Board end zone
 public class End extends Point{
 
     public End(Colour colour){

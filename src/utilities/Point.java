@@ -1,5 +1,6 @@
 package utilities;
 
+//Class for point on board
 public class Point {
 
     private Colour color;
@@ -12,7 +13,6 @@ public class Point {
         this.pipNumber = pipNumber;
     }
 
-    // Getter and Setter for color
     public Colour getColor() {
         return color;
     }
@@ -21,7 +21,6 @@ public class Point {
         this.color = color;
     }
 
-    // Getter and Setter for count
     public int getCount() {
         return count;
     }
@@ -30,12 +29,14 @@ public class Point {
         this.count = count;
     }
 
+    //Returns pip number based on current player
     public int getPipNumber(int player) {
         if (player == 0) return pipNumber;
         else if (player == 1) return 25 - pipNumber;
         else return 0; //Invalid player
     }
 
+    //Pip count based on player
     public int getPipCount(int player) {
         if (player == 0 && color == Colour.RED) return getPipNumber(player) * getCount();
         else if (player == 1 && color == Colour.BLUE) return getPipNumber(player) * getCount();

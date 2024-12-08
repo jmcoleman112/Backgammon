@@ -69,7 +69,7 @@ public class BackgammonTest {
 
     @Test
     public void testRollTurn() {
-        int[] rolls = game.rollTurn(0);
+        int[] rolls = game.rollTurn();
         assertTrue(rolls[0] >= 1 && rolls[0] <= 6);
         assertTrue(rolls[1] >= 1 && rolls[1] <= 6);
     }

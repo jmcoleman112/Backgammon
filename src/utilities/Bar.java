@@ -9,5 +9,5 @@ public class Bar extends Point{
     @Override
     public int getPipCount(int player){
         return getCount() * 25;
-    }
+    } //Always 25 per counter
 }
