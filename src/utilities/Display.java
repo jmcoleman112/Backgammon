@@ -224,10 +224,10 @@ public class Display {
         }
         System.out.print(dashedVerticalLine);
         if(match.getMatchLength()>9){
-            System.out.print("Match Length: " + match.getMatchLength()+" ");
+            System.out.print(" Match Length: " + match.getMatchLength()+" ");
         }
         else{
-            System.out.print("Match Length: " + match.getMatchLength()+"  ");
+            System.out.print(" Match Length: " + match.getMatchLength()+"  ");
         }
         System.out.print(dashedVerticalLine);
         if(match.getDoubleCount()>9){

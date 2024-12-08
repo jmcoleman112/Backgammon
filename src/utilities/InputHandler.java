@@ -8,7 +8,7 @@
  *   <li>Validating different types of commands.</li>
  * </ul>
  *
- * <p>Author: jmcoleman112</p>
+ * <p>Author: NaoiseG</p>
  *
  * @see java.util.Scanner
  */
