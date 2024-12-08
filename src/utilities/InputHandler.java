@@ -1,4 +1,4 @@
-package utilities; /**
+/**
  * The utilities.InputHandler class is responsible for handling user input in the Backgammon game.
  * It provides methods to read input from the console and to validate various commands.
  *
@@ -13,6 +13,7 @@ package utilities; /**
  * @see java.util.Scanner
  */
 
+package utilities;
 import java.util.Scanner;
 
 
@@ -36,6 +37,7 @@ public class InputHandler {
         return scanner.nextLine();
     }
 
+
     /**
      * Checks if the input is a hint command.
      *
@@ -45,6 +47,7 @@ public class InputHandler {
     public boolean isHintCommand(String input){
         if(input == null) return false;
         return input.equalsIgnoreCase("hint"); }
+
 
 
     /**
@@ -101,6 +104,8 @@ public class InputHandler {
      * @return true if the input is a file command, false otherwise
      */
     public boolean isfileCommand(String input) {
+
+        //check if method begins with test
         if(input == null) return false;
         return input.length() >= 5 && input.substring(0, 5).equalsIgnoreCase("test ");}
 
@@ -113,6 +118,8 @@ public class InputHandler {
      * @return true if the input is a roll command, false otherwise
      */
     public boolean isRollCommand(String input) {
+
+        //see if roll command is dice and not roll
         if(input == null) return false;
         return input.length() >= 4 && (input.substring(0, 4).equalsIgnoreCase("roll")||input.substring(0, 4).equalsIgnoreCase("dice"));
     }
@@ -125,10 +132,14 @@ public class InputHandler {
      * @return true if the input is a roll test command, false otherwise
      */
     public boolean isrolltestcommand(String input) {
+
+        //if roll empty or too short it wrong
         if(input == null) return false;
         if (input.length() != 8) {
             return false;
         }
+
+        //make sure roll characters fall in correct areas in string
         try {
             int x = Integer.parseInt(input.substring(5, 6));
             int y = Integer.parseInt(input.substring(7, 8));
@@ -146,11 +157,15 @@ public class InputHandler {
      * @return true if the input is a roll one test command, false otherwise
      */
     public boolean isrollOnetestcommand(String input) {
+        //if no input this should fail
         if(input == null) return false;
+
+        //if its too short it fails
         if (input.length() != 6) {
             return false;
         }
         try {
+            //check if number appear in correct character area
             int x = Integer.parseInt(input.substring(5, 6));
             return x >= 1 && x <= 6;
         } catch (NumberFormatException e) {
@@ -170,6 +185,11 @@ public class InputHandler {
         return input.equalsIgnoreCase("pip");}
 
 
+    /**
+     * Sets a new Scanner for testing purposes.
+     *
+     * @param scanner the new Scanner to be set
+     */
     public void setScanner(Scanner scanner){ //For testing
         this.scanner.close();
         this.scanner = scanner;

@@ -12,13 +12,19 @@ public enum Colour {
         this.ansiCode = ansiCode;
     }
 
+
+    //get player colour based on player int
     public static String getplayercolour(int player){
+
+        //0 = red
         if (player == 0){
             return RED.shader();
         }
+        // 1 = blue
         if (player ==1){
             return BLUE.shader();
         }
+        // anything else is none
         else{
             return NONE.shader();
         }
@@ -29,6 +35,7 @@ public enum Colour {
         return ansiCode;
     }
 
+    //return the colour of the opponent
     public Colour returnopp(){
         if (this == Colour.RED){
             return Colour.BLUE;
