@@ -1,6 +1,6 @@
 package utilities;
 
-public class Display {
+public class Display { //Constants for printing board sections
     private static final char horizontalLine = '\u2550'; // ━
     private static final char verticalLine = '\u2551'; // ┃
     private static final char topLeftCorner = '\u2554'; // ┏
@@ -15,8 +15,8 @@ public class Display {
     private static final char dashedVerticalLine = '\u250A';
     private static final char box = '\u2588'; // █
 
-    public static void displayBoard(Board board, int player, Match match) {
-        String[] doubleDice = getDoubleDice();
+    //Method to display entire board based on current player
+    public static void displayBoard(Board board, int player, Match match) { //Static method
         printPipNumbers(board, true, player);
 
         //top of the board
@@ -68,20 +68,25 @@ public class Display {
 
         printPipNumbers(board, false, player);
 
+        //Overlay
         printOverlay(match, player);
     }
 
+    //Prints solid line
     private static void printBars(int count){
         for (int i = 0; i < count; i++) {
             System.out.print(horizontalLine);
         }
     }
+
+    //Repetitive spaces
     private static void printSpace(int count){
         for (int i = 0; i < count; i++) {
             System.out.print(" ");
         }
     }
 
+    //Prints middle parts above and below middle bar depending on the argument bottom
     private static void printMiddle(Board board, int bottom, Match match){
         int i_start = bottom == 1 ? board.maxPoint() - 1 : 0;
         int i_end = bottom == 1 ? -1 : board.maxPoint();
@@ -90,8 +95,9 @@ public class Display {
         int j_start = bottom == 1 ? 5 : 0;
         int j_end = bottom == 1 ? -1 : 6;
         int j_step = bottom == 1 ? -1 : 1;
+        //Values set depending on top or bottom half
 
-        for (int i = i_start; i != i_end; i += i_step) {
+        for (int i = i_start; i != i_end; i += i_step) { //Print counter area
             System.out.print(verticalLine);
             for (int j = j_start; j != j_end; j += j_step) {
                 for (int k = 0; k < 3; k++) {
@@ -143,11 +149,12 @@ public class Display {
         }
     }
 
+    //Prints dice face after a roll
     public static void printDiceFace(int number1, int number2, boolean doubleRoll) {
         String[] dice1 = getDiceFace(number1);
         String[] dice2 = number2 == -1 ? new String[5] : getDiceFace(number2);
 
-        if(doubleRoll){
+        if(doubleRoll){ //Print again if a double
 
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 4; j++) {
@@ -167,6 +174,7 @@ public class Display {
         }
     }
 
+    //Prints the pip numbers corresponding to the active player
     public static void printPipNumbers(Board board, boolean top, int player) {
         System.out.print("   ");
         if (top){
@@ -200,11 +208,13 @@ public class Display {
 
         System.out.println();
     }
+
     public static void displayPipCount(Board board, Players players){
         System.out.println("Pip count for " + players.getPlayerName(0) + resetColour() + " is: " + board.getTotalPipCount(0));
         System.out.println("Pip count for " + players.getPlayerName(1) + resetColour() + " is: " + board.getTotalPipCount(1) + "\n");
     }
 
+    //Prints overlay containing match length, score etc
     public static void printOverlay(Match match, int player){
         System.out.print(topLeftCorner);
         printBars(60);
@@ -242,17 +252,16 @@ public class Display {
         System.out.print(bottomLeftCorner);
         printBars(60);
         System.out.println(bottomRightCorner);
-
-
-
     }
 
+    //Prints message corresponding to winner
     public static void printGameWinMessage(Players players, int player, Match match, Board board){
         System.out.println("\n\n\033[32m━━━━━━━━━━━━━━━━━━ "+players.getPlayerName(player) + "\033[32m Wins With a "+board.Wintype()+ "! ━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader());
         printSpace(20);
         System.out.println("Match Score is now: " + match.printScore());
     }
 
+    //Prints message corresponding to winner
     public static void printMatchWinMessage(Players players, int player, Match match){
         System.out.print("\n\033[32m"+topLeftCorner);
         printBars(60);
@@ -278,6 +287,7 @@ public class Display {
         System.out.println(bottomRightCorner+Colour.NONE.shader());
     }
 
+    //Prints hints
     public static void displayHint(boolean doubleOwner, boolean rolled, boolean started){
         System.out.println("\n     Hint of all allowed commands:");
         if (started) {
@@ -296,6 +306,7 @@ public class Display {
         }
     }
 
+    //Returns string for dice printing corresponding to number
     private static String[] getDiceFace(int number) {
         return switch (number) {
             case 1 -> new String[]{
@@ -346,6 +357,7 @@ public class Display {
         };
     }
 
+    //Returns string for double dice
     private static String[] getDoubleDice(){
         return new String[]{
                 "┌───┐",
@@ -354,14 +366,15 @@ public class Display {
         };
     }
 
+    //Prints a layer of double dice corresponding to location on board and dice owner
     private static void printDoubleDice(int layer, int player, Match match) {
-        if (player != match.getDoubleOwner()) {
+        if (player != match.getDoubleOwner()) { //Player doesn't own dice
             System.out.println();
         } else {
             String[] doubleDice = getDoubleDice();
             if (player == 0) {
                 System.out.print(Colour.RED.shader());
-                if (layer == 2) layer = 0; // Need to print in reverse order
+                if (layer == 2) layer = 0; //Need to print in reverse order
                 if (layer == 3) layer = 2; //Actually printing layer 2
             } else if (player == 1) System.out.print(Colour.BLUE.shader());
             System.out.println("  " + doubleDice[layer] + resetColour());
@@ -388,6 +401,7 @@ public class Display {
     }
 
 
+    //Resets display colour
     public static String resetColour(){
         return Colour.NONE.shader();
     }
@@ -395,6 +409,4 @@ public class Display {
     public static void displayplayerchange(int player){
         System.out.println(Colour.getplayercolour(player)+"\n━━━━━━━━━━━━━━━━━━━━━━━PLAYER CHANGE━━━━━━━━━━━━━━━━━━━━━━━━━━"+Colour.NONE.shader()+"\n");
     }
-
-
 }

@@ -13,8 +13,8 @@ public class Match {
         this.RedScore = 0;
         this.BlueScore = 0;
         this.doubleCount = 1;
-        doubleowner = -1;
-        matchWinner = -1;
+        doubleowner = -1; //No initial double owner
+        matchWinner = -1; //No winner
     }
 
     public void setScore(int score, int player){ //For testing
@@ -34,6 +34,7 @@ public class Match {
         return doubleowner;
     }
 
+    //Updates score based on points scored
     public void updateScore(int player, Board board){
         if (player == 0){
             RedScore+=returnPointsScored(player, board);
@@ -47,6 +48,7 @@ public class Match {
     public String printScore(){
         return Colour.RED.shader() + RedScore + Colour.NONE.shader()+ "-" +Colour.BLUE.shader() + BlueScore + Colour.NONE.shader();
     }
+
     public int printScorelength(){
         String Score = RedScore + "-" + BlueScore;
         return Score.length();
@@ -69,11 +71,12 @@ public class Match {
         doubleCount*=2;
     }
 
+    //Checks if double is legeal
     public boolean doublelegality(int player){
-        if (doubleowner == -1){
+        if (doubleowner == -1){ //Anyone can double initially
             return true;
         }
-        else return doubleowner == player;
+        else return doubleowner == player; //Must own dice
     }
 
     public boolean noMatchWinner(){
@@ -88,6 +91,7 @@ public class Match {
         else return true;
     }
 
+    //Returns points scored based on type of win
     public int returnPointsScored(int winner, Board board){
         int loser = (winner + 1) % 2;
         int i_start;

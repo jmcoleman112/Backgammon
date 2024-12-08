@@ -11,7 +11,7 @@ public class Board {
     private final End[] ends;
     private int winner;
 
-    public Board(){
+    public Board(){ //Initializes board with starting counters
         winner = -1;
 
         points = new Point[24];
@@ -42,7 +42,7 @@ public class Board {
         }
     }
 
-    public Board(int[] red, int[] blue){ //Test board
+    public Board(int[] red, int[] blue){ //Test board for testing
         points = new Point[24];
         bars = new Bar[2];
         ends = new End[2];
@@ -71,6 +71,7 @@ public class Board {
         }
     }
 
+    //returns a point on the board
     public Point getPoint(int index){
 
         if(index < 0 || index > 23){
@@ -80,6 +81,7 @@ public class Board {
         return points[index];
     }
 
+    //How many counters on a point
     public int getPointCount(int index){
         return points[index].getCount();
     }
@@ -103,6 +105,7 @@ public class Board {
         return (player == 0) ? Colour.RED : Colour.BLUE;
     }
 
+    //Checks if player can bear off
     public boolean bearoffcheck(int player){
         int count = 0;
         if(player == 0){
@@ -121,9 +124,10 @@ public class Board {
                 count += bars[1].getCount();
             }
         }
-        return count == 0;
+        return count == 0; //Need no counters outside home section
     }
 
+    //Returns the maximum height of a point for scaling the board
     public int maxPoint(){
         int maxlength = 4; //Print a min height of 4
         for (Point point : points) {
@@ -140,10 +144,11 @@ public class Board {
         return maxlength;
     }
 
+    //returns pip count for player
     public int getTotalPipCount(int player){
         int pipCount = 0;
             for (Point point : points) {
-                pipCount += point.getPipCount(player);
+                pipCount += point.getPipCount(player); //Pip count per point
             }
             Bar bar  = bars[player];
             pipCount += bar.getPipCount(player);
@@ -154,17 +159,18 @@ public class Board {
     public List<Integer> getColoredPoints(Colour color) {
         List<Integer> coloredPointsList = new ArrayList<>();
 
-        // Single pass to find and collect points with the specified color
+        //Single pass to find and collect points with the specified color
         for (int i = 0; i < points.length; i++) {
             if (points[i].getColor() == color) {
                 coloredPointsList.add(i);
             }
         }
 
-        // Convert the list to an array
+        //Convert the list to an array
         return coloredPointsList;
     }
 
+    //Checks for conventional winner
     public boolean noGameWinner(){
         for (int i = 0; i <= 1; i++){
             if(getTotalPipCount(i) == 0){
@@ -183,11 +189,10 @@ public class Board {
         winner = player;
     }
 
-
-
+    //Sets test board from user input
     public void setBoardFromString(String boardConfig) {
         String[] parts = boardConfig.split(" ");
-        if (!parts[0].equals("setboard") || parts.length != 25) {
+        if (!parts[0].equals("setboard") || parts.length != 25) { //Checks for setboard command
             throw new IllegalArgumentException("Invalid board configuration string");
         }
         System.out.println("\nSetting up Test Board...\n");
@@ -207,6 +212,8 @@ public class Board {
             point.setColor(color);
         }
     }
+
+    //Returns win type for printing to user
     public String Wintype() {
         int winner = getWinner();
         if (winner == -1) {
