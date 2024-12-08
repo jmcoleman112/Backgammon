@@ -1,8 +1,8 @@
 import org.junit.Test;
 import org.junit.Before;
-import utilities.Board;
-import utilities.Colour;
-import utilities.Match;
+import Model.Board;
+import View.Colour;
+import Model.Match;
 
 import static org.junit.Assert.*;
 

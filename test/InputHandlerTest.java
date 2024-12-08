@@ -1,7 +1,7 @@
 
 import org.junit.Before;
 import org.junit.Test;
-import utilities.InputHandler;
+import Controller.InputHandler;
 
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;

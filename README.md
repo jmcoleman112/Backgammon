@@ -1,7 +1,7 @@
 # Backgammon Game
 
 ### By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
-GITHUB IDL: jmcoleman112, NaoiseG
+GITHUB ID: jmcoleman112, NaoiseG
 
 ## Overview
 This project is an implementation of the classic board game Backgammon. It allows two players to play the game either interactively or by using commands from a file.

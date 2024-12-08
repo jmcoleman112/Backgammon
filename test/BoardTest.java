@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Board;
-import utilities.Colour;
+import Model.Board;
+import View.Colour;
 
 import java.util.List;
 

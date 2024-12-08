@@ -1,8 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Board;
-import utilities.Colour;
-import utilities.InputHandler;
+import Model.Board;
+import View.Colour;
+import Controller.InputHandler;
 
 import java.io.*;
 import java.util.Scanner;

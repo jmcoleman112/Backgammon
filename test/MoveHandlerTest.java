@@ -1,8 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Board;
-import utilities.Colour;
-import utilities.MoveHandler;
+import Model.Board;
+import View.Colour;
+import Controller.MoveHandler;
 
 import static org.junit.Assert.*;
 

@@ -15,16 +15,24 @@
  *
  * <p>Author: jmcoleman112</p>
  *
- * @see utilities.Board
- * @see utilities.Dice
- * @see utilities.InputHandler
- * @see utilities.MoveHandler
- * @see utilities.Match
- * @see utilities.Players
- * @see utilities.Display
+ * @see Model.Board
+ * @see Model.Dice
+ * @see Controller.InputHandler
+ * @see Controller.MoveHandler
+ * @see Model.Match
+ * @see Model.Players
+ * @see View.Display
  */
+//By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
+//GITHUB ID: jmcoleman112, NaoiseG
 
-package utilities;
+package Controller;
+import Model.Bar;
+import Model.Board;
+import Model.End;
+import Model.Point;
+import View.Colour;
+
 import java.util.*;
 
 

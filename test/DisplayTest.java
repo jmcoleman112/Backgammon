@@ -1,9 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Board;
-import utilities.Display;
-import utilities.Match;
-import utilities.Players;
+import Model.Board;
+import View.Display;
+import Model.Match;
+import Model.Players;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

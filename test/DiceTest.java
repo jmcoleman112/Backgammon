@@ -1,6 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Dice;
+import Model.Dice;
 
 import static org.junit.Assert.*;
 

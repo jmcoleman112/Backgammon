@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Bar;
-import utilities.Colour;
+import Model.Bar;
+import View.Colour;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,12 @@
-package utilities;
+//By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
+//GITHUB ID: jmcoleman112, NaoiseG
+
+package View;
+
+import Model.Board;
+import Model.Match;
+import Model.Players;
+import Model.Point;
 
 public class Display { //Constants for printing board sections
     private static final char horizontalLine = '\u2550'; // ━
@@ -390,7 +398,7 @@ public class Display { //Constants for printing board sections
         System.out.print("Welcome to Backgammon! This is a implementation of Backgammon created by Jack Coleman  ");
         System.out.println(verticalLine);
         System.out.print(verticalLine);
-        System.out.print("and Naoise Golden. For instructions on how to play, please read the README file.       ");
+        System.out.print("and Naoise Golden. For info on program functionality, access the documentation.        ");
         System.out.println(verticalLine);
 
         System.out.print(bottomLeftCorner);

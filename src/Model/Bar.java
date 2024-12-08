@@ -1,5 +1,7 @@
-package utilities;
+package Model;
 
+
+import View.Colour;
 
 //inherited class of point class
 public class Bar extends Point{

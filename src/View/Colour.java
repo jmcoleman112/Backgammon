@@ -1,4 +1,7 @@
-package utilities;
+//By Group 33: Jack Coleman (21207103) and Naoise Golden (21376026)
+//GITHUB ID: jmcoleman112, NaoiseG
+
+package View;
 
 public enum Colour {
     RED("\033[0;31m"),    // red text color

@@ -1,8 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Colour;
-import utilities.InputHandler;
-import utilities.Players;
+import View.Colour;
+import Controller.InputHandler;
+import Model.Players;
 
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
